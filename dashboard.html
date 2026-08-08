@@ -22,7 +22,7 @@ html,body{margin:0;width:100%;height:100%;background:#DCE9E7;overflow:hidden}#pa
 <body>
 <div id="loading" class="loading">Carregando seu painel D&D…</div>
 <div id="status" class="status"></div>
-<iframe id="panel" title="Metas D&D"></iframe>
+<iframe id="panel" title="Metas D&D" allow="clipboard-read; clipboard-write"></iframe>
 
 <div id="profileOverlay" class="profile-overlay" aria-hidden="true">
   <section class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
@@ -44,17 +44,11 @@ html,body{margin:0;width:100%;height:100%;background:#DCE9E7;overflow:hidden}#pa
 </div>
 <script type="module">
 import {supabase,getSessionProfile,roleLabel} from './supabase-client.js';
-const frame=document.querySelector('#panel'),loading=document.querySelector('#loading'),status=document.querySelector('#status');
-const MONTH='2026-05-01', NEXT='2026-06-01', DAY='2026-05-21';
-const monthEnd='2026-05-31';
-const originalSet=Storage.prototype.setItem;
-let profile=null,sessionUser=null,visibleStores=[],storeIds={};
-function showStatus(t,ms=2200){status.textContent=t;status.classList.add('on');setTimeout(()=>status.classList.remove('on'),ms)}
-function fail(msg){loading.innerHTML=`<div class="error"><b>Não foi possível abrir o painel.</b><div style="margin-top:8px;font-weight:500">${msg}</div><div style="margin-top:12px"><a href="./login.html">Voltar ao login</a></div></div>`}
-function initials(n){return String(n||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'--'}
-const overlay=document.querySelector('#profileOverlay'),photo=document.querySelector('#profilePhoto'),editBox=document.querySelector('#profileEdit'),profileMsg=document.querySelector('#profileMsg');
+const frame=document.querySelector('#panel'),overlay=document.querySelector('#profileOverlay'),photo=document.querySelector('#profilePhoto'),editBox=document.querySelector('#profileEdit'),profileMsg=document.querySelector('#profileMsg');
+let profile=null,sessionUser=null,visibleStoreCount=0,profileTimer=null;
+const initials=n=>String(n||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'--';
 const profilePhotoKey=()=>`metasdd.profile-photo.${profile?.id||'guest'}`;
-function profileCode(){const prefix=profile?.role==='administrador'?'ADM':profile?.role==='gerente_comercial'?'GER':'SUP';return `${prefix}-${String(profile?.id||'').slice(0,4).toUpperCase()}`}
+const profileCode=()=>{const prefix=profile?.role==='administrador'?'ADM':profile?.role==='gerente_comercial'?'GER':'SUP';return `${prefix}-${String(profile?.id||'').slice(0,4).toUpperCase()}`};
 function renderProfile(){
  if(!profile)return;
  const role=roleLabel(profile.role),saved=localStorage.getItem(profilePhotoKey());
@@ -63,12 +57,31 @@ function renderProfile(){
  document.querySelector('#profileSubtitle').textContent=`${role} · Franquias D&D`;
  document.querySelector('#profileCode').textContent=profileCode();
  document.querySelector('#profileRole').textContent=role;
- document.querySelector('#profileStores').textContent=String(visibleStores.length);
+ document.querySelector('#profileStores').textContent=String(visibleStoreCount);
  document.querySelector('#profileSince').textContent=sessionUser?.created_at?new Date(sessionUser.created_at).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'}):'Não informado';
  document.querySelector('#profileNameInput').value=profile.nome||'';
 }
 function openProfile(){renderProfile();overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.querySelector('#profileClose').focus()}
 function closeProfile(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');editBox.classList.remove('open');profileMsg.textContent=''}
+function personalize(){
+ try{
+   const doc=frame.contentDocument;if(!doc?.body||!profile)return;
+   const role=roleLabel(profile.role),ini=initials(profile.nome),saved=localStorage.getItem(profilePhotoKey());
+   [...doc.querySelectorAll('div,span')].forEach(el=>{
+     const t=(el.textContent||'').trim();
+     if(t==='Layane Andrade')el.textContent=profile.nome;
+     else if(t==='Supervisora')el.textContent=role;
+     else if(t==='LA'&&el.children.length===0)el.textContent=ini;
+     const current=(el.textContent||'').trim(),isAvatar=current==='LA'||current===ini||el.dataset.profileAvatar==='true';
+     if(saved&&isAvatar){
+       el.dataset.profileAvatar='true';el.innerHTML='<img alt="Foto do perfil">';
+       const img=el.querySelector('img');img.src=saved;img.style.cssText='width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit';
+       el.style.overflow='hidden';
+     }
+     if(current===profile.nome||isAvatar){el.style.cursor='pointer';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.onclick=openProfile;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfile()}}}
+   });
+ }catch(e){console.error('perfil',e)}
+}
 document.querySelector('#profileClose').onclick=closeProfile;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeProfile()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closeProfile()});
@@ -83,66 +96,24 @@ document.querySelector('#profileSave').onclick=async()=>{
 document.querySelector('#profilePhotoAction').onclick=()=>document.querySelector('#profilePhotoInput').click();
 document.querySelector('#profilePhotoInput').onchange=e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>2*1024*1024){profileMsg.textContent='Escolha uma imagem de até 2 MB.';return}const reader=new FileReader();reader.onload=()=>{localStorage.setItem(profilePhotoKey(),reader.result);renderProfile();personalize()};reader.readAsDataURL(file)};
 document.querySelector('#profileLogout').onclick=async()=>{await supabase.auth.signOut({scope:'local'});location.replace('./login.html')};
-async function prepare(){
- const ctx=await getSessionProfile();
- if(!ctx.session||!ctx.profile?.ativo||ctx.profile.role==='pendente'){location.replace('./login.html');return false}
- profile=ctx.profile;sessionUser=ctx.session.user;
- const [storesR,goalsR,resultsR,nextGoalsR]=await Promise.all([
-   supabase.from('lojas').select('id,codigo,nome,ativa').eq('ativa',true).order('nome'),
-   supabase.from('metas').select('loja_id,valor_meta').eq('competencia',MONTH),
-   supabase.from('resultados').select('loja_id,valor_realizado,data').gte('data',MONTH).lte('data',monthEnd),
-   supabase.from('metas').select('loja_id,valor_meta').eq('competencia',NEXT)
- ]);
- const err=storesR.error||goalsR.error||resultsR.error||nextGoalsR.error;if(err)throw err;
- const stores=storesR.data||[];visibleStores=stores;const goals=new Map((goalsR.data||[]).map(r=>[r.loja_id,Number(r.valor_meta)]));
- const realized=new Map();(resultsR.data||[]).forEach(r=>realized.set(r.loja_id,(realized.get(r.loja_id)||0)+Number(r.valor_realizado)));
- const nextGoals=new Map((nextGoalsR.data||[]).map(r=>[r.loja_id,Number(r.valor_meta)]));
- storeIds=Object.fromEntries(stores.map(s=>[s.codigo||s.id,s.id]));
- const dados={
-   lojas:stores.map(s=>({nome:s.nome,cod:s.codigo||'',meta:goals.get(s.id)||0,real:realized.get(s.id)||0,ticket:130})),
-   vendedoras:[],gerentes:[],vendasHoje:{},metasProx:{},mesFechado:false
- };
- stores.forEach(s=>{if(nextGoals.has(s.id))dados.metasProx[s.codigo||s.id]=nextGoals.get(s.id)});
- originalSet.call(localStorage,'metasdd.v1',JSON.stringify(dados));
- return true;
-}
-async function syncLocal(raw){
- if(!profile||profile.role==='gerente_comercial')return;
- let d;try{d=JSON.parse(raw)}catch{return}
- try{
-   const sales=[];for(const [code,obj] of Object.entries(d.vendasHoje||{})){const loja_id=storeIds[code],value=Number(obj?.valor||0);if(loja_id&&value>0)sales.push({loja_id,data:DAY,valor_realizado:value,criado_por:profile.id})}
-   if(sales.length){const{error}=await supabase.from('resultados').upsert(sales,{onConflict:'loja_id,data'});if(error)throw error}
-   const metas=[];for(const [code,value] of Object.entries(d.metasProx||{})){const loja_id=storeIds[code],n=Number(value||0);if(loja_id&&n>=0)metas.push({loja_id,competencia:NEXT,valor_meta:n,criado_por:profile.id})}
-   if(metas.length){const{error}=await supabase.from('metas').upsert(metas,{onConflict:'loja_id,competencia'});if(error)throw error}
-   showStatus('Dados sincronizados');
- }catch(e){console.error(e);showStatus('Falha ao sincronizar',3500)}
-}
-window.addEventListener('storage',e=>{if(e.key==='metasdd.v1'&&e.newValue)syncLocal(e.newValue)});
-function personalize(){
- try{
-   const doc=frame.contentDocument;if(!doc?.body)return;
-   const role=roleLabel(profile.role),ini=initials(profile.nome),saved=localStorage.getItem(profilePhotoKey());
-   [...doc.querySelectorAll('div,span')].forEach(el=>{
-     const t=(el.textContent||'').trim();
-     if(t==='Layane Andrade')el.textContent=profile.nome;
-     else if(t==='Supervisora')el.textContent=role;
-     else if(t==='LA'&&el.children.length===0)el.textContent=ini;
-     const isAvatar=t==='LA'||t===ini||el.dataset.profileAvatar==='true';
-     if(saved&&isAvatar){
-       el.dataset.profileAvatar='true';el.innerHTML='<img alt="Foto do perfil">';
-       const img=el.querySelector('img');img.src=saved;img.style.cssText='width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit';
-       el.style.overflow='hidden';
-     }
-     if(t===profile.nome||isAvatar){el.style.cursor='pointer';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.onclick=openProfile;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfile()}}}
-     if(profile.role==='gerente_comercial'&&['Lançar vendas','Definir metas','Configurações'].includes(t))el.style.display='none';
-   });
- }catch{}
-}
 try{
- const ok=await prepare();if(!ok)throw new Error('Sessão inválida');
- frame.addEventListener('load',()=>{loading.classList.add('hide');personalize();setTimeout(personalize,500);setInterval(personalize,2000)},{once:true});
- frame.src='./Painel%20de%20Metas%20D%26D.dc.html?v=original-20260808';
-}catch(e){console.error(e);fail(e.message||String(e))}
+ const ctx=await getSessionProfile();
+ if(!ctx.session||!ctx.profile?.ativo||ctx.profile.role==='pendente')throw new Error('Sessão inválida');
+ profile=ctx.profile;sessionUser=ctx.session.user;
+ const {count}=await supabase.from('lojas').select('id',{count:'exact',head:true}).eq('ativa',true);visibleStoreCount=count||0;
+ renderProfile();
+ frame.addEventListener('load',()=>{personalize();setTimeout(personalize,450);clearInterval(profileTimer);profileTimer=setInterval(personalize,1800)});
+ if(frame.contentDocument?.body)personalize();
+}catch(e){console.error('perfil',e)}
 </script>
+<script type="module" src="./dashboard-backend-v3.js"></script>
+<script type="module" src="./month-selector.js"></script>
+<script type="module" src="./dashboard-competencias.js"></script>
+<script type="module" src="./dashboard-vendedoras.js"></script>
+<script type="module" src="./dashboard-ano.js"></script>
+<script type="module" src="./dashboard-auditoria.js"></script>
+<script type="module" src="./dashboard-importacao.js"></script>
+<script type="module" src="./dashboard-relatorios.js"></script>
+<script type="module" src="./dashboard-fluid.js"></script>
 </body>
 </html>
