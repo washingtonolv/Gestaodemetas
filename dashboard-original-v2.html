@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Metas D&D</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#DCE9E7;overflow:hidden}#app{width:100%;height:100%;border:0;display:block;background:#DCE9E7}.boot{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#DCE9E7;font:700 14px/1.4 system-ui;color:#0A5F5C}.boot.hidden{display:none}.err{max-width:620px;margin:24px;padding:18px 22px;border-radius:16px;background:#fff;color:#b42318;box-shadow:0 18px 50px rgba(20,60,55,.08)}.sync{position:fixed;right:14px;bottom:14px;z-index:30;padding:9px 12px;border-radius:999px;background:#fff;color:#0A5F5C;font:700 11px/1 system-ui;box-shadow:0 8px 28px rgba(20,60,55,.14);display:none}.sync.on{display:block}
+</style>
+</head>
+<body>
+<div id="boot" class="boot">Carregando o painel D&D…</div>
+<div id="sync" class="sync">Sincronizando dados…</div>
+<iframe id="app" title="Metas D&D"></iframe>
+<script type="module">
+import { supabase, getSessionProfile, roleLabel } from './supabase-client.js';
+const boot=document.querySelector('#boot'),frame=document.querySelector('#app'),syncBadge=document.querySelector('#sync');
+const ptMonths=['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+const shortMonths=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+const initials=name=>String(name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'--';
+const isoLocal=(date=new Date())=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+const monthKey=d=>String(d).slice(0,7);
+const nextMonth=key=>{const[y,m]=key.split('-').map(Number),d=new Date(y,m,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`};
+const monthLabel=key=>{const[y,m]=key.split('-').map(Number);return `${ptMonths[m-1]} ${y}`};
+const prettyDay=(date=new Date())=>{const w=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];return `${w[date.getDay()]}, ${date.getDate()} de ${ptMonths[date.getMonth()].toLowerCase()}`};
+const daysInMonth=key=>{const[y,m]=key.split('-').map(Number);return new Date(y,m,0).getDate()};
+const firstWeekday=key=>{const[y,m]=key.split('-').map(Number);return new Date(y,m-1,1).getDay()};
+const timeout=(p,ms,msg)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error(msg)),ms))]);
+function fail(message){boot.className='boot';boot.innerHTML=`<div class="err"><b>Não foi possível abrir o painel.</b><div style="margin-top:8px;font-weight:500">${message}</div><div style="margin-top:12px"><a href="./login.html">Voltar ao login</a></div></div>`}
+let session,profile;
+try{
+  ({session,profile}=await timeout(getSessionProfile(),10000,'A conexão com o banco demorou demais.'));
+  if(!session||!profile?.ativo||profile.role==='pendente'){location.replace('./login.html');throw new Error('Sessão inválida');}
+}catch(e){if(!String(e.message).includes('Sessão inválida')) fail(e.message||String(e));throw e;}
+const today=isoLocal(),currentKey=today.slice(0,7),nextKey=nextMonth(currentKey);
+window.__METASDD_ALLOWED_PAGES=profile.role==='gerente_comercial'?['painel','lojas','ranking','ano']:['painel','lancar','metas','lojas','ranking','ano','config'];
+window.__METASDD_INITIAL_DATA=null;window.__METASDD_ANNUAL=[];window.__METASDD_USERS=[];window.__METASDD_STORE_IDS={};
+function patchSource(src){
+  const actualRole=roleLabel(profile.role),avatar=initials(profile.nome),label=monthLabel(currentKey);
+  src=src.replace('<script src="./support.js"></script>','<base href="./"><script src="./support.js"></script>');
+  src=src.replace(/>LA<\/div>/,`>${avatar}</div>`);
+  src=src.replace('Layane Andrade</div><div style="font:500 11px/1.4 Manrope,sans-serif;color:#8D9997">Supervisora',`${profile.nome}</div><div style="font:500 11px/1.4 Manrope,sans-serif;color:#8D9997">${actualRole}`);
+  src=src.replace(/const navItens = PAGINAS\.map\(p => \{/,'const navItens = PAGINAS.filter(p => (window.parent.__METASDD_ALLOWED_PAGES || []).includes(p.id)).map(p => {');
+  src=src.replace(/const MESES = \[[\s\S]*?\n\];\n\nconst PAGINAS/,`const MESES = (window.parent.__METASDD_ANNUAL && window.parent.__METASDD_ANNUAL.length ? window.parent.__METASDD_ANNUAL : [\n  { nome: 'JAN', meta: 1222921, real: 1035086.67 },\n  { nome: 'FEV', meta: 1241284, real: 791620.54 },\n  { nome: 'MAR', meta: 1285691, real: 1504070.63 },\n  { nome: 'ABR', meta: 1363444, real: 1268293.56 },\n  { nome: 'MAI', meta: 1828435, real: 1145894.71 }\n]);\n\nconst PAGINAS`);
+  src=src.replace(/componentDidMount\(\) \{[\s\S]*?\n  \}\n  componentWillUnmount\(\)/,`componentDidMount() {\n    this._onResize = () => this.setState({ w: window.innerWidth });\n    window.addEventListener('resize', this._onResize);\n    this._onResize();\n    try { const bridge = window.parent.__METASDD_INITIAL_DATA; if (bridge) this.setState({ dados: JSON.parse(JSON.stringify(bridge)) }); } catch (e) { console.error(e); }\n  }\n  componentWillUnmount()`);
+  src=src.replace(/gravar\(mut\) \{[\s\S]*?\n  \}\n\n  limparTudo\(\)/,`gravar(mut) {\n    const d = JSON.parse(JSON.stringify(this.dados())); mut(d);\n    try { localStorage.setItem('metasdd.v1', JSON.stringify(d)); } catch (e) {}\n    try { window.parent.__METASDD_SYNC && window.parent.__METASDD_SYNC(d); } catch (e) { console.error(e); }\n    this.setState({ dados:d, salvoEm:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) });\n  }\n\n  limparTudo()`);
+  src=src.replace("soNumero(t) { return Number(String(t).replace(/\\D/g, '')) || 0; }",`soNumero(t) { let s=String(t??'').trim().replace(/\\s/g,''); if(!s)return 0; if(s.includes(','))s=s.replace(/\\./g,'').replace(',','.'); else if((s.match(/\\./g)||[]).length>1)s=s.replace(/\\./g,''); s=s.replace(/[^0-9.-]/g,''); return Number(s)||0; }`);
+  src=src.replace(/const usuarios = \[[\s\S]*?\n    \];\n\n    const delta/,`const usuarios = window.parent.__METASDD_USERS || [];\n\n    const delta`);
+  src=src.replace(/&quot;default&quot;:&quot;MAIO 2026&quot;/g,`&quot;default&quot;:&quot;${label}&quot;`);
+  src=src.replace(/Vendas de quinta, 21 de maio/g,`Vendas de ${prettyDay()}`);
+  src=src.replace(/'Quinta, 21 de maio'/g,`'${prettyDay().replace(/^./,c=>c.toUpperCase())}'`);
+  src=src.replace(/const primeiroDiaSemana = 5, totalDias = 31, hoje = 21;/,`const primeiroDiaSemana = ${firstWeekday(currentKey)}, totalDias = ${daysInMonth(currentKey)}, hoje = ${new Date().getDate()};`);
+  const[ny,nm]=nextKey.split('-').map(Number),nextName=ptMonths[nm-1].toLowerCase(),curName=ptMonths[new Date().getMonth()].toLowerCase();
+  src=src.replace(/Metas de junho 2026/g,`Metas de ${nextName} ${ny}`).replace(/Copiar de maio/g,`Copiar de ${curName}`).replace(/vs maio/g,`vs ${curName}`).replace(/Publicar metas de junho/g,`Publicar metas de ${nextName}`);
+  src=src.replace("{ JAN: 'Janeiro', FEV: 'Fevereiro', MAR: 'Março', ABR: 'Abril', MAI: 'Maio' }[m.nome]","{JAN:'Janeiro',FEV:'Fevereiro',MAR:'Março',ABR:'Abril',MAI:'Maio',JUN:'Junho',JUL:'Julho',AGO:'Agosto',SET:'Setembro',OUT:'Outubro',NOV:'Novembro',DEZ:'Dezembro'}[m.nome]");
+  src=src.replace("sub: '5 meses lançados'","sub: MESES.length + ' meses lançados'").replace("valor: mesesBatidos + ' de 5'","valor: mesesBatidos + ' de ' + MESES.length").replace("sub: 'março foi o melhor'","sub: 'melhor mês do período'");
+  src=src.replace('Lançamentos, metas e cadastros ficam gravados neste aparelho/navegador — continuam aqui quando você fechar e voltar. Para várias pessoas verem os mesmos números ao mesmo tempo é preciso um banco de dados.','Lançamentos, metas e cadastros ficam sincronizados no Supabase e podem ser vistos pelas pessoas autorizadas ao mesmo tempo.');
+  return src;
+}
+let originalSource='';
+async function render(){
+  const res=await timeout(fetch(encodeURI('./Painel de Metas D&D.dc.html'),{cache:'no-store'}),10000,'O layout original demorou demais para carregar.');
+  if(!res.ok)throw new Error(`Não foi possível carregar o layout original (${res.status}).`);
+  originalSource=await res.text();
+  return new Promise(resolve=>{frame.onload=()=>{boot.classList.add('hidden');resolve();};frame.srcdoc=patchSource(originalSource);setTimeout(()=>{boot.classList.add('hidden');resolve();},5000);});
+}
+async function loadData(){
+  const year=new Date().getFullYear();
+  const [storesR,goalsR,resultsR,profilesR]=await timeout(Promise.all([
+    supabase.from('lojas').select('id,codigo,nome,ativa').eq('ativa',true).order('nome'),
+    supabase.from('metas').select('loja_id,competencia,valor_meta').gte('competencia',`${year}-01-01`).lte('competencia',`${year}-12-01`),
+    supabase.from('resultados').select('loja_id,data,valor_realizado,created_at,criado_por').gte('data',`${year}-01-01`).lte('data',`${year}-12-31`),
+    supabase.from('profiles').select('id,nome,email,role,ativo').eq('ativo',true).order('nome')
+  ]),12000,'A sincronização com o Supabase demorou demais.');
+  const error=storesR.error||goalsR.error||resultsR.error||profilesR.error;if(error)throw error;
+  const stores=storesR.data||[],goals=goalsR.data||[],results=resultsR.data||[];
+  const goalMap=new Map(goals.filter(g=>monthKey(g.competencia)===currentKey).map(g=>[g.loja_id,Number(g.valor_meta)]));
+  const nextGoalMap=new Map(goals.filter(g=>monthKey(g.competencia)===nextKey).map(g=>[g.loja_id,Number(g.valor_meta)]));
+  const monthResults=results.filter(r=>monthKey(r.data)===currentKey),prior=new Map(),day=new Map();
+  monthResults.forEach(r=>{const map=r.data===today?day:prior;map.set(r.loja_id,(map.get(r.loja_id)||0)+Number(r.valor_realizado));});
+  const saved=(()=>{try{return JSON.parse(localStorage.getItem('metasdd.vendedoras')||'null')}catch{return null}})();
+  const dados={lojas:stores.map(s=>({nome:s.nome,cod:s.codigo||'',meta:goalMap.get(s.id)||0,real:prior.get(s.id)||0,ticket:130,_id:s.id})),vendedoras:Array.isArray(saved)?saved:[],gerentes:[],vendasHoje:{},metasProx:{},mesFechado:false};
+  for(const s of stores){const code=s.codigo||s.id,v=day.get(s.id)||0;if(v>0)dados.vendasHoje[code]={valor:v,em:Date.now()};if(nextGoalMap.has(s.id))dados.metasProx[code]=nextGoalMap.get(s.id);}
+  const annual=[];for(let i=0;i<12;i++){const key=`${year}-${String(i+1).padStart(2,'0')}`,meta=goals.filter(g=>monthKey(g.competencia)===key).reduce((a,g)=>a+Number(g.valor_meta),0),real=results.filter(r=>monthKey(r.data)===key).reduce((a,r)=>a+Number(r.valor_realizado),0);if(meta>0||real>0)annual.push({nome:shortMonths[i],meta,real});}
+  window.__METASDD_STORE_IDS=Object.fromEntries(stores.map(s=>[s.codigo||s.id,s.id]));window.__METASDD_INITIAL_DATA=dados;window.__METASDD_ANNUAL=annual;
+  window.__METASDD_USERS=(profilesR.data||[]).map((u,i)=>({nome:u.nome,escopo:u.role==='administrador'?'Todas as lojas':u.role==='gerente_comercial'?'Rede comercial':u.role==='supervisor'?'Lojas vinculadas':'Pendente',papel:roleLabel(u.role),ini:initials(u.nome),bg:i===0?'#FDF1F3':'#E7F4F2',cor:i===0?'#CD4664':'#05918C'}));
+}
+window.__METASDD_SYNC=async d=>{if(!d||profile.role==='gerente_comercial')return;try{const ids=window.__METASDD_STORE_IDS||{},sales=[];for(const[code,obj]of Object.entries(d.vendasHoje||{})){const loja_id=ids[code],value=Number(obj?.valor||0);if(loja_id&&value>=0)sales.push({loja_id,data:today,valor_realizado:value,criado_por:profile.id});}if(sales.length){const{error}=await supabase.from('resultados').upsert(sales,{onConflict:'loja_id,data'});if(error)throw error;}const targets=[];for(const[code,value]of Object.entries(d.metasProx||{})){const loja_id=ids[code],n=Number(value||0);if(loja_id&&n>=0)targets.push({loja_id,competencia:`${nextKey}-01`,valor_meta:n,criado_por:profile.id});}if(targets.length){const{error}=await supabase.from('metas').upsert(targets,{onConflict:'loja_id,competencia'});if(error)throw error;}if(Array.isArray(d.vendedoras))localStorage.setItem('metasdd.vendedoras',JSON.stringify(d.vendedoras));}catch(e){console.error('Falha ao sincronizar:',e)}};
+try{
+  await render();
+  syncBadge.classList.add('on');
+  try{await loadData();frame.srcdoc=patchSource(originalSource);}catch(e){console.error(e);syncBadge.textContent='Painel aberto · sincronização indisponível';setTimeout(()=>syncBadge.classList.remove('on'),4500);}
+  setTimeout(()=>syncBadge.classList.remove('on'),1200);
+}catch(e){console.error(e);fail(e.message||String(e));}
+</script>
+</body>
+</html>
