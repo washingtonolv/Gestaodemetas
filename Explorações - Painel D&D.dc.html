@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#EAEAEA;font-family:Manrope,system-ui,sans-serif}a{color:#05918C}a:hover{color:#05716D}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#101010;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 Manrope,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Manrope,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden}.dv-opt:target .dv-oid{background:#05918C;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 Manrope,sans-serif;color:rgba(0,0,0,.5)}</style></helmet>
+
+<section class="dv-turn" id="t3" style="background:#FFFDFC">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Layout no formato da referência — nav em pílula, cartões de KPI, gráfico e coluna lateral</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="3a" style="width:100%;min-width:0">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Painel do mês · estrutura da referência com a marca D&amp;D</div>
+<div class="dv-card" style="width:100%;min-width:0;border-radius:14px">
+<div data-screen-label="3a Painel (referência)" style="display:grid;grid-template-columns:minmax(0,256px) minmax(0,1fr);align-items:stretch;min-height:1040px;background:#fff;color:#1C1A1B">
+
+  <aside style="background:#FBF9FA;border-right:1px solid #F2E9EB;display:flex;flex-direction:column;padding:30px 22px;min-width:0">
+    <div style="display:flex;align-items:center;gap:12px;padding:0 6px 34px">
+      <div style="position:relative;width:40px;height:40px;border-radius:13px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 13px/1 Manrope,sans-serif;color:#fff">D&amp;D<svg width="18" height="18" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
+      <div style="font:400 19px/1.1 'Instrument Serif',Georgia,serif;color:#463273">Metas D&amp;D</div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;background:#05918C;color:#fff;font:700 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border-radius:4px;background:#fff;opacity:.95;display:block"></span>Painel do mês</div>
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;color:#5E5457;font:500 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border-radius:4px;border:1.6px solid #C9B9BD;display:block"></span>Lançar vendas</div>
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;color:#5E5457;font:500 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border-radius:50%;border:1.6px solid #C9B9BD;display:block"></span>Definir metas</div>
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;color:#5E5457;font:500 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border:1.6px solid #C9B9BD;border-left-width:5px;border-radius:3px;display:block"></span>Lojas</div>
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;color:#5E5457;font:500 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border:1.6px solid #C9B9BD;border-bottom-width:5px;border-radius:3px;display:block"></span>Ranking</div>
+      <div style="display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:12px;color:#5E5457;font:500 14px/1 Manrope,sans-serif"><span style="width:16px;height:16px;border-radius:50%;border:1.6px solid #C9B9BD;display:block"></span>Configurações</div>
+    </nav>
+    <div style="margin-top:auto;background:#fff;border:1px solid #F2E9EB;border-radius:18px;padding:22px 20px;text-align:center">
+      <div style="font:400 19px/1.2 'Instrument Serif',Georgia,serif;color:#463273">Fechamento do dia</div>
+      <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#8E8286;margin:8px 0 14px">Lance as vendas de hoje antes das 22h para o painel abrir certo amanhã.</div>
+      <div style="padding:11px;border-radius:11px;background:#CD4664;color:#fff;font:700 12px/1 Manrope,sans-serif">Lançar vendas de hoje</div>
+    </div>
+  </aside>
+
+  <main style="padding:clamp(20px,2.4vw,32px) clamp(18px,2.6vw,38px) 38px;display:flex;flex-direction:column;gap:24px;min-width:0">
+    <header style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid #F2E9EB">
+      <h1 style="margin:0;font:400 clamp(26px,3vw,38px)/1 'Instrument Serif',Georgia,serif;color:#463273">Painel do mês</h1>
+      <div style="display:flex;align-items:center;gap:18px">
+        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#FBF9FA;border:1px solid #F2E9EB;font:700 13px/1 Manrope,sans-serif">{{ mesLabel }}<span style="font:500 11px/1 Manrope,sans-serif;color:#A9959A">▾</span></div>
+        <div style="display:flex;align-items:center;gap:11px">
+          <div style="width:42px;height:42px;border-radius:50%;background:#FDF1F3;border:1.5px solid #F2D5DB;display:flex;align-items:center;justify-content:center;font:700 13px/1 Manrope,sans-serif;color:#CD4664">LA</div>
+          <div><div style="font:700 13.5px/1.2 Manrope,sans-serif">Layane Andrade</div><div style="font:500 11px/1.4 Manrope,sans-serif;color:#8E8286">Supervisora</div></div>
+        </div>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+      <div style="border:1px solid #F2E9EB;border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:16px">
+        <div style="width:44px;height:44px;border-radius:14px;background:#E6F4F3;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border:2.4px solid #05918C;border-radius:4px;display:block"></span></div>
+        <div style="min-width:0"><div style="font:500 12.5px/1 Manrope,sans-serif;color:#8E8286">Meta 1 do mês</div><div style="font:700 22px/1.2 Manrope,sans-serif;margin-top:7px;white-space:nowrap">{{ totMetaTxt }}</div></div>
+      </div>
+      <div style="border:1px solid #F2E9EB;border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:16px">
+        <div style="width:44px;height:44px;border-radius:14px;background:#E6F4F3;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border:2.4px solid #05918C;border-radius:50%;display:block"></span></div>
+        <div style="min-width:0"><div style="font:500 12.5px/1 Manrope,sans-serif;color:#8E8286">Vendido até hoje</div><div style="font:700 22px/1.2 Manrope,sans-serif;margin-top:7px;white-space:nowrap;color:#05918C">{{ totRealTxt }}</div></div>
+      </div>
+      <div style="border:1px solid #F2E9EB;border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:16px">
+        <div style="width:44px;height:44px;border-radius:14px;background:#FDF1F3;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border:2.4px solid #CD4664;border-radius:50% 50% 50% 0;display:block"></span></div>
+        <div style="min-width:0"><div style="font:500 12.5px/1 Manrope,sans-serif;color:#8E8286">Falta para a meta</div><div style="font:700 22px/1.2 Manrope,sans-serif;margin-top:7px;white-space:nowrap;color:#CD4664">{{ totFaltaTxt }}</div></div>
+      </div>
+      <div style="border:1px solid #F2E9EB;border-radius:18px;padding:22px 24px;display:flex;align-items:center;gap:16px">
+        <div style="width:44px;height:44px;border-radius:14px;background:#F1EDFA;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:16px;height:16px;border:2.4px solid #463273;border-radius:4px;transform:rotate(45deg);display:block"></span></div>
+        <div style="min-width:0"><div style="font:500 12.5px/1 Manrope,sans-serif;color:#8E8286">Vender por dia</div><div style="font:700 22px/1.2 Manrope,sans-serif;margin-top:7px;white-space:nowrap;color:#463273">{{ totPorDiaTxt }}</div></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:20px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="border:1px solid #F2E9EB;border-radius:20px;padding:26px 28px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+            <h2 style="margin:0;font:700 17px/1 Manrope,sans-serif">Vendas por dia</h2>
+            <div style="display:flex;align-items:center;gap:16px;font:500 11.5px/1 Manrope,sans-serif;color:#8E8286">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;border-radius:2px;background:#05918C;display:block"></span>realizado</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:0;border-top:2px dashed #CD4664;display:block"></span>meta diária</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 900 210" preserveAspectRatio="none" style="width:100%;height:220px;display:block">
+            <defs><linearGradient id="g3a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05918C" stop-opacity=".18"></stop><stop offset="1" stop-color="#05918C" stop-opacity="0"></stop></linearGradient></defs>
+            <path d="{{ areaPath }}" fill="url(#g3a)"></path>
+            <path d="{{ linhaPath }}" fill="none" stroke="#05918C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+            <line x1="0" x2="900" y1="{{ metaY }}" y2="{{ metaY }}" stroke="#CD4664" stroke-width="2" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"></line>
+          </svg>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;font:500 10.5px/1 'JetBrains Mono',monospace;color:#A9959A"><span>1</span><span>5</span><span>10</span><span>15</span><span>21</span></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
+          <div style="border:1px solid #F2E9EB;border-radius:20px;padding:24px 26px;min-width:0">
+            <h2 style="margin:0 0 20px;font:700 16px/1 Manrope,sans-serif">Situação das lojas</h2>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;flex:none">
+                <svg width="128" height="128" viewBox="0 0 152 152">
+                  <circle cx="76" cy="76" r="64" fill="none" stroke="#F7ECEE" stroke-width="20"></circle>
+                  <sc-for list="{{ donut }}" as="s" hint-placeholder-count="3">
+                    <circle cx="76" cy="76" r="64" fill="none" stroke="{{ s.cor }}" stroke-width="20" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.off }}" transform="rotate(-90 76 76)"></circle>
+                  </sc-for>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font:700 22px/1 Manrope,sans-serif">{{ totalLojas }}</div>
+                  <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#8E8286">lojas</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;flex:1;min-width:120px">
+                <sc-for list="{{ donut }}" as="s" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <span style="width:10px;height:10px;border-radius:50%;background:{{ s.cor }};display:block;flex:none"></span>
+                    <span style="font:500 12.5px/1 Manrope,sans-serif;flex:1">{{ s.rot }}</span>
+                    <span style="font:700 12px/1 'JetBrains Mono',monospace;color:#8E8286">{{ s.n }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid #F2E9EB;border-radius:20px;padding:24px 26px;min-width:0">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+              <h2 style="margin:0;font:700 16px/1 Manrope,sans-serif">Melhores lojas</h2>
+              <span style="font:600 11px/1 Manrope,sans-serif;color:#05918C">Ver todas</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:15px">
+              <sc-for list="{{ top4 }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:11px">
+                  <span style="width:32px;height:32px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:700 9.5px/1 'JetBrains Mono',monospace;color:#CD4664;flex:none">{{ l.cod }}</span>
+                  <span style="font:600 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0">{{ l.nome }}</span>
+                  <span style="font:700 12px/1 'JetBrains Mono',monospace;color:{{ l.corF }};white-space:nowrap">{{ l.pctTxt }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="border-radius:20px;background:#05918C;color:#fff;padding:24px 26px">
+          <div style="font:500 11px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#AEDFDD">Rede · Meta 1</div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin:14px 0 12px;flex-wrap:wrap">
+            <span style="font:400 44px/1 'Instrument Serif',Georgia,serif">{{ totPctTxt }}</span>
+            <span style="font:500 12px/1 Manrope,sans-serif;color:#AEDFDD">ritmo esperado {{ paceTxt }}</span>
+          </div>
+          <div style="height:10px;border-radius:6px;background:rgba(255,255,255,.25);overflow:hidden"><div style="height:100%;border-radius:6px;background:#fff;width:{{ totPctW }}"></div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)">
+            <div><div style="font:500 10.5px/1 Manrope,sans-serif;color:#AEDFDD">Projeção</div><div style="font:700 15px/1.4 Manrope,sans-serif">{{ projTxt }}</div></div>
+            <div style="text-align:right"><div style="font:500 10.5px/1 Manrope,sans-serif;color:#AEDFDD">Fecha em</div><div style="font:700 15px/1.4 Manrope,sans-serif">{{ projPctTxt }}</div></div>
+          </div>
+        </div>
+
+        <div style="border:1px solid #F2E9EB;border-radius:20px;padding:24px 26px;min-width:0">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+            <h2 style="margin:0;font:700 16px/1 Manrope,sans-serif">Calendário</h2>
+            <span style="font:500 11px/1 Manrope,sans-serif;color:#8E8286">{{ hojeLabel }}</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8E8286;margin-bottom:16px">Meta por dia útil {{ metaDiaTxt }}</div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:8px">
+            <sc-for list="{{ semanaCabec }}" as="c" hint-placeholder-count="7">
+              <div style="text-align:center;font:700 9.5px/1 Manrope,sans-serif;color:#C7B4B8;letter-spacing:.06em">{{ c.s }}</div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ calVazios }}" as="v" hint-placeholder-count="5">
+              <div style="height:42px"></div>
+            </sc-for>
+            <sc-for list="{{ calDias }}" as="d" hint-placeholder-count="31">
+              <div style="height:42px;border-radius:11px;border:1.5px solid {{ d.bordaF }};background:{{ d.bgF }};padding:5px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
+                <div style="font:700 10.5px/1 'JetBrains Mono',monospace;color:{{ d.txtF }}">{{ d.num }}</div>
+                <div style="height:4px;border-radius:3px;background:#F7ECEE;overflow:hidden"><div style="height:100%;border-radius:3px;background:{{ d.corF }};width:{{ d.larguraBarra }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="border:1px solid #F2E9EB;border-radius:20px;padding:24px 26px;min-width:0">
+          <h2 style="margin:0 0 16px;font:700 16px/1 Manrope,sans-serif">Para olhar hoje</h2>
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
+              <div style="padding:14px 15px;border-radius:14px;background:{{ a.bgF }}">
+                <div style="font:700 12.5px/1.3 Manrope,sans-serif;color:{{ a.corF }}">{{ a.titulo }}</div>
+                <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#5E5457;margin-top:5px">{{ a.texto }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-next">Pra continuar: “fica com a <a class="dv-oid" href="#3a">3a</a>, faz as outras telas nesse formato” · “troca o gráfico por barras” · “versão mobile”</p>
+</section>
+
+<section class="dv-turn" id="t2" style="background:#FFFBFA">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Direção mais leve e feminina — mesma paleta, menos peso</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="2a" style="width:100%;min-width:0">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Painel do mês — branco, teal e rosa, tipografia serifada</div>
+<div class="dv-card" style="width:100%;min-width:0;border-radius:14px">
+<div data-screen-label="2a Painel do mês (feminino)" style="display:grid;grid-template-columns:minmax(0,246px) minmax(0,1fr);align-items:stretch;min-height:1020px;background:#FFF9F8;color:#231C1E">
+
+  <aside style="background:#fff;border-right:1px solid #F5E6E9;display:flex;flex-direction:column;padding:30px 20px;min-width:0;align-self:stretch">
+    <div style="display:flex;align-items:center;gap:12px;padding:0 8px 30px">
+      <div style="position:relative;width:38px;height:38px;border-radius:12px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 13px/1 Manrope,sans-serif;color:#fff">D&amp;D<svg width="18" height="18" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#fff" stroke-width="1.5"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
+      <div><div style="font:400 17px/1 'Instrument Serif',Georgia,serif;color:#05918C">D&amp;D Cosméticos</div><div style="font:500 10.5px/1.5 Manrope,sans-serif;color:#A9959A">10 lojas · 2026</div></div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:#FDF1F3;color:#CD4664;font:700 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;background:#CD4664;display:block"></span>Painel do mês</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#6B5E61;font:500 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #D6C4C8;display:block"></span>Lojas</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#6B5E61;font:500 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #D6C4C8;display:block"></span>Definir metas</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#6B5E61;font:500 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #D6C4C8;display:block"></span>Ranking</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#6B5E61;font:500 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #D6C4C8;display:block"></span>Fechamento do dia</div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:#6B5E61;font:500 13px/1 Manrope,sans-serif"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #D6C4C8;display:block"></span>Ano 2026</div>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:16px">
+      <div style="padding:18px;border-radius:16px;background:#F0F8F8;border:1px solid #D9EDEC">
+        <div style="font:400 16px/1.2 'Instrument Serif',Georgia,serif;color:#05918C">Atualizar vendas</div>
+        <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#5F7373;margin:8px 0 13px">Cole a exportação do Microvix e a rede inteira atualiza de uma vez.</div>
+        <div style="padding:10px 12px;border-radius:10px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;text-align:center">Colar planilha</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:12px 8px 0;border-top:1px solid #F5E6E9">
+        <div style="width:34px;height:34px;border-radius:50%;background:#FDF1F3;border:1.5px solid #F2D5DB;display:flex;align-items:center;justify-content:center;font:700 12px/1 Manrope,sans-serif;color:#CD4664">LA</div>
+        <div><div style="font:700 12.5px/1.2 Manrope,sans-serif">Layane Andrade</div><div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#A9959A">Supervisora</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main style="padding:clamp(20px,2.4vw,34px) clamp(18px,2.8vw,40px) 40px;display:flex;flex-direction:column;gap:22px;min-width:0">
+    <header style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+      <div>
+        <div style="font:500 12px/1 Manrope,sans-serif;color:#A9959A;letter-spacing:.04em">Olá, Layane — que bom te ver por aqui</div>
+        <h1 style="margin:10px 0 0;font:400 clamp(26px,3vw,40px)/1 'Instrument Serif',Georgia,serif;letter-spacing:-.01em;color:#05918C">Seu mês em <span style="font-style:italic;color:#463273">números</span></h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#fff;border:1px solid #F0DFE3">
+          <span style="width:7px;height:7px;border-radius:50%;background:#05918C;display:block"></span>
+          <span style="font:700 13px/1 Manrope,sans-serif">{{ mesLabel }}</span>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#A9959A">▾</span>
+        </div>
+        <div style="padding:11px 16px;border-radius:100px;background:#fff;border:1px solid #F0DFE3;font:500 12px/1 Manrope,sans-serif;color:#6B5E61">Dia <b style="font:700 12px/1 'JetBrains Mono',monospace">{{ diasTrab }}</b> de <b style="font:700 12px/1 'JetBrains Mono',monospace">{{ diasMes }}</b> · faltam <b style="font:700 12px/1 'JetBrains Mono',monospace;color:#CD4664">{{ diasFaltam }}</b></div>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px">
+      <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:clamp(20px,2vw,30px) clamp(20px,2.2vw,32px);box-shadow:0 6px 24px rgba(205,70,100,.05);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(18px,2.4vw,32px);min-width:0">
+        <svg viewBox="0 0 176 176" style="flex:none;width:clamp(128px,13vw,176px);height:auto">
+          <circle cx="88" cy="88" r="64" fill="none" stroke="#F7ECEE" stroke-width="18"></circle>
+          <circle cx="88" cy="88" r="64" fill="none" stroke="#05918C" stroke-width="18" stroke-linecap="round" stroke-dasharray="{{ anelDash }}" transform="rotate(-90 88 88)"></circle>
+          <circle cx="88" cy="88" r="64" fill="none" stroke="#CD4664" stroke-width="18" stroke-dasharray="3 399" stroke-dashoffset="{{ anelPace }}" transform="rotate(-90 88 88)"></circle>
+        </svg>
+        <div>
+          <div style="font:500 11px/1 Manrope,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#A9959A">Rede · Meta 1</div>
+          <div style="font:400 52px/1 'Instrument Serif',Georgia,serif;margin:14px 0 10px;color:#05918C">{{ totPctTxt }}</div>
+          <div style="font:500 13px/1.6 Manrope,sans-serif;color:#6B5E61">{{ totRealTxt }} de {{ totMetaTxt }}<br>O tracinho rosa é onde deveríamos estar hoje: <b style="color:#CD4664">{{ paceTxt }}</b></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:18px">
+        <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:24px 26px;box-shadow:0 6px 24px rgba(205,70,100,.05)">
+          <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#A9959A">Falta p/ Meta 1</div>
+          <div style="font:400 30px/1.1 'Instrument Serif',Georgia,serif;margin:14px 0 8px;color:#CD4664">{{ totFaltaTxt }}</div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#A9959A">em {{ diasFaltam }} dias úteis</div>
+        </div>
+        <div style="background:#05918C;border-radius:22px;padding:24px 26px;color:#fff">
+          <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#AEDFDD">Vender por dia</div>
+          <div style="font:400 30px/1.1 'Instrument Serif',Georgia,serif;margin:14px 0 8px">{{ totPorDiaTxt }}</div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#AEDFDD">vindo de {{ totMediaTxt }}/dia</div>
+        </div>
+        <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:24px 26px;box-shadow:0 6px 24px rgba(205,70,100,.05)">
+          <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#A9959A">Projeção do mês</div>
+          <div style="font:400 30px/1.1 'Instrument Serif',Georgia,serif;margin:14px 0 8px">{{ projTxt }}</div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#A9959A">fecha em {{ projPctTxt }} da meta</div>
+        </div>
+        <div style="background:#FDF1F3;border:1px solid #F2D5DB;border-radius:22px;padding:24px 26px">
+          <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#C08B95">Lojas no ritmo</div>
+          <div style="font:400 30px/1.1 'Instrument Serif',Georgia,serif;margin:14px 0 8px;color:#CD4664">{{ nRitmo }} de {{ nLojas }}</div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#C08B95">as outras precisam de atenção</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:20px;align-items:start">
+      <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:clamp(20px,2vw,28px) clamp(18px,2.1vw,30px) 12px;box-shadow:0 6px 24px rgba(205,70,100,.05);min-width:0">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+          <h2 style="margin:0;font:400 24px/1 'Instrument Serif',Georgia,serif;color:#463273">Como cada loja está</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#A9959A">ordenado por % da Meta 1</span>
+        </div>
+        <sc-for list="{{ lojas }}" as="l" hint-placeholder-count="9">
+          <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.7fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,.85fr);gap:14px;align-items:center;padding:15px 0;border-top:1px solid #F9EFF1">
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="width:30px;height:30px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#CD4664;flex:none">{{ l.cod }}</span>
+              <span style="font:700 13.5px/1.2 Manrope,sans-serif">{{ l.nome }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:11px">
+              <div style="position:relative;flex:1;height:10px;border-radius:6px;background:#F7ECEE;overflow:hidden">
+                <div style="height:100%;border-radius:6px;background:{{ l.corF }};width:{{ l.pctW }}"></div>
+              </div>
+              <span style="font:700 12.5px/1 'JetBrains Mono',monospace;width:48px;text-align:right;color:{{ l.corF }}">{{ l.pctTxt }}</span>
+            </div>
+            <div style="text-align:right;white-space:nowrap;font:500 12.5px/1 'JetBrains Mono',monospace">{{ l.realTxt }}</div>
+            <div style="text-align:right;white-space:nowrap;font:700 12.5px/1 'JetBrains Mono',monospace">{{ l.porDiaTxt }}<span style="font:500 9.5px/1 Manrope,sans-serif;color:#A9959A">/dia</span></div>
+            <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;background:{{ l.badgeBgF }};color:{{ l.corF }}">{{ l.situacao }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:26px 28px;box-shadow:0 6px 24px rgba(205,70,100,.05);min-width:0">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+            <h2 style="margin:0;font:400 22px/1 'Instrument Serif',Georgia,serif;color:#463273">Calendário</h2>
+            <span style="font:500 11.5px/1 Manrope,sans-serif;color:#A9959A">{{ hojeLabel }}</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#A9959A;margin-bottom:18px">Meta por dia útil {{ metaDiaTxt }}</div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:9px">
+            <sc-for list="{{ semanaCabec }}" as="c" hint-placeholder-count="7">
+              <div style="text-align:center;font:700 9.5px/1 Manrope,sans-serif;color:#C7B4B8;letter-spacing:.06em">{{ c.s }}</div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ calVazios }}" as="v" hint-placeholder-count="5">
+              <div style="height:44px"></div>
+            </sc-for>
+            <sc-for list="{{ calDias }}" as="d" hint-placeholder-count="31">
+              <div style="height:44px;border-radius:12px;border:1.5px solid {{ d.bordaF }};background:{{ d.bgF }};padding:5px 6px 6px;display:flex;flex-direction:column;justify-content:space-between">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:2px">
+                  <span style="font:700 10.5px/1 'JetBrains Mono',monospace;color:{{ d.txtF }}">{{ d.num }}</span>
+                  <span style="font:500 8.5px/1 'JetBrains Mono',monospace;color:#C7B4B8">{{ d.rotulo }}</span>
+                </div>
+                <div style="height:4px;border-radius:3px;background:#F7ECEE;overflow:hidden"><div style="height:100%;border-radius:3px;background:{{ d.corF }};width:{{ d.larguraBarra }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid #F9EFF1">
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#A9959A"><span style="width:9px;height:9px;border-radius:50%;background:#05918C;display:block"></span>bateu o dia</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#A9959A"><span style="width:9px;height:9px;border-radius:50%;background:#F2AABA;display:block"></span>perto</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#A9959A"><span style="width:9px;height:9px;border-radius:50%;background:#CD4664;display:block"></span>abaixo</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #F5E6E9;border-radius:22px;padding:26px 28px;box-shadow:0 6px 24px rgba(205,70,100,.05)">
+          <h2 style="margin:0 0 18px;font:400 22px/1 'Instrument Serif',Georgia,serif;color:#463273">Para olhar hoje</h2>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
+              <div style="padding:15px 16px;border-radius:16px;background:{{ a.bgF }}">
+                <div style="font:700 12.5px/1.3 Manrope,sans-serif;color:{{ a.corF }}">{{ a.titulo }}</div>
+                <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#6B5E61;margin-top:5px">{{ a.texto }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#231C1E;border-radius:22px;padding:26px 28px;color:#fff">
+          <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#B9A8AC">Destaque do mês</div>
+          <div style="font:400 30px/1.1 'Instrument Serif',Georgia,serif;margin:14px 0 8px">Rodrigo Silva</div>
+          <div style="font:500 12px/1.6 Manrope,sans-serif;color:#D8CBCE">Única loja acima do ritmo — <b style="font-family:'JetBrains Mono',monospace;color:#69EBE1">77,4%</b> da Meta 1 com 8 dias pela frente.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-next">Pra continuar: “aplica o estilo de <a class="dv-oid" href="#2a">2a</a> nas outras telas” · “mais rosa / menos rosa” · “quero ver a versão mobile”</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Gestão de metas &amp; faturamento — D&amp;D Cosméticos · dados reais de MAIO/2026</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Painel do mês — visão da rede (supervisão)</div>
+<div class="dv-card" style="width:1440px">
+<div data-screen-label="1a Painel do mês" style="display:grid;grid-template-columns:236px 1fr;min-height:1020px;background:#F6F6F6;color:#101010">
+
+  <aside style="background:#101010;color:#F2F2F2;display:flex;flex-direction:column;padding:26px 18px">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 6px 26px">
+      <div style="position:relative;width:34px;height:34px;border-radius:9px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 12px/1 Manrope,sans-serif;color:#fff;letter-spacing:.02em">D&amp;D<span style="position:absolute;top:-3px;right:-3px;width:11px;height:11px;border-radius:50%;background:#CD4664;border:2px solid #101010;display:block"></span></div>
+      <div><div style="font:700 14px/1.1 Manrope,sans-serif;color:#fff">Painel D&amp;D</div><div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#9A9A9A">Franquias · 10 lojas</div></div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:3px">
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;background:#05918C;color:#fff;font:700 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border-radius:3px;background:#fff;opacity:.9;display:block"></span>Painel do mês</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;color:#D6D6D6;font:500 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border-radius:3px;border:1.6px solid #6E6E6E;display:block"></span>Lojas</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;color:#D6D6D6;font:500 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border-radius:50%;border:1.6px solid #6E6E6E;display:block"></span>Definir metas</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;color:#D6D6D6;font:500 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border-radius:3px;border:1.6px solid #6E6E6E;border-left-width:5px;display:block"></span>Ranking</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;color:#D6D6D6;font:500 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border-radius:3px;border:1.6px solid #6E6E6E;border-bottom-width:5px;display:block"></span>Fechamento do dia</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;color:#D6D6D6;font:500 13px/1 Manrope,sans-serif"><span style="width:14px;height:14px;border:1.6px solid #6E6E6E;display:block"></span>Ano 2026</div>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="padding:15px;border-radius:12px;background:#181818;border:1px solid #2E2E2E">
+        <div style="font:500 10px/1 Manrope,sans-serif;letter-spacing:.1em;color:#9A9A9A;text-transform:uppercase">Importar realizado</div>
+        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#D6D6D6;margin:7px 0 11px">Cole a exportação do Microvix — a rede inteira atualiza de uma vez.</div>
+        <div style="padding:9px 12px;border-radius:8px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;text-align:center">Colar planilha</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 6px;border-top:1px solid #2E2E2E">
+        <div style="width:32px;height:32px;border-radius:50%;background:#CD4664;display:flex;align-items:center;justify-content:center;font:700 12px/1 Manrope,sans-serif;color:#fff">LA</div>
+        <div><div style="font:700 12px/1.2 Manrope,sans-serif;color:#fff">Layane Andrade</div><div style="font:500 10.5px/1.3 Manrope,sans-serif;color:#9A9A9A">Supervisora</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main style="padding:28px 34px 34px;display:flex;flex-direction:column;gap:20px">
+    <header style="display:flex;align-items:flex-end;justify-content:space-between">
+      <div>
+        <div style="font:500 12px/1 Manrope,sans-serif;color:#7A7A7A">Olá, Layane — seja bem-vinda</div>
+        <h1 style="margin:8px 0 0;font:800 30px/1.05 Manrope,sans-serif;letter-spacing:-.02em">Painel do mês</h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:10px;background:#fff;border:1px solid #DCDCDC">
+          <span style="width:7px;height:7px;border-radius:50%;background:#05918C;display:block"></span>
+          <span style="font:700 13px/1 Manrope,sans-serif">{{ mesLabel }}</span>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">▾</span>
+        </div>
+        <div style="padding:9px 14px;border-radius:10px;background:#fff;border:1px solid #DCDCDC;font:500 12px/1 Manrope,sans-serif;color:#444444">Dia útil <b style="font:700 12px/1 'JetBrains Mono',monospace">{{ diasTrab }}</b> de <b style="font:700 12px/1 'JetBrains Mono',monospace">{{ diasMes }}</b> · faltam <b style="font:700 12px/1 'JetBrains Mono',monospace">{{ diasFaltam }}</b></div>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:18px 20px">
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A">Meta 1 do mês</div>
+        <div style="font:700 27px/1.1 'JetBrains Mono',monospace;margin:12px 0 6px;letter-spacing:-.02em">{{ totMetaTxt }}</div>
+        <div style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">Meta 2 {{ totMeta2Txt }} · Meta 3 {{ totMeta3Txt }}</div>
+      </div>
+      <div style="background:#101010;border:1px solid #101010;border-radius:14px;padding:18px 20px;color:#fff">
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#9A9A9A">Venda até hoje</div>
+        <div style="font:700 27px/1.1 'JetBrains Mono',monospace;margin:12px 0 6px;letter-spacing:-.02em">{{ totRealTxt }}</div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="padding:3px 7px;border-radius:5px;background:#CD4664;font:700 11px/1 'JetBrains Mono',monospace">{{ totPctTxt }}</span><span style="font:500 11.5px/1 Manrope,sans-serif;color:#9A9A9A">da Meta 1 · ritmo esperado {{ paceTxt }}</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:18px 20px">
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A">Falta p/ Meta 1</div>
+        <div style="font:700 27px/1.1 'JetBrains Mono',monospace;margin:12px 0 6px;letter-spacing:-.02em;color:#CD4664">{{ totFaltaTxt }}</div>
+        <div style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">em {{ diasFaltam }} dias úteis</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:18px 20px">
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A">Vender por dia</div>
+        <div style="font:700 27px/1.1 'JetBrains Mono',monospace;margin:12px 0 6px;letter-spacing:-.02em">{{ totPorDiaTxt }}</div>
+        <div style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">a rede vem fazendo {{ totMediaTxt }}/dia</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:18px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px 24px 26px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Ritmo da rede</h2>
+            <div style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">Projeção do mês se mantiver o ritmo atual</div>
+          </div>
+          <div style="position:relative;height:56px;margin-bottom:14px">
+            <div style="position:absolute;inset:16px 0 auto 0;height:24px;border-radius:7px;background:#EFEFEF;overflow:hidden">
+              <div style="height:100%;background:linear-gradient(90deg,#05918C,#17ABA5);width:{{ totPctW }}"></div>
+            </div>
+            <div style="position:absolute;top:6px;bottom:6px;width:2px;background:#101010;left:{{ paceW }}"></div>
+            <div style="position:absolute;top:0;white-space:nowrap;font:700 10px/1 Manrope,sans-serif;color:#101010;transform:translateX(-50%);left:{{ paceW }}">HOJE</div>
+            <div style="position:absolute;top:44px;white-space:nowrap;font:700 10px/1 'JetBrains Mono',monospace;color:#05918C;transform:translateX(-50%);left:{{ totPctW }}">{{ totPctTxt }}</div>
+            <div style="position:absolute;top:6px;bottom:6px;width:2px;background:#E39A4E;left:{{ projW }}"></div>
+            <div style="position:absolute;top:44px;white-space:nowrap;font:700 10px/1 'JetBrains Mono',monospace;color:#E39A4E;transform:translateX(-50%);left:{{ projW }}">projeção {{ projPctTxt }}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-top:18px;border-top:1px solid #EFEFEF">
+            <div><div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Projeção do mês</div><div style="font:700 19px/1.2 'JetBrains Mono',monospace;margin-top:7px">{{ projTxt }}</div></div>
+            <div><div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Gap para a Meta 1</div><div style="font:700 19px/1.2 'JetBrains Mono',monospace;margin-top:7px;color:#CD4664">{{ gapProjTxt }}</div></div>
+            <div><div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Lojas no ritmo</div><div style="font:700 19px/1.2 'JetBrains Mono',monospace;margin-top:7px">{{ nRitmo }} <span style="font:500 13px/1 Manrope,sans-serif;color:#7A7A7A">de {{ nLojas }}</span></div></div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Lojas · {{ mesLabel }}</h2>
+            <div style="display:flex;gap:7px">
+              <span style="padding:6px 11px;border-radius:7px;background:#101010;color:#fff;font:700 11px/1 Manrope,sans-serif">% da Meta 1</span>
+              <span style="padding:6px 11px;border-radius:7px;background:#F6F6F6;color:#444444;font:600 11px/1 Manrope,sans-serif">Projeção</span>
+              <span style="padding:6px 11px;border-radius:7px;background:#F6F6F6;color:#444444;font:600 11px/1 Manrope,sans-serif">Ano</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.5fr 1.6fr .9fr .9fr .9fr .8fr;gap:12px;padding:0 24px 10px;font:600 10px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A;border-bottom:1px solid #EFEFEF">
+            <div>Loja</div><div>% da Meta 1</div><div style="text-align:right">Venda</div><div style="text-align:right">Meta 1</div><div style="text-align:right">Vender/dia</div><div style="text-align:right">Situação</div>
+          </div>
+          <sc-for list="{{ lojas }}" as="l" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:1.5fr 1.6fr .9fr .9fr .9fr .8fr;gap:12px;align-items:center;padding:13px 24px;border-bottom:1px solid #F3F3F3">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font:600 9.5px/1 'JetBrains Mono',monospace;color:#A0A0A0;background:#F6F6F6;padding:4px 5px;border-radius:4px">{{ l.cod }}</span>
+                <span style="font:700 13px/1.2 Manrope,sans-serif">{{ l.nome }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="position:relative;flex:1;height:9px;border-radius:5px;background:#EFEFEF;overflow:hidden">
+                  <div style="height:100%;border-radius:5px;background:{{ l.cor }};width:{{ l.pctW }}"></div>
+                </div>
+                <span style="font:700 12px/1 'JetBrains Mono',monospace;width:46px;text-align:right;color:{{ l.cor }}">{{ l.pctTxt }}</span>
+              </div>
+              <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace">{{ l.realTxt }}</div>
+              <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">{{ l.metaTxt }}</div>
+              <div style="text-align:right;font:700 12.5px/1 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div>
+              <div style="text-align:right"><span style="display:inline-block;padding:5px 9px;border-radius:6px;font:700 10.5px/1 Manrope,sans-serif;background:{{ l.badgeBg }};color:{{ l.cor }}">{{ l.situacao }}</span></div>
+            </div>
+          </sc-for>
+          <div style="display:grid;grid-template-columns:1.5fr 1.6fr .9fr .9fr .9fr .8fr;gap:12px;align-items:center;padding:15px 24px;background:#FAFAFA">
+            <div style="font:800 13px/1 Manrope,sans-serif">TOTAL DA REDE</div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="position:relative;flex:1;height:9px;border-radius:5px;background:#E7E7E7;overflow:hidden"><div style="height:100%;border-radius:5px;background:#101010;width:{{ totPctW }}"></div></div>
+              <span style="font:800 12px/1 'JetBrains Mono',monospace;width:46px;text-align:right">{{ totPctTxt }}</span>
+            </div>
+            <div style="text-align:right;white-space:nowrap;font:700 12.5px/1 'JetBrains Mono',monospace">{{ totRealK }}</div>
+            <div style="text-align:right;white-space:nowrap;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">{{ totMetaK }}</div>
+            <div style="text-align:right;white-space:nowrap;font:800 12.5px/1 'JetBrains Mono',monospace">{{ totPorDiaK }}</div>
+            <div style="text-align:right;font:500 11px/1 Manrope,sans-serif;color:#7A7A7A">9 com meta</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px 24px 20px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Calendário do mês</h2>
+            <span style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">{{ hojeLabel }}</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#7A7A7A;margin-bottom:16px">Meta por dia útil {{ metaDiaTxt }} · domingo fechado</div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:7px">
+            <sc-for list="{{ semanaCabec }}" as="c" hint-placeholder-count="7">
+              <div style="text-align:center;font:700 9.5px/1 Manrope,sans-serif;color:#A0A0A0;letter-spacing:.06em">{{ c.s }}</div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px">
+            <sc-for list="{{ calVazios }}" as="v" hint-placeholder-count="5">
+              <div style="height:42px"></div>
+            </sc-for>
+            <sc-for list="{{ calDias }}" as="d" hint-placeholder-count="31">
+              <div style="height:42px;border-radius:7px;border:1.5px solid {{ d.borda }};background:{{ d.bg }};padding:4px 5px 5px;display:flex;flex-direction:column;justify-content:space-between">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:2px">
+                  <span style="font:700 10.5px/1 'JetBrains Mono',monospace;color:{{ d.txt }}">{{ d.num }}</span>
+                  <span style="font:500 8.5px/1 'JetBrains Mono',monospace;color:#A0A0A0">{{ d.rotulo }}</span>
+                </div>
+                <div style="height:4px;border-radius:2px;background:#EFEFEF;overflow:hidden"><div style="height:100%;border-radius:2px;background:{{ d.cor }};width:{{ d.larguraBarra }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;padding-top:13px;border-top:1px solid #EFEFEF">
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;background:#05918C;display:block"></span>bateu o dia</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;background:#E39A4E;display:block"></span>perto</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;background:#CD4664;display:block"></span>abaixo</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;border:1.5px solid #DCDCDC;display:block"></span>a vir</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px 24px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Ano 2026</h2>
+            <span style="font:700 12px/1 'JetBrains Mono',monospace;color:#CD4664">{{ anoPctTxt }}</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#7A7A7A;margin-bottom:20px">{{ anoRealTxt }} realizados de {{ anoMetaTxt }}</div>
+          <div style="display:flex;align-items:flex-end;gap:14px;height:130px;padding-bottom:8px;border-bottom:1px solid #EFEFEF">
+            <sc-for list="{{ meses }}" as="m" hint-placeholder-count="5">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px">
+                <div style="display:flex;align-items:flex-end;gap:3px;height:104px">
+                  <div style="width:13px;border-radius:3px 3px 0 0;background:#DCDCDC;height:{{ m.hMeta }}"></div>
+                  <div style="width:13px;border-radius:3px 3px 0 0;background:{{ m.cor }};height:{{ m.hReal }}"></div>
+                </div>
+                <div style="font:600 10px/1 Manrope,sans-serif;color:#7A7A7A">{{ m.nome }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:12px">
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;background:#DCDCDC;display:block"></span>Meta 1</div>
+            <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#7A7A7A"><span style="width:9px;height:9px;border-radius:2px;background:#05918C;display:block"></span>Realizado</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px 24px">
+          <h2 style="margin:0 0 16px;font:700 15px/1 Manrope,sans-serif">O que exige ação hoje</h2>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
+              <div style="display:flex;gap:12px;padding:13px 14px;border-radius:11px;background:{{ a.bg }}">
+                <div style="width:3px;border-radius:2px;background:{{ a.cor }};flex:none"></div>
+                <div>
+                  <div style="font:700 12.5px/1.3 Manrope,sans-serif;color:#101010">{{ a.titulo }}</div>
+                  <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#444444;margin-top:4px">{{ a.texto }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#181818;border-radius:14px;padding:22px 24px;color:#fff">
+          <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#9A9A9A">Destaque do mês</div>
+          <div style="font:800 21px/1.2 Manrope,sans-serif;margin:12px 0 6px">Rodrigo Silva</div>
+          <div style="font:500 12px/1.5 Manrope,sans-serif;color:#D6D6D6">Única loja acima do ritmo do mês — <b style="font-family:'JetBrains Mono',monospace;color:#69EBE1">77,4%</b> da Meta 1 com 8 dias pela frente.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Detalhe da loja — metas escalonadas e comissão</div>
+<div class="dv-card" style="width:940px">
+<div data-screen-label="1b Detalhe da loja" style="background:#F6F6F6;color:#101010;padding:30px 32px 34px;min-height:900px">
+  <div style="display:flex;align-items:center;gap:10px;font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A;margin-bottom:18px">Painel do mês <span>›</span> Lojas <span>›</span> <span style="color:#101010;font-weight:700">Rodo 3</span></div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
+    <div>
+      <h1 style="margin:0;font:800 28px/1.05 Manrope,sans-serif;letter-spacing:-.02em">Rodo 3 <span style="font:600 15px/1 'JetBrains Mono',monospace;color:#7A7A7A">· 1017</span></h1>
+      <div style="font:500 12.5px/1 Manrope,sans-serif;color:#7A7A7A;margin-top:8px">Franquia · MAIO 2026 · dia útil 18 de 26</div>
+    </div>
+    <div style="display:flex;gap:9px">
+      <div style="padding:10px 15px;border-radius:9px;background:#fff;border:1px solid #DCDCDC;font:600 12px/1 Manrope,sans-serif">Histórico</div>
+      <div style="padding:10px 15px;border-radius:9px;background:#101010;color:#fff;font:700 12px/1 Manrope,sans-serif">Editar metas</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:24px">
+        <h2 style="margin:0 0 20px;font:700 15px/1 Manrope,sans-serif">Escada de metas</h2>
+        <div style="position:relative;height:74px;margin-bottom:8px">
+          <div style="position:absolute;inset:24px 0 auto 0;height:26px;border-radius:8px;background:#EFEFEF;overflow:hidden">
+            <div style="height:100%;background:linear-gradient(90deg,#05918C,#17ABA5);width:49.0%"></div>
+          </div>
+          <div style="position:absolute;top:18px;bottom:18px;width:2px;background:#101010;left:76.9%"></div>
+          <div style="position:absolute;top:0;left:76.9%;transform:translateX(-50%);font:700 10px/1 Manrope,sans-serif">HOJE</div>
+          <div style="position:absolute;top:56px;left:49%;white-space:nowrap;transform:translateX(-50%);font:700 10.5px/1 'JetBrains Mono',monospace;color:#05918C">R$ 171.648</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px">
+          <div style="padding:16px;border-radius:11px;border:1.5px solid #05918C;background:#E6F4F3">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:800 11px/1 Manrope,sans-serif;color:#05918C">META 1</span><span style="font:700 10px/1 Manrope,sans-serif;color:#05918C">comissão 0,8%</span></div>
+            <div style="font:700 18px/1.2 'JetBrains Mono',monospace;margin:10px 0 4px">R$ 269.314</div>
+            <div style="font:500 11px/1.4 Manrope,sans-serif;color:#444444">63,7% atingido · faltam <b style="font-family:'JetBrains Mono',monospace">R$ 97.666</b></div>
+          </div>
+          <div style="padding:16px;border-radius:11px;border:1px solid #E7E7E7;background:#fff">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:800 11px/1 Manrope,sans-serif;color:#7A7A7A">META 2</span><span style="font:700 10px/1 Manrope,sans-serif;color:#7A7A7A">1,0%</span></div>
+            <div style="font:700 18px/1.2 'JetBrains Mono',monospace;margin:10px 0 4px;color:#444444">R$ 301.632</div>
+            <div style="font:500 11px/1.4 Manrope,sans-serif;color:#7A7A7A">Meta 1 × 1,12 · <b style="font-family:'JetBrains Mono',monospace">R$ 16.248</b>/dia</div>
+          </div>
+          <div style="padding:16px;border-radius:11px;border:1px solid #E7E7E7;background:#fff">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:800 11px/1 Manrope,sans-serif;color:#7A7A7A">META 3</span><span style="font:700 10px/1 Manrope,sans-serif;color:#7A7A7A">1,2%</span></div>
+            <div style="font:700 18px/1.2 'JetBrains Mono',monospace;margin:10px 0 4px;color:#444444">R$ 350.108</div>
+            <div style="font:500 11px/1.4 Manrope,sans-serif;color:#7A7A7A">Meta 1 × 1,30 · <b style="font-family:'JetBrains Mono',monospace">R$ 22.308</b>/dia</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:24px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+          <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Venda por semana</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#7A7A7A">meta semanal vs realizado</span>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:26px;height:150px">
+          <sc-for list="{{ semanas }}" as="s" hint-placeholder-count="4">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:9px">
+              <div style="display:flex;align-items:flex-end;gap:5px;height:118px">
+                <div style="width:26px;border-radius:4px 4px 0 0;background:#DCDCDC;height:{{ s.hMeta }}"></div>
+                <div style="width:26px;border-radius:4px 4px 0 0;background:{{ s.cor }};height:{{ s.hReal }}"></div>
+              </div>
+              <div style="font:600 11px/1 Manrope,sans-serif;color:#444444">{{ s.nome }}</div>
+              <div style="font:700 10.5px/1 'JetBrains Mono',monospace;color:{{ s.cor }}">{{ s.pctTxt }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:24px">
+        <h2 style="margin:0 0 18px;font:700 15px/1 Manrope,sans-serif">Histórico 2026</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;padding-bottom:10px;border-bottom:1px solid #EFEFEF;font:600 10px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A">
+          <div>Mês</div><div style="text-align:right">Meta 1</div><div style="text-align:right">Realizado</div><div style="text-align:right">%</div>
+        </div>
+        <sc-for list="{{ histRodo }}" as="h" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;padding:11px 0;border-bottom:1px solid #F3F3F3">
+            <div style="font:700 12.5px/1 Manrope,sans-serif">{{ h.mes }}</div>
+            <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">{{ h.metaTxt }}</div>
+            <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace">{{ h.realTxt }}</div>
+            <div style="text-align:right;font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ h.cor }}">{{ h.pctTxt }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#101010;border-radius:14px;padding:22px;color:#fff">
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#9A9A9A">Para bater a Meta 1</div>
+        <div style="font:700 28px/1.1 'JetBrains Mono',monospace;margin:14px 0 6px">R$ 12.208</div>
+        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#D6D6D6">por dia útil, nos 8 dias que faltam. A loja vem fazendo R$ 9.536/dia.</div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #2E2E2E;display:flex;justify-content:space-between">
+          <div><div style="font:500 10.5px/1 Manrope,sans-serif;color:#9A9A9A">Projeção</div><div style="font:700 14px/1.3 'JetBrains Mono',monospace">R$ 247.936</div></div>
+          <div style="text-align:right"><div style="font:500 10.5px/1 Manrope,sans-serif;color:#9A9A9A">Fecha em</div><div style="font:700 14px/1.3 'JetBrains Mono',monospace;color:#FFB46E">92,1%</div></div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px">
+        <h2 style="margin:0 0 16px;font:700 15px/1 Manrope,sans-serif">Indicadores</h2>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:500 12px/1 Manrope,sans-serif;color:#444444">Ticket médio</span><span style="font:700 13px/1 'JetBrains Mono',monospace">R$ 138,40</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:500 12px/1 Manrope,sans-serif;color:#444444">Peças por atendimento</span><span style="font:700 13px/1 'JetBrains Mono',monospace">2,4</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:500 12px/1 Manrope,sans-serif;color:#444444">Preço médio</span><span style="font:700 13px/1 'JetBrains Mono',monospace">R$ 57,60</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:500 12px/1 Manrope,sans-serif;color:#444444">% performance</span><span style="font:700 13px/1 'JetBrains Mono',monospace">41%</span></div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px">
+        <h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Vendedoras</h2>
+        <div style="font:500 11px/1.4 Manrope,sans-serif;color:#7A7A7A;margin-bottom:16px">Comissão pela meta atingida no mês</div>
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <sc-for list="{{ vendedoras }}" as="v" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:11px">
+              <div style="width:28px;height:28px;border-radius:50%;background:#F6F6F6;display:flex;align-items:center;justify-content:center;font:700 10.5px/1 Manrope,sans-serif;color:#444444;flex:none">{{ v.ini }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font:700 12px/1.2 Manrope,sans-serif">{{ v.nome }}</div>
+                <div style="height:5px;border-radius:3px;background:#EFEFEF;margin-top:6px;overflow:hidden"><div style="height:100%;border-radius:3px;background:{{ v.cor }};width:{{ v.pctW }}"></div></div>
+              </div>
+              <div style="text-align:right;flex:none"><div style="font:700 11.5px/1 'JetBrains Mono',monospace">{{ v.pctTxt }}</div><div style="font:500 10px/1.3 Manrope,sans-serif;color:#7A7A7A">{{ v.nivel }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Definir metas do mês — substitui a digitação na planilha</div>
+<div class="dv-card" style="width:900px">
+<div data-screen-label="1c Definir metas" style="background:#F6F6F6;color:#101010;padding:30px 32px 34px;min-height:820px">
+  <h1 style="margin:0;font:800 26px/1.05 Manrope,sans-serif;letter-spacing:-.02em">Definir metas · JUNHO 2026</h1>
+  <div style="font:500 12.5px/1.6 Manrope,sans-serif;color:#7A7A7A;margin:10px 0 22px;max-width:520px">Digite só a Meta 1 de cada loja e os dias úteis. Meta 2 e Meta 3 saem dos fatores — como na planilha, mas sem risco de quebrar fórmula.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 280px;gap:16px;align-items:start">
+    <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr .8fr;gap:12px;padding:18px 22px 12px;font:600 10px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#7A7A7A;border-bottom:1px solid #EFEFEF">
+        <div>Loja</div><div style="text-align:right">Meta 1</div><div style="text-align:right">Meta 2</div><div style="text-align:right">Meta 3</div><div style="text-align:right">vs Maio</div>
+      </div>
+      <sc-for list="{{ novasMetas }}" as="n" hint-placeholder-count="9">
+        <div style="display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr .8fr;gap:12px;align-items:center;padding:9px 22px;border-bottom:1px solid #F3F3F3">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="font:600 9.5px/1 'JetBrains Mono',monospace;color:#A0A0A0;background:#F6F6F6;padding:4px 5px;border-radius:4px">{{ n.cod }}</span>
+            <span style="font:700 12.5px/1.2 Manrope,sans-serif">{{ n.nome }}</span>
+          </div>
+          <div style="text-align:right"><div style="display:inline-block;min-width:96px;padding:8px 10px;border-radius:8px;border:1.5px solid #DDDDDD;background:#FFFFFF;font:700 12.5px/1 'JetBrains Mono',monospace">{{ n.m1 }}</div></div>
+          <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">{{ n.m2 }}</div>
+          <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">{{ n.m3 }}</div>
+          <div style="text-align:right;font:700 11.5px/1 'JetBrains Mono',monospace;color:{{ n.cor }}">{{ n.delta }}</div>
+        </div>
+      </sc-for>
+      <div style="display:grid;grid-template-columns:1.4fr .9fr .9fr .9fr .8fr;gap:12px;padding:16px 22px;background:#FAFAFA">
+        <div style="font:800 12.5px/1 Manrope,sans-serif">TOTAL</div>
+        <div style="text-align:right;font:800 12.5px/1 'JetBrains Mono',monospace">1.898.000</div>
+        <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">2.125.760</div>
+        <div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#7A7A7A">2.467.400</div>
+        <div style="text-align:right;font:800 11.5px/1 'JetBrains Mono',monospace;color:#05918C">+3,8%</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px">
+        <h2 style="margin:0 0 18px;font:700 14px/1 Manrope,sans-serif">Fatores</h2>
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Meta 2 = Meta 1 ×</div>
+        <div style="margin:9px 0 18px;padding:10px 12px;border-radius:9px;border:1.5px solid #DDDDDD;background:#FFFFFF;font:700 15px/1 'JetBrains Mono',monospace">1,12</div>
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Meta 3 = Meta 1 ×</div>
+        <div style="margin:9px 0 18px;padding:10px 12px;border-radius:9px;border:1.5px solid #DDDDDD;background:#FFFFFF;font:700 15px/1 'JetBrains Mono',monospace">1,30</div>
+        <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">Dias úteis do mês</div>
+        <div style="margin:9px 0 0;padding:10px 12px;border-radius:9px;border:1.5px solid #DDDDDD;background:#FFFFFF;font:700 15px/1 'JetBrains Mono',monospace">25</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px">
+        <h2 style="margin:0 0 14px;font:700 14px/1 Manrope,sans-serif">Sugestão automática</h2>
+        <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#444444;margin-bottom:14px">Média dos 3 últimos meses da loja + 6% de crescimento. Você ajusta o que quiser antes de publicar.</div>
+        <div style="padding:10px 12px;border-radius:9px;background:#F6F6F6;font:700 12px/1 Manrope,sans-serif;text-align:center;color:#101010">Preencher com sugestão</div>
+      </div>
+      <div style="padding:13px;border-radius:11px;background:#05918C;color:#fff;font:700 13px/1 Manrope,sans-serif;text-align:center">Publicar metas de junho</div>
+      <div style="font:500 11px/1.5 Manrope,sans-serif;color:#7A7A7A;text-align:center">As lojas veem a meta nova no dia 1º.</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Três jeitos de mostrar “bateu ou não” — escolha um para todo o painel</div>
+<div class="dv-card" style="width:900px">
+<div style="background:#F6F6F6;padding:30px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;color:#101010">
+  <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px">
+    <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A;align-self:flex-start">A · Anel</div>
+    <svg width="150" height="150" viewBox="0 0 150 150"><circle cx="75" cy="75" r="60" fill="none" stroke="#EFEFEF" stroke-width="16"></circle><circle cx="75" cy="75" r="60" fill="none" stroke="#05918C" stroke-width="16" stroke-linecap="round" stroke-dasharray="236 377" transform="rotate(-90 75 75)"></circle><circle cx="75" cy="75" r="60" fill="none" stroke="#101010" stroke-width="16" stroke-dasharray="2 375" stroke-dashoffset="-261" transform="rotate(-90 75 75)"></circle></svg>
+    <div style="text-align:center"><div style="font:700 22px/1 'JetBrains Mono',monospace">62,7%</div><div style="font:500 11px/1.5 Manrope,sans-serif;color:#7A7A7A;margin-top:6px">Traço preto = ritmo esperado hoje</div></div>
+  </div>
+  <div style="background:#fff;border:1px solid #E7E7E7;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+    <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#7A7A7A">B · Barra de ritmo</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px">
+      <sc-for list="{{ demoBarras }}" as="d" hint-placeholder-count="3">
+        <div>
+          <div style="display:flex;justify-content:space-between;font:600 11.5px/1 Manrope,sans-serif;margin-bottom:7px"><span>{{ d.nome }}</span><span style="font-family:'JetBrains Mono',monospace;color:{{ d.cor }}">{{ d.pctTxt }}</span></div>
+          <div style="position:relative;height:14px;border-radius:7px;background:#EFEFEF;overflow:hidden"><div style="height:100%;background:{{ d.cor }};width:{{ d.pctW }}"></div></div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="font:500 11px/1.5 Manrope,sans-serif;color:#7A7A7A">Compara lojas de relance. Melhor para lista longa.</div>
+  </div>
+  <div style="background:#101010;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;color:#fff">
+    <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#9A9A9A">C · Placar</div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center">
+      <div style="font:800 46px/1 'JetBrains Mono',monospace;letter-spacing:-.03em">R$ 85.318</div>
+      <div style="font:600 12px/1.5 Manrope,sans-serif;color:#9A9A9A;margin-top:10px">por dia, nos 8 dias que faltam</div>
+      <div style="margin-top:20px;padding:11px;border-radius:9px;background:#CD4664;font:700 12px/1 Manrope,sans-serif">A rede está 6,5 pontos atrás do ritmo</div>
+    </div>
+    <div style="font:500 11px/1.5 Manrope,sans-serif;color:#D6D6D6">Uma frase, um número. Bom para TV na loja.</div>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Pra continuar: “quero a <a class="dv-oid" href="#1a">1a</a> com o placar da <a class="dv-oid" href="#1d">1d</a>C no topo” · “monta a tela de ranking de vendedoras” · “versão mobile pro fechamento do dia”</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mes&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MAIO 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasUteis&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:26,&quot;min&quot;:20,&quot;max&quot;:27,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasTrabalhados&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:18,&quot;min&quot;:1,&quot;max&quot;:26,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;fatorMeta2&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.12,&quot;min&quot;:1,&quot;max&quot;:1.6,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;},&quot;fatorMeta3&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.3,&quot;min&quot;:1,&quot;max&quot;:2,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;}}">
+const BRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+const K = n => Math.round(n).toLocaleString('pt-BR');
+const PCT = n => (n * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+
+const VERDE = '#05918C', AMBAR = '#E39A4E', TERRA = '#CD4664';
+
+const LOJAS = [
+  { nome: 'RODO 3', cod: '1017', meta: 269314, real: 171648.07 },
+  { nome: 'TIJUCA 3', cod: '157', meta: 235633, real: 146808.19 },
+  { nome: 'ITABORAÍ 2', cod: '257', meta: 233744, real: 149548.50 },
+  { nome: 'RIO BRANCO', cod: '363', meta: 220000, real: 135115.64 },
+  { nome: 'COPA 2', cod: '165', meta: 200000, real: 113166.98 },
+  { nome: 'RODRIGO SILVA', cod: '997', meta: 180000, real: 139354.01 },
+  { nome: 'CONCEIÇÃO', cod: '109', meta: 169598, real: 102588.12 },
+  { nome: 'CENTER IV', cod: '117', meta: 167300, real: 95764.39 },
+  { nome: 'SÃO JOSÉ', cod: '236', meta: 152846, real: 91900.81 }
+];
+
+const MESES = [
+  { nome: 'JAN', meta: 1222921, real: 1035086.67 },
+  { nome: 'FEV', meta: 1241284, real: 791620.54 },
+  { nome: 'MAR', meta: 1285691, real: 1504070.63 },
+  { nome: 'ABR', meta: 1363444, real: 1268293.56 },
+  { nome: 'MAI', meta: 1828435, real: 1145894.71 }
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    const diasMes = this.props.diasUteis ?? 26;
+    const diasTrab = Math.min(this.props.diasTrabalhados ?? 18, diasMes);
+    const diasFaltam = Math.max(diasMes - diasTrab, 0);
+    const f2 = this.props.fatorMeta2 ?? 1.12;
+    const f3 = this.props.fatorMeta3 ?? 1.30;
+    const pace = diasTrab / diasMes;
+
+    const lojas = LOJAS.map(l => {
+      const pct = l.real / l.meta;
+      const falta = Math.max(l.meta - l.real, 0);
+      const noRitmo = pct >= pace - 0.02;
+      const atencao = pct >= pace - 0.09;
+      const cor = noRitmo ? VERDE : atencao ? AMBAR : TERRA;
+      return {
+        ...l, cor,
+        corF: noRitmo ? '#05918C' : atencao ? '#D98A9C' : '#CD4664',
+        badgeBgF: noRitmo ? '#F0F8F8' : atencao ? '#FEF6F8' : '#FDF1F3',
+        pctTxt: PCT(pct),
+        pctW: Math.min(pct * 100, 100).toFixed(1) + '%',
+        realTxt: K(l.real),
+        metaTxt: K(l.meta),
+        porDiaTxt: diasFaltam ? K(falta / diasFaltam) : '—',
+        situacao: noRitmo ? 'No ritmo' : atencao ? 'Atenção' : 'Crítico',
+        badgeBg: noRitmo ? '#E6F4F3' : atencao ? '#FFF3E6' : '#FBE9ED'
+      };
+    }).sort((a, b) => b.real / b.meta - a.real / a.meta);
+
+    const totMeta = LOJAS.reduce((s, l) => s + l.meta, 0);
+    const totReal = LOJAS.reduce((s, l) => s + l.real, 0);
+    const totPct = totReal / totMeta;
+    const proj = totReal / diasTrab * diasMes;
+    const nRitmo = lojas.filter(l => l.situacao === 'No ritmo').length;
+
+    const maxMes = Math.max(...MESES.map(m => Math.max(m.meta, m.real)));
+    const meses = MESES.map(m => ({
+      nome: m.nome,
+      hMeta: Math.round(m.meta / maxMes * 104) + 'px',
+      hReal: Math.round(m.real / maxMes * 104) + 'px',
+      cor: m.real >= m.meta ? VERDE : m.real / m.meta > 0.9 ? AMBAR : TERRA
+    }));
+    const anoMeta = MESES.reduce((s, m) => s + m.meta, 0);
+    const anoReal = MESES.reduce((s, m) => s + m.real, 0);
+
+    const semanasRaw = [
+      { nome: 'Sem 1', meta: 64000, real: 61200 },
+      { nome: 'Sem 2', meta: 64000, real: 58400 },
+      { nome: 'Sem 3', meta: 64000, real: 52048 },
+      { nome: 'Sem 4', meta: 77314, real: 0 }
+    ];
+    const maxSem = 80000;
+    const semanas = semanasRaw.map(s => ({
+      nome: s.nome,
+      hMeta: Math.round(s.meta / maxSem * 118) + 'px',
+      hReal: Math.round(s.real / maxSem * 118) + 'px',
+      pctTxt: s.real ? PCT(s.real / s.meta) : '—',
+      cor: s.real >= s.meta ? VERDE : s.real / s.meta > 0.85 ? AMBAR : s.real ? TERRA : '#CFCFCF'
+    }));
+
+    const histRodoRaw = [
+      { mes: 'Janeiro', meta: 140000, real: 152021.53 },
+      { mes: 'Fevereiro', meta: 147000, real: 108206.22 },
+      { mes: 'Março', meta: 167493, real: 210418.91 },
+      { mes: 'Abril', meta: 178902, real: 185511.58 },
+      { mes: 'Maio', meta: 269314, real: 171648.07 }
+    ];
+    const histRodo = histRodoRaw.map(h => ({
+      mes: h.mes, metaTxt: K(h.meta), realTxt: K(h.real),
+      pctTxt: PCT(h.real / h.meta),
+      cor: h.real >= h.meta ? VERDE : h.real / h.meta > 0.9 ? AMBAR : TERRA
+    }));
+
+    const vendedorasRaw = [
+      { nome: 'Aline Ferreira', pct: 1.06, nivel: '3ª meta' },
+      { nome: 'Bruna Cardoso', pct: 0.91, nivel: '2ª meta' },
+      { nome: 'Camila Nunes', pct: 0.78, nivel: '1ª meta' },
+      { nome: 'Denise Rocha', pct: 0.54, nivel: 'sem meta' }
+    ];
+    const vendedoras = vendedorasRaw.map(v => ({
+      nome: v.nome, nivel: v.nivel, pctTxt: PCT(v.pct),
+      ini: v.nome.split(' ').map(p => p[0]).join(''),
+      pctW: Math.min(v.pct * 100, 100).toFixed(0) + '%',
+      cor: v.pct >= 1 ? VERDE : v.pct >= 0.75 ? AMBAR : TERRA
+    }));
+
+    const novasRaw = [
+      { nome: 'RODO 3', cod: '1017', m1: 280000, ant: 269314 },
+      { nome: 'TIJUCA 3', cod: '157', m1: 240000, ant: 235633 },
+      { nome: 'ITABORAÍ 2', cod: '257', m1: 235000, ant: 233744 },
+      { nome: 'RIO BRANCO', cod: '363', m1: 210000, ant: 220000 },
+      { nome: 'COPA 2', cod: '165', m1: 205000, ant: 200000 },
+      { nome: 'RODRIGO SILVA', cod: '997', m1: 195000, ant: 180000 },
+      { nome: 'CONCEIÇÃO', cod: '109', m1: 175000, ant: 169598 },
+      { nome: 'CENTER IV', cod: '117', m1: 200000, ant: 167300 },
+      { nome: 'SÃO JOSÉ', cod: '236', m1: 158000, ant: 152846 }
+    ];
+    const novasMetas = novasRaw.map(n => {
+      const d = n.m1 / n.ant - 1;
+      return {
+        nome: n.nome, cod: n.cod, m1: K(n.m1), m2: K(n.m1 * f2), m3: K(n.m1 * f3),
+        delta: (d >= 0 ? '+' : '') + (d * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%',
+        cor: d >= 0 ? VERDE : TERRA
+      };
+    });
+
+    // ---- calendário do mês (MAIO/2026: dia 1 = sexta, domingo = folga) ----
+    const primeiroDiaSemana = 5; // 0=dom
+    const totalDias = 31;
+    const pesos = [1.02, 1.24, 0, .78, .86, .91, .97, 1.06, 1.31, 0, .74, .82, .88, .95, 1.04, 1.28, 0, .79, .87, .93, 1.09, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let uteisPassados = 0;
+    const brutos = pesos.map((p, i) => (i + 1 <= 21 && p > 0 ? p : 0));
+    const somaPesos = brutos.reduce((s, v) => s + v, 0);
+    const metaDia = totMeta / diasMes;
+    const calDias = [];
+    for (let d = 1; d <= totalDias; d++) {
+      const dow = (primeiroDiaSemana + d - 1) % 7;
+      const domingo = dow === 0;
+      if (!domingo && d <= 21) uteisPassados++;
+      const passado = d <= 21;
+      const venda = passado && !domingo ? totReal * (brutos[d - 1] / somaPesos) : 0;
+      const razao = venda / metaDia;
+      let cor = '#DCDCDC', bg = '#fff', txt = '#B5B5B5';
+      if (domingo) { cor = 'transparent'; bg = '#F4F4F4'; txt = '#B5B5B5'; }
+      else if (passado) {
+        cor = razao >= 1 ? VERDE : razao >= 0.85 ? AMBAR : TERRA;
+        bg = razao >= 1 ? '#E6F4F3' : razao >= 0.85 ? '#FFF3E6' : '#FBE9ED';
+        txt = '#101010';
+      } else { bg = '#fff'; txt = '#7A7A7A'; }
+      let corF = '#E6D8DB', bgF = '#fff', txtF = '#C7B4B8';
+      if (domingo) { corF = 'transparent'; bgF = '#FBF5F6'; }
+      else if (passado) {
+        corF = razao >= 1 ? '#05918C' : razao >= 0.85 ? '#F2AABA' : '#CD4664';
+        bgF = razao >= 1 ? '#F0F8F8' : razao >= 0.85 ? '#FEF6F8' : '#FDF1F3';
+        txtF = '#231C1E';
+      } else { txtF = '#A9959A'; }
+      calDias.push({
+        num: String(d),
+        hoje: d === 21,
+        bg, cor, txt, corF, bgF, txtF,
+        bordaF: d === 21 ? '#CD4664' : '#F5E6E9',
+        borda: d === 21 ? '#101010' : '#EFEFEF',
+        larguraBarra: domingo || !passado ? '0%' : Math.min(razao * 100, 100).toFixed(0) + '%',
+        rotulo: domingo ? '—' : passado ? K(venda / 1000) + 'k' : diasFaltam ? K((totMeta - totReal) / diasFaltam / 1000) + 'k' : ''
+      });
+    }
+    const calVazios = [];
+    for (let i = 0; i < primeiroDiaSemana; i++) calVazios.push({ i: String(i) });
+    const semanaCabec = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((s, i) => ({ s, i: String(i) }));
+
+    // ---- gráfico de vendas por dia (linha) ----
+    const serie = calDias.filter(d => d.rotulo !== '—').slice(0, 21)
+      .map((d, i) => ({ i, v: parseFloat(String(d.rotulo).replace('.', '').replace('k', '').replace(',', '.')) || 0 }));
+    const maxV = Math.max(...serie.map(p => p.v), 1);
+    const px = i => (i / (serie.length - 1 || 1)) * 900;
+    const py = v => 200 - (v / maxV) * 170;
+    let linhaPath = '';
+    serie.forEach((p, i) => {
+      const x = px(i), y = py(p.v);
+      if (!i) linhaPath += `M${x.toFixed(1)} ${y.toFixed(1)}`;
+      else {
+        const xa = px(i - 1), ya = py(serie[i - 1].v), cx = (xa + x) / 2;
+        linhaPath += ` C${cx.toFixed(1)} ${ya.toFixed(1)} ${cx.toFixed(1)} ${y.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      }
+    });
+    const areaPath = linhaPath + ` L900 200 L0 200 Z`;
+    const metaY = py(metaDia / 1000).toFixed(1);
+
+    // ---- rosca de situação das lojas ----
+    const nAtencao = lojas.filter(l => l.situacao === 'Atenção').length;
+    const nCritico = lojas.filter(l => l.situacao === 'Crítico').length;
+    const totalL = lojas.length;
+    let acc = 0;
+    const donut = [
+      { n: nRitmo, cor: '#05918C', rot: 'No ritmo' },
+      { n: nAtencao, cor: '#F2AABA', rot: 'Atenção' },
+      { n: nCritico, cor: '#CD4664', rot: 'Crítico' }
+    ].map(seg => {
+      const frac = seg.n / totalL;
+      const o = { ...seg, n: String(seg.n), dash: (frac * 402).toFixed(0) + ' 402', off: (-acc * 402).toFixed(0), pctTxt: PCT(frac) };
+      acc += frac;
+      return o;
+    });
+
+    const demoBarras = lojas.slice(0, 3).map(l => ({ nome: l.nome, pctTxt: l.pctTxt, pctW: l.pctW, cor: l.cor }));
+
+    const alertas = [
+      { titulo: 'Copa 2 é a mais distante', texto: 'Só 56,6% da Meta 1 com 8 dias úteis restantes. Precisa de R$ 10.854 por dia — o dobro do ritmo atual.', cor: TERRA, bg: '#FBE9ED', corF: '#CD4664', bgF: '#FDF1F3' },
+      { titulo: 'Center IV vem caindo há 2 meses', texto: 'Abril fechou em 102,6% e maio está em 57,2%. Vale entender o que mudou na equipe.', cor: AMBAR, bg: '#FFF3E6', corF: '#B8737F', bgF: '#FEF6F8' },
+      { titulo: 'São Gonçalo · 364 sem meta lançada', texto: 'A loja está na base mas sem Meta 1 desde janeiro. Ou define a meta, ou marca como inativa.', cor: '#444444', bg: '#F6F6F6', corF: '#05918C', bgF: '#F0F8F8' }
+    ];
+
+    return {
+      mesLabel: this.props.mes ?? 'MAIO 2026',
+      diasMes, diasTrab, diasFaltam,
+      lojas, meses, semanas, histRodo, vendedoras, novasMetas, demoBarras, alertas, nRitmo,
+      linhaPath, areaPath, metaY, donut, totalLojas: String(totalL), top4: lojas.slice(0, 4),
+      calDias, calVazios, semanaCabec, metaDiaTxt: BRL(metaDia), hojeLabel: 'Quinta, 21 de maio',
+      nLojas: LOJAS.length,
+      totMetaTxt: BRL(totMeta), totMeta2Txt: BRL(totMeta * f2), totMeta3Txt: BRL(totMeta * f3),
+      anelDash: (totPct * 402).toFixed(0) + ' 402',
+      anelPace: '-' + (pace * 402).toFixed(0),
+      totRealTxt: BRL(totReal), totPctTxt: PCT(totPct),
+      totRealK: K(totReal), totMetaK: K(totMeta),
+      totPorDiaK: diasFaltam ? K((totMeta - totReal) / diasFaltam) : '—',
+      totPctW: (totPct * 100).toFixed(1) + '%',
+      paceTxt: PCT(pace), paceW: (pace * 100).toFixed(1) + '%',
+      totFaltaTxt: BRL(totMeta - totReal),
+      totPorDiaTxt: diasFaltam ? BRL((totMeta - totReal) / diasFaltam) : '—',
+      totMediaTxt: BRL(totReal / diasTrab),
+      projTxt: BRL(proj), projPctTxt: PCT(proj / totMeta),
+      projW: Math.min(proj / totMeta * 100, 100).toFixed(1) + '%',
+      gapProjTxt: BRL(totMeta - proj),
+      anoMetaTxt: BRL(anoMeta), anoRealTxt: BRL(anoReal), anoPctTxt: PCT(anoReal / anoMeta)
+    };
+  }
+}
+</script>
+</body>
+</html>
