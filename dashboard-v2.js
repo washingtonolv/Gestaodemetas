@@ -7,6 +7,36 @@ const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&':
 const initials = (name) => String(name || '').trim().split(/\s+/).slice(0, 2).map((part) => part[0] || '').join('').toUpperCase() || '--';
 const monthLabel = (date) => new Date(`${date}T12:00:00`).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^./, (c) => c.toUpperCase());
 
+function parseBrazilianMoney(value) {
+  let raw = String(value ?? '').trim().replace(/\s/g, '').replace(/R\$/gi, '');
+  if (!raw) return NaN;
+  raw = raw.replace(/[^0-9,.-]/g, '');
+  if (raw.includes(',')) {
+    raw = raw.replace(/\./g, '').replace(',', '.');
+  } else {
+    const dots = (raw.match(/\./g) || []).length;
+    if (dots > 1 || (dots === 1 && !/^\d+\.\d{1,2}$/.test(raw))) raw = raw.replace(/\./g, '');
+  }
+  return Number(raw);
+}
+
+function formatBrazilianMoneyInput(value) {
+  const parsed = parseBrazilianMoney(value);
+  if (!Number.isFinite(parsed)) return String(value ?? '');
+  return parsed.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function setupMoneyField(selector) {
+  const field = $(selector);
+  if (!field) return;
+  field.type = 'text';
+  field.inputMode = 'decimal';
+  field.autocomplete = 'off';
+  field.addEventListener('blur', () => {
+    if (field.value.trim()) field.value = formatBrazilianMoneyInput(field.value);
+  });
+}
+
 let profile = null;
 let stores = [];
 let performance = [];
@@ -301,6 +331,9 @@ async function loadYear() {
     </div>`).join('') || '<div class="empty">Sem dados em 2026.</div>';
 }
 
+setupMoneyField('#salesValue');
+setupMoneyField('#goalValue');
+
 $('#logout').addEventListener('click', async () => {
   await supabase.auth.signOut();
   window.location.replace('./login.html');
@@ -308,28 +341,44 @@ $('#logout').addEventListener('click', async () => {
 
 $('#salesForm').addEventListener('submit', async (event) => {
   event.preventDefault();
+  const valorRealizado = parseBrazilianMoney($('#salesValue').value);
+  if (!Number.isFinite(valorRealizado) || valorRealizado < 0) {
+    showMsg('#salesMsg', new Error('Informe um valor válido. Ex.: 8.212,14'), '');
+    return;
+  }
   const payload = {
     loja_id: $('#salesStore').value,
     data: $('#salesDate').value,
-    valor_realizado: Number($('#salesValue').value),
+    valor_realizado: valorRealizado,
     criado_por: profile.id
   };
   const { error } = await supabase.from('resultados').upsert(payload, { onConflict: 'loja_id,data' });
-  showMsg('#salesMsg', error, 'Venda salva com sucesso.');
-  if (!error) await loadBase();
+  showMsg('#salesMsg', error, error ? '' : `Venda de ${money(valorRealizado)} salva com sucesso.`);
+  if (!error) {
+    $('#salesValue').value = formatBrazilianMoneyInput(valorRealizado);
+    await loadBase();
+  }
 });
 
 $('#goalForm').addEventListener('submit', async (event) => {
   event.preventDefault();
+  const valorMeta = parseBrazilianMoney($('#goalValue').value);
+  if (!Number.isFinite(valorMeta) || valorMeta < 0) {
+    showMsg('#goalMsg', new Error('Informe uma meta válida. Ex.: 150.000,00'), '');
+    return;
+  }
   const payload = {
     loja_id: $('#goalStore').value,
     competencia: `${$('#goalMonth').value}-01`,
-    valor_meta: Number($('#goalValue').value),
+    valor_meta: valorMeta,
     criado_por: profile.id
   };
   const { error } = await supabase.from('metas').upsert(payload, { onConflict: 'loja_id,competencia' });
-  showMsg('#goalMsg', error, 'Meta salva com sucesso.');
-  if (!error) await loadBase();
+  showMsg('#goalMsg', error, error ? '' : `Meta de ${money(valorMeta)} salva com sucesso.`);
+  if (!error) {
+    $('#goalValue').value = formatBrazilianMoneyInput(valorMeta);
+    await loadBase();
+  }
 });
 
 $('#userForm').addEventListener('submit', async (event) => {
