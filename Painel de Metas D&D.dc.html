@@ -881,21 +881,22 @@ class Component extends DCLogic {
       const l = { ...l0, real: l0.real + (add ? add.valor : 0) };
       return l;
     }).map(l => {
-      const pct = l.real / l.meta;
-      const falta = Math.max(l.meta - l.real, 0);
-      const noRitmo = pct >= pace - 0.02;
-      const atencao = pct >= pace - 0.09;
+      const temMeta = Number(l.meta) > 0;
+      const pct = temMeta ? l.real / l.meta : 0;
+      const falta = temMeta ? Math.max(l.meta - l.real, 0) : 0;
+      const noRitmo = temMeta && pct >= pace - 0.02;
+      const atencao = temMeta && pct >= pace - 0.09;
       return {
-        ...l,
-        corT: noRitmo ? TEAL : atencao ? ROSA_CLARO : ROSA,
-        badgeT: noRitmo ? '#E7F4F2' : atencao ? '#FCF0F3' : '#FDE9ED',
-        pctTxt: PCT(pct), pctW: Math.min(pct * 100, 100).toFixed(1) + '%',
-        realTxt: K(l.real), metaTxt: K(l.meta), metaBRL: BRL(l.meta),
+        ...l, pct, temMeta,
+        corT: !temMeta ? '#8D9997' : noRitmo ? TEAL : atencao ? ROSA_CLARO : ROSA,
+        badgeT: !temMeta ? '#F1F5F4' : noRitmo ? '#E7F4F2' : atencao ? '#FCF0F3' : '#FDE9ED',
+        pctTxt: temMeta ? PCT(pct) : '—', pctW: temMeta ? Math.min(pct * 100, 100).toFixed(1) + '%' : '0%',
+        realTxt: K(l.real), metaTxt: temMeta ? K(l.meta) : '—', metaBRL: temMeta ? BRL(l.meta) : 'Sem meta',
         ticket: 'R$ ' + NUM(l.ticket, 2),
-        porDiaTxt: diasFaltam ? K(falta / diasFaltam) : '—',
-        situacao: noRitmo ? 'No ritmo' : atencao ? 'Atenção' : 'Crítico'
+        porDiaTxt: temMeta && diasFaltam ? K(falta / diasFaltam) : '—',
+        situacao: !temMeta ? 'Sem meta' : noRitmo ? 'No ritmo' : atencao ? 'Atenção' : 'Crítico'
       };
-    }).sort((a, b) => b.real / b.meta - a.real / a.meta);
+    }).sort((a, b) => (b.temMeta ? b.pct : -1) - (a.temMeta ? a.pct : -1));
 
     const totMeta = BASE.reduce((s, l) => s + l.meta, 0);
     const totReal = BASE.reduce((s, l) => s + l.real + (extra(l.cod) ? extra(l.cod).valor : 0), 0);
@@ -903,31 +904,38 @@ class Component extends DCLogic {
     const proj = totReal / diasTrab * diasMes;
     const metaDia = totMeta / diasMes;
 
-    // calendário
-    const primeiroDiaSemana = 5, totalDias = 31, hoje = 21;
-    const pesos = [1.02, 1.24, 0, .78, .86, .91, .97, 1.06, 1.31, 0, .74, .82, .88, .95, 1.04, 1.28, 0, .79, .87, .93, 1.09, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const brutos = pesos.map((p, i) => (i + 1 <= hoje && p > 0 ? p : 0));
-    const somaPesos = brutos.reduce((s, v) => s + v, 0);
+    // calendário e gráfico baseados nos lançamentos reais do período
+    const competencia = D.competencia || '2026-05';
+    const [calAno, calMes] = competencia.split('-').map(Number);
+    const primeiroDiaSemana = new Date(calAno, calMes - 1, 1).getDay();
+    const totalDias = new Date(calAno, calMes, 0).getDate();
+    const hojeIso = new Date().toLocaleDateString('en-CA');
+    const historicoDiario = D.historicoDiario || {};
+    const ultimoComVenda = Math.max(0, ...Object.keys(historicoDiario).filter(k => k.startsWith(competencia + '-')).map(k => Number(k.slice(8, 10))));
+    const diaAtual = competencia === hojeIso.slice(0, 7) ? Number(hojeIso.slice(8, 10)) : competencia < hojeIso.slice(0, 7) ? totalDias : 0;
+    const hoje = Math.max(diaAtual, ultimoComVenda);
     const calDias = [];
     for (let d = 1; d <= totalDias; d++) {
-      const domingo = (primeiroDiaSemana + d - 1) % 7 === 0;
+      const domingo = new Date(calAno, calMes - 1, d).getDay() === 0;
       const passado = d <= hoje;
-      const venda = passado && !domingo ? totReal * (brutos[d - 1] / somaPesos) : 0;
-      const razao = venda / metaDia;
+      const dataKey = competencia + '-' + String(d).padStart(2, '0');
+      const venda = Number(historicoDiario[dataKey] || 0);
+      const razao = metaDia ? venda / metaDia : 0;
       let bgT = '#fff', txtT = '#A8B7B5';
       if (domingo) { bgT = '#F1F5F4'; txtT = '#BFCBC9'; }
       else if (passado) {
         bgT = razao >= 1 ? TEAL_ESC : razao >= 0.85 ? '#9FD8D3' : '#F5C3CE';
         txtT = razao >= 1 ? '#fff' : '#16211F';
       }
-      calDias.push({ num: String(d), realizado: passado && !domingo, venda, bgT, txtT, bordaT: d === hoje ? ROSA : 'transparent' });
+      calDias.push({ num: String(d), realizado: passado && !domingo, venda, bgT, txtT, bordaT: dataKey === hojeIso ? ROSA : 'transparent' });
     }
     const calVazios = [];
     for (let i = 0; i < primeiroDiaSemana; i++) calVazios.push({ i: String(i) });
     const semanaCabec = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((s, i) => ({ s, i: String(i) }));
 
-    const serie = calDias.filter(d => d.realizado).map((d, i) => ({ i, v: d.venda / 1000, dia: d.num }));
-    const maxV = Math.max(...serie.map(p => p.v), 1);
+    let serie = calDias.filter(d => d.realizado).map((d, i) => ({ i, v: d.venda / 1000, dia: d.num }));
+    if (!serie.length) serie = [{ i: 0, v: 0, dia: '1' }];
+    const maxV = Math.max(...serie.map(p => p.v), metaDia / 1000, 1);
     const px = i => (i / (serie.length - 1 || 1)) * 900;
     const py = v => 200 - (v / maxV) * 170;
     let linhaPath = '';
@@ -939,7 +947,8 @@ class Component extends DCLogic {
         linhaPath += ` C${cx.toFixed(1)} ${ya.toFixed(1)} ${cx.toFixed(1)} ${y.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
       }
     });
-
+    const dataReferencia = competencia + '-' + String(Math.max(hoje, 1)).padStart(2, '0');
+    const hojeLabelDinamico = new Date(dataReferencia + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
     const nRitmo = lojas.filter(l => l.situacao === 'No ritmo').length;
     const nAtencao = lojas.filter(l => l.situacao === 'Atenção').length;
     const nCritico = lojas.filter(l => l.situacao === 'Crítico').length;
@@ -961,11 +970,12 @@ class Component extends DCLogic {
       { rot: 'META 3', valor: totMeta * f3, comissao: '1,2%', cor: ROSA, bg: '#FDF1F3' }
     ].map(m => ({ ...m, pctTxt: PCT(totReal / m.valor), valorTxt: BRL(m.valor), dash: (Math.min(totReal / m.valor, 1) * 239).toFixed(0) + ' 239' }));
 
-    const alertas = [
-      { titulo: 'Copa 2 é a mais distante', texto: 'Só 56,6% da Meta 1 com 8 dias úteis restantes. Precisa de R$ 10.854 por dia — o dobro do ritmo atual.', corT: ROSA, bgT: '#FDF1F3' },
-      { titulo: 'Center IV vem caindo há 2 meses', texto: 'Abril fechou em 102,6% e maio está em 57,2%. Vale entender o que mudou na equipe.', corT: ROSA_CLARO, bgT: '#FCF6F7' },
-      { titulo: 'São Gonçalo · 364 sem meta lançada', texto: 'A loja está na base mas sem Meta 1 desde janeiro. Ou define a meta, ou marca como inativa.', corT: TEAL, bgT: '#F1F8F7' }
-    ];
+    const comMetaOrdenadas = lojas.filter(l => l.temMeta).slice().sort((a, b) => a.pct - b.pct);
+    const semMeta = lojas.filter(l => !l.temMeta);
+    const alertas = [];
+    if (comMetaOrdenadas[0]) alertas.push({ titulo: comMetaOrdenadas[0].nome + ' precisa de atenção', texto: comMetaOrdenadas[0].pctTxt + ' da Meta 1. Faltam ' + comMetaOrdenadas[0].porDiaTxt + ' por dia útil para alcançar a meta.', corT: ROSA, bgT: '#FDF1F3' });
+    if (comMetaOrdenadas[1]) alertas.push({ titulo: comMetaOrdenadas[1].nome + ' é a segunda mais distante', texto: comMetaOrdenadas[1].pctTxt + ' realizado no período; acompanhe o ritmo diário com a gerente da loja.', corT: ROSA_CLARO, bgT: '#FCF6F7' });
+    if (semMeta.length) alertas.push({ titulo: semMeta.length + ' loja(s) sem meta lançada', texto: semMeta.slice(0, 3).map(l => l.nome).join(', ') + (semMeta.length > 3 ? '…' : '') + '. Publique a Meta 1 para entrar nos cálculos da rede.', corT: TEAL, bgT: '#F1F8F7' });
 
     // --- Lançar vendas ---
     const rasc = this.state.rascunho || {};
@@ -1077,7 +1087,7 @@ class Component extends DCLogic {
 
     // --- Lojas (resumo) ---
     const resumoLojas = [
-      { rot: 'Lojas ativas', valor: String(lojas.length), sub: '1 sem meta lançada', cor: '#16211F', bg: '#F6FAF9' },
+      { rot: 'Lojas ativas', valor: String(lojas.length), sub: semMeta.length + ' sem meta lançada', cor: '#16211F', bg: '#F6FAF9' },
       { rot: 'No ritmo', valor: String(nRitmo), sub: 'acima do esperado hoje', cor: TEAL_ESC, bg: '#D8EFEA' },
       { rot: 'Atenção', valor: String(nAtencao), sub: 'até 9 pontos atrás', cor: ROSA_CLARO, bg: '#FCF0F3' },
       { rot: 'Crítico', valor: String(nCritico), sub: 'precisam de plano', cor: ROSA, bg: '#FDE9ED' }
@@ -1261,7 +1271,7 @@ class Component extends DCLogic {
       novoTot1: K(novoT1), novoTot2: K(novoT1 * f2), novoTot3: K(novoT1 * f3),
       novoDelta: (novoT1 >= antT ? '+' : '') + NUM((novoT1 / antT - 1) * 100, 1) + '%',
       totalLojas: String(lojas.length),
-      hojeLabel: 'Quinta, 21 de maio',
+      hojeLabel: hojeLabelDinamico.charAt(0).toUpperCase() + hojeLabelDinamico.slice(1),
       metaDiaTxt: BRL(metaDia),
       eixoDias: [0, .25, .5, .75, 1].map((f, i) => {
         const p = serie[Math.min(Math.round(f * (serie.length - 1)), serie.length - 1)];
