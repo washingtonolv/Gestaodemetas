@@ -119,7 +119,7 @@ function chooseStore(doc,anchor){
  stores.forEach(s=>box.appendChild(resultRow(doc,s.nome,'Filtrar ranking',()=>{const rows=sellerRows(doc);rows.forEach(x=>x.row.style.display=x.seller.loja===s.nome?'grid':'none');closeFloating(doc);toast('Ranking: '+s.nome)})));
 }
 function patchCalendar(doc){
- const title=exact(doc,'Calendário'),card=title?.closest('div[style*="border-radius:20px"]');if(!card)return;
+ const title=exact(doc,'Calendário'),card=title?.parentElement?.parentElement||title?.closest('div[style*="border-radius:20px"]');if(!card)return;
  const key=selected(),a=key.split('-').map(Number),days=new Date(a[0],a[1],0).getDate(),totalMeta=[...goals.values()].reduce((x,y)=>x+y,0);
  let business=0;for(let d=1;d<=days;d++)if(new Date(a[0],a[1]-1,d).getDay()!==0)business++;
  const target=business?totalMeta/business:0,today=new Date().toLocaleDateString('en-CA');
@@ -139,18 +139,27 @@ async function saveStore(doc){
  toast('Loja cadastrada'+(ticket?' · ticket de referência '+money(ticket):'')+'. Atualizando…');setTimeout(()=>location.reload(),650);
 }
 function makeInteractive(doc){
- const labels=['Importar Microvix','Salvar lançamentos','Copiar de maio','Preencher com sugestão','Publicar metas de junho','Adicionar loja','Salvar loja','Adicionar vendedora','Salvar vendedora','Convidar','Exportar Excel','Exportar PDF','Rede','Por loja','Todas','No ritmo','Atenção','Crítico'];
+ const labels=['Importar Microvix','Salvar lançamentos','Copiar de maio','Preencher com sugestão','Publicar metas de junho','Adicionar loja','Salvar loja','Adicionar vendedora','Salvar vendedora','Convidar','Exportar Excel','Exportar PDF','Rede','Por loja'];
  [...doc.querySelectorAll('div,span')].forEach(el=>{const t=(el.textContent||'').trim();if(labels.includes(t)||/^Copiar de /i.test(t)||/^Publicar metas de /i.test(t)||/^Fechar [A-ZÁÉÍÓÚÃÕÇ]+ \d{4}$/i.test(t)){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0;if(!el.dataset.keyReady){el.dataset.keyReady='1';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})}}});
+ for(const label of ['Todas','No ritmo','Atenção','Crítico']){const chip=exact(doc,label),group=(chip?.parentElement?.textContent||'');if(chip&&['Todas','No ritmo','Atenção','Crítico'].every(x=>group.includes(x))){chip.style.cursor='pointer';chip.setAttribute('role','button');chip.tabIndex=0}}
  const help=doc.querySelector('[title="Ajuda"]'),bell=doc.querySelector('[title="Notificações"]');for(const el of [help,bell])if(el){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0}
 }
-function patch(doc){patchSearch(doc);makeInteractive(doc);patchCalendar(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
+function patchRankingEmpty(doc){
+ if(sellers.length)return;const screen=doc.querySelector('[data-screen-label="Ranking"]');if(!screen)return;
+ const title=[...screen.querySelectorAll('div,span')].find(e=>(e.textContent||'').trim()==='Destaque do mês');if(!title)return;
+ const card=title.closest('div[style*="border-radius"]')||title.parentElement;
+ const name=[...card.querySelectorAll('div,span')].find(e=>(e.textContent||'').trim()==='Aline Ferreira');
+ const note=[...card.querySelectorAll('div,span')].find(e=>(e.textContent||'').includes('Rodrigo Silva · 106%'));
+ if(name)name.textContent='Nenhuma vendedora cadastrada';if(note)note.textContent='Use “Adicionar vendedora” para iniciar o ranking real deste período.';
+}
+function patch(doc){patchSearch(doc);makeInteractive(doc);patchCalendar(doc);patchRankingEmpty(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
 async function wire(){
  const ctx=await getSessionProfile();profile=ctx.profile;if(!profile)return;await loadContext();
  const doc=frame.contentDocument;if(!doc?.body)return;patch(doc);
  doc.addEventListener('click',async e=>{const el=e.target.closest('div,span,button'),t=(el?.textContent||'').trim();try{
    if(el?.closest('[title="Ajuda"]')){e.preventDefault();e.stopImmediatePropagation();showHelp(doc,el.closest('[title="Ajuda"]'));return}
    if(el?.closest('[title="Notificações"]')){e.preventDefault();e.stopImmediatePropagation();showNotifications(doc,el.closest('[title="Notificações"]'));return}
-   if(['Todas','No ritmo','Atenção','Crítico'].includes(t)){e.preventDefault();e.stopImmediatePropagation();applyStoreFilter(doc,t);return}
+   const filterGroup=(el?.parentElement?.textContent||'');if(['Todas','No ritmo','Atenção','Crítico'].includes(t)&&['Todas','No ritmo','Atenção','Crítico'].every(x=>filterGroup.includes(x))){e.preventDefault();e.stopImmediatePropagation();applyStoreFilter(doc,t);return}
    if(t==='Rede'){e.preventDefault();e.stopImmediatePropagation();resetRanking(doc);return}
    if(t==='Por loja'){e.preventDefault();e.stopImmediatePropagation();chooseStore(doc,el);return}
    if(t==='Salvar loja'){e.preventDefault();e.stopImmediatePropagation();await saveStore(doc);return}
