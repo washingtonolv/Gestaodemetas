@@ -33,7 +33,7 @@
     <nav style="display:flex;flex-direction:{{ navDir }};gap:{{ navGap }};overflow-x:{{ navOverflow }};padding-bottom:2px">
       <sc-for list="{{ navItens }}" as="n" hint-placeholder-count="7">
         <div onClick="{{ n.ir }}" style="display:flex;align-items:center;gap:11px;padding:{{ navPad }};border-radius:14px;cursor:pointer;white-space:nowrap;flex:none;background:{{ n.bg }};color:{{ n.cor }};font:{{ n.fonte }}" style-hover="background:{{ n.bgHover }}">
-          <span style="width:15px;height:15px;display:block;flex:none;border-radius:{{ n.raio }};background:{{ n.pontoBg }};border:1.7px solid {{ n.pontoBorda }}"></span>{{ n.rot }}
+          <img src="{{ n.iconUrl }}" alt="" aria-hidden="true" style="width:18px;height:18px;display:block;flex:none;filter:{{ n.iconFiltro }}">{{ n.rot }}
         </div>
       </sc-for>
     </nav>
@@ -56,13 +56,13 @@
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
         <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;align-items:center;gap:10px;padding:11px 18px;border-radius:100px;background:#F4F8F7;min-width:210px">
-          <span style="width:13px;height:13px;border-radius:50%;border:1.8px solid #A8B7B5;display:block;flex:none"></span>
+          <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/search-lg.svg" alt="" aria-hidden="true" style="width:16px;height:16px;opacity:.58;flex:none">
           <span style="font:500 12.5px/1 Manrope,sans-serif;color:#93A09E">Buscar loja, vendedora…</span>
         </div>
         </sc-if>
-        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Manrope,sans-serif;color:#0A5F5C">{{ mesLabel }} <span style="color:#66A6A2">▾</span></div>
-        <div style="width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><span style="width:14px;height:14px;border-radius:50%;border:2px solid #05918C;display:block"></span></div>
-        <div style="position:relative;width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><span style="width:13px;height:13px;border-radius:4px 4px 6px 6px;border:2px solid #05918C;display:block"></span><span style="position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #E7F4F2;display:block"></span></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Manrope,sans-serif;color:#0A5F5C">{{ mesLabel }} <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/chevron-down.svg" alt="" aria-hidden="true" style="width:15px;height:15px;opacity:.72"></div>
+        <div title="Ajuda" style="width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/help-circle.svg" alt="" aria-hidden="true" style="width:19px;height:19px"></div>
+        <div title="Notificações" style="position:relative;width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/bell-01.svg" alt="" aria-hidden="true" style="width:19px;height:19px"><span style="position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #E7F4F2;display:block"></span></div>
         <div style="display:flex;align-items:center;gap:11px">
           <div style="width:42px;height:42px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:800 13px/1 Manrope,sans-serif;color:#CD4664;flex:none">LA</div>
           <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
@@ -781,14 +781,15 @@ const MESES = [
   { nome: 'MAI', meta: 1828435, real: 1145894.71 }
 ];
 
+const UUI_ICON_BASE = 'https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons';
 const PAGINAS = [
-  { id: 'painel', rot: 'Painel do mês', raio: '4px' },
-  { id: 'lancar', rot: 'Lançar vendas', raio: '4px' },
-  { id: 'metas', rot: 'Definir metas', raio: '50%' },
-  { id: 'lojas', rot: 'Lojas', raio: '4px' },
-  { id: 'ranking', rot: 'Ranking', raio: '4px' },
-  { id: 'ano', rot: 'Ano 2026', raio: '3px' },
-  { id: 'config', rot: 'Configurações', raio: '50%' }
+  { id: 'painel', rot: 'Painel do mês', icon: 'home-line' },
+  { id: 'lancar', rot: 'Lançar vendas', icon: 'currency-dollar-circle' },
+  { id: 'metas', rot: 'Definir metas', icon: 'target-04' },
+  { id: 'lojas', rot: 'Lojas', icon: 'building-07' },
+  { id: 'ranking', rot: 'Ranking', icon: 'trophy-01' },
+  { id: 'ano', rot: 'Ano 2026', icon: 'bar-chart-11' },
+  { id: 'config', rot: 'Configurações', icon: 'settings-01' }
 ];
 
 const VENDEDORAS = [
@@ -857,7 +858,9 @@ class Component extends DCLogic {
     const navItens = PAGINAS.map(p => {
       const ativo = p.id === pagina;
       return {
-        id: p.id, rot: p.rot, raio: p.raio,
+        id: p.id, rot: p.rot,
+        iconUrl: `${UUI_ICON_BASE}/${p.icon}.svg`,
+        iconFiltro: ativo ? 'brightness(0) invert(1)' : 'none',
         ir: () => this.setState({ pagina: p.id }),
         bg: ativo ? TEAL : 'transparent',
         bgHover: ativo ? TEAL : '#F4F8F7',
