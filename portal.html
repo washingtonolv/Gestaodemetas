@@ -1,33 +1,125 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gestão de Metas D&D</title>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gestão de Metas D&D</title>
 <style>
-:root{--p:#05918C;--a:#CD4664;--bg:#f4f7f7;--card:#fff;--text:#173434;--muted:#6a7b7b;--line:#dfe8e7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}.top{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}.brand{font-weight:900}.brand b{color:var(--p)}.user{display:flex;gap:12px;align-items:center}.pill{background:#e9f6f5;color:#08756f;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}.logout{border:0;background:#fff;color:#8b3039;cursor:pointer;font-weight:700}.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 68px)}aside{background:#fff;border-right:1px solid var(--line);padding:20px 12px}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:10px;font:inherit;font-weight:700;color:#496060;cursor:pointer}.nav button.active,.nav button:hover{background:#eaf6f5;color:#056d68}main{padding:26px;max-width:1500px;width:100%}.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}h1{margin:0;font-size:26px}.sub{color:var(--muted);margin-top:6px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.kpi strong{font-size:24px;display:block;margin-top:8px}.kpi span{font-size:12px;color:var(--muted);font-weight:700}.section{margin-top:18px}.section h2{font-size:17px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}table{border-collapse:collapse;width:100%;min-width:700px}th,td{padding:12px 14px;border-bottom:1px solid #edf1f1;text-align:left;font-size:13px}th{background:#f9fbfb;color:#617373}.empty{padding:28px;text-align:center;color:var(--muted)}.formgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.formgrid input,.formgrid select{padding:11px;border:1px solid #ccdada;border-radius:10px;font:inherit}.primary{border:0;background:var(--p);color:#fff;padding:11px 14px;border-radius:10px;font-weight:800;cursor:pointer}.danger{color:#a32535}.hidden{display:none!important}.notice{padding:12px 14px;border-radius:10px;background:#fff4e5;color:#8a5a00;font-size:13px;margin-bottom:16px}.ok{color:#067647}.err{color:#b42318}.row-actions{display:flex;gap:8px}.small{font-size:12px;color:var(--muted)}@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:none}.grid{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}main{padding:18px}}@media(max-width:560px){.grid{grid-template-columns:1fr}.user .name{display:none}}
-</style></head><body>
-<header class="top"><div class="brand"><b>D&D</b> Gestão de Metas</div><div class="user"><span id="role" class="pill"></span><span id="who" class="name"></span><button id="logout" class="logout">Sair</button></div></header>
-<div class="layout"><aside><nav class="nav"><button class="active" data-view="dashboard">Visão geral</button><button data-view="metas">Metas</button><button data-admin data-view="usuarios">Usuários</button><button data-admin data-view="estrutura">Estrutura comercial</button></nav></aside>
+:root{--p:#05918C;--bg:#f4f7f7;--card:#fff;--text:#173434;--muted:#6a7b7b;--line:#dfe8e7;--danger:#b42318;--ok:#067647}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}.top{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}.brand{font-weight:900}.brand b{color:var(--p)}.user{display:flex;gap:12px;align-items:center}.pill{background:#e9f6f5;color:#08756f;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}.logout{border:0;background:#fff;color:#8b3039;cursor:pointer;font-weight:700}.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 68px)}aside{background:#fff;border-right:1px solid var(--line);padding:20px 12px}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:10px;font:inherit;font-weight:700;color:#496060;cursor:pointer}.nav button.active,.nav button:hover{background:#eaf6f5;color:#056d68}main{padding:26px;max-width:1500px;width:100%}.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}h1{margin:0;font-size:26px}.sub{color:var(--muted);margin-top:6px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.kpi strong{font-size:24px;display:block;margin-top:8px}.kpi span{font-size:12px;color:var(--muted);font-weight:700}.section{margin-top:18px}.section h2{font-size:17px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}table{border-collapse:collapse;width:100%;min-width:700px}th,td{padding:12px 14px;border-bottom:1px solid #edf1f1;text-align:left;font-size:13px}th{background:#f9fbfb;color:#617373}.empty{padding:28px;text-align:center;color:var(--muted)}.formgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.formgrid input,.formgrid select{padding:11px;border:1px solid #ccdada;border-radius:10px;font:inherit}.primary{border:0;background:var(--p);color:#fff;padding:11px 14px;border-radius:10px;font-weight:800;cursor:pointer}.hidden{display:none!important}.notice{padding:12px 14px;border-radius:10px;background:#fff4e5;color:#8a5a00;font-size:13px;margin-bottom:16px}.ok{color:var(--ok)}.err{color:var(--danger)}.small{font-size:12px;color:var(--muted)}#fatal{display:none;margin:16px 26px 0;padding:12px 14px;background:#fff1f0;border:1px solid #f7c7c3;border-radius:12px;color:var(--danger);font-size:13px}.loading{opacity:.65;pointer-events:none}@media(max-width:900px){.layout{grid-template-columns:1fr}aside{padding:10px;border-right:0;border-bottom:1px solid var(--line)}.nav{grid-template-columns:repeat(4,1fr);overflow:auto}.grid{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}main{padding:18px}}@media(max-width:560px){.grid{grid-template-columns:1fr}.user .name{display:none}.nav{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand"><b>D&D</b> Gestão de Metas</div><div class="user"><span id="role" class="pill">Carregando...</span><span id="who" class="name"></span><button id="logout" type="button" class="logout">Sair</button></div></header>
+<div id="fatal"></div>
+<div class="layout">
+<aside><nav class="nav">
+<button type="button" class="active" data-view="dashboard">Visão geral</button>
+<button type="button" data-view="metas">Metas</button>
+<button type="button" data-admin data-view="usuarios">Usuários</button>
+<button type="button" data-admin data-view="estrutura">Estrutura comercial</button>
+</nav></aside>
 <main>
-<section id="dashboardView"><div class="hero"><div><h1 id="title">Visão geral</h1><div id="subtitle" class="sub"></div></div></div><div id="pending" class="notice hidden"></div><div class="grid"><div class="card kpi"><span>Lojas acessíveis</span><strong id="kpiLojas">0</strong></div><div class="card kpi"><span>Meta do mês</span><strong id="kpiMeta">R$ 0</strong></div><div class="card kpi"><span>Realizado</span><strong id="kpiReal">R$ 0</strong></div><div class="card kpi"><span>Atingimento</span><strong id="kpiPct">0%</strong></div></div><div class="section"><h2>Resultados por loja</h2><div class="tablewrap"><table><thead><tr><th>Loja</th><th>Meta</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody id="resultsBody"></tbody></table></div></div></section>
-<section id="metasView" class="hidden"><div class="hero"><div><h1>Metas</h1><div class="sub">Supervisor gerencia somente as lojas vinculadas; Administrador pode gerenciar todas.</div></div></div><form id="metaForm" class="card formgrid"><select id="metaLoja" required></select><input id="metaMes" type="month" required><input id="metaValor" type="number" min="0" step="0.01" placeholder="Valor da meta" required><button class="primary">Salvar meta</button></form><div id="metaMsg" class="small"></div></section>
-<section id="usuariosView" class="hidden"><div class="hero"><div><h1>Usuários</h1><div class="sub">Cadastro disponível apenas para Administradores.</div></div></div><form id="userForm" class="card formgrid"><input id="uNome" placeholder="Nome" required><input id="uEmail" type="email" placeholder="E-mail" required><input id="uSenha" type="password" minlength="8" placeholder="Senha inicial" required><select id="uRole"><option value="gerente_comercial">Gerente Comercial</option><option value="supervisor">Supervisor</option><option value="administrador">Administrador</option></select><button class="primary">Cadastrar usuário</button></form><div id="userMsg" class="small"></div><div class="section"><div class="tablewrap"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th></tr></thead><tbody id="usersBody"></tbody></table></div></div></section>
-<section id="estruturaView" class="hidden"><div class="hero"><div><h1>Estrutura comercial</h1><div class="sub">Cadastre lojas e defina Gerente → Supervisor → Loja.</div></div></div><div class="card"><h2>Nova loja</h2><form id="storeForm" class="formgrid"><input id="storeCode" placeholder="Código"><input id="storeName" placeholder="Nome da loja" required><button class="primary">Cadastrar loja</button></form></div><div class="card section"><h2>Vincular Gerente ao Supervisor</h2><form id="gsForm" class="formgrid"><select id="gerenteSelect" required></select><select id="supervisorSelect" required></select><button class="primary">Vincular</button></form></div><div class="card section"><h2>Vincular Supervisor à Loja</h2><form id="slForm" class="formgrid"><select id="supervisorLojaSelect" required></select><select id="lojaSelect" required></select><button class="primary">Vincular</button></form></div><div id="structureMsg" class="small"></div></section>
+<section id="dashboardView" data-panel><div class="hero"><div><h1>Visão geral</h1><div id="subtitle" class="sub"></div></div></div><div class="grid"><div class="card kpi"><span>Lojas acessíveis</span><strong id="kpiLojas">0</strong></div><div class="card kpi"><span>Meta do mês</span><strong id="kpiMeta">R$ 0</strong></div><div class="card kpi"><span>Realizado</span><strong id="kpiReal">R$ 0</strong></div><div class="card kpi"><span>Atingimento</span><strong id="kpiPct">0%</strong></div></div><div class="section"><h2>Resultados por loja</h2><div class="tablewrap"><table><thead><tr><th>Loja</th><th>Meta</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody id="resultsBody"><tr><td colspan="4" class="empty">Carregando...</td></tr></tbody></table></div></div></section>
+<section id="metasView" data-panel class="hidden"><div class="hero"><div><h1>Metas</h1><div class="sub">Supervisor gerencia somente as lojas vinculadas; Administrador pode gerenciar todas.</div></div></div><form id="metaForm" class="card formgrid"><select id="metaLoja" required><option value="">Carregando lojas...</option></select><input id="metaMes" type="month" required><input id="metaValor" type="number" min="0" step="0.01" placeholder="Valor da meta" required><button class="primary" type="submit">Salvar meta</button></form><div id="metaMsg" class="small"></div></section>
+<section id="usuariosView" data-panel class="hidden"><div class="hero"><div><h1>Usuários</h1><div class="sub">Cadastro disponível apenas para Administradores.</div></div></div><form id="userForm" class="card formgrid"><input id="uNome" placeholder="Nome" required><input id="uEmail" type="email" placeholder="E-mail" required><input id="uSenha" type="password" minlength="8" placeholder="Senha inicial" required><select id="uRole"><option value="gerente_comercial">Gerente Comercial</option><option value="supervisor">Supervisor</option><option value="administrador">Administrador</option></select><button class="primary" type="submit">Cadastrar usuário</button></form><div id="userMsg" class="small"></div><div class="section"><div class="tablewrap"><table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th></tr></thead><tbody id="usersBody"><tr><td colspan="4" class="empty">Clique em Usuários para carregar.</td></tr></tbody></table></div></div></section>
+<section id="estruturaView" data-panel class="hidden"><div class="hero"><div><h1>Estrutura comercial</h1><div class="sub">Cadastre lojas e defina Gerente → Supervisor → Loja.</div></div></div><div class="card"><h2>Nova loja</h2><form id="storeForm" class="formgrid"><input id="storeCode" placeholder="Código"><input id="storeName" placeholder="Nome da loja" required><button class="primary" type="submit">Cadastrar loja</button></form></div><div class="card section"><h2>Vincular Gerente ao Supervisor</h2><form id="gsForm" class="formgrid"><select id="gerenteSelect" required></select><select id="supervisorSelect" required></select><button class="primary" type="submit">Vincular</button></form></div><div class="card section"><h2>Vincular Supervisor à Loja</h2><form id="slForm" class="formgrid"><select id="supervisorLojaSelect" required></select><select id="lojaSelect" required></select><button class="primary" type="submit">Vincular</button></form></div><div id="structureMsg" class="small"></div></section>
 </main></div>
+<script>
+(function(){
+  function showView(name){
+    document.querySelectorAll('[data-panel]').forEach(el=>el.classList.toggle('hidden',el.id!==name+'View'));
+    document.querySelectorAll('[data-view]').forEach(el=>el.classList.toggle('active',el.dataset.view===name));
+    window.dispatchEvent(new CustomEvent('portal:viewchange',{detail:{view:name}}));
+  }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('[data-view]');
+    if(!btn)return;
+    e.preventDefault();
+    showView(btn.dataset.view);
+  });
+  window.portalShowView=showView;
+  window.addEventListener('error',function(e){var f=document.getElementById('fatal');if(f){f.style.display='block';f.textContent='Erro no portal: '+(e.message||'erro inesperado');}});
+  window.addEventListener('unhandledrejection',function(e){var f=document.getElementById('fatal');if(f){f.style.display='block';f.textContent='Erro no portal: '+(e.reason?.message||e.reason||'falha inesperada');}});
+})();
+</script>
 <script type="module">
 import {supabase,getSessionProfile,roleLabel} from './supabase-client.js';
-const $=s=>document.querySelector(s), money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0));let profile,stores=[];
-try{const ctx=await getSessionProfile();profile=ctx.profile;if(!ctx.session||!profile?.ativo||profile.role==='pendente') throw new Error('unauthorized');}catch{location.replace('./login.html');throw new Error('unauthorized');}
-$('#who').textContent=profile.nome;$('#role').textContent=roleLabel(profile.role);$('#subtitle').textContent=profile.role==='administrador'?'Acesso total ao sistema':profile.role==='gerente_comercial'?'Resultados de todos os supervisores sob sua gestão':'Lojas da sua rede e gestão de metas';
+const $=s=>document.querySelector(s);
+const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0));
+let profile=null,stores=[];
+function showFatal(err){const f=$('#fatal');f.style.display='block';f.textContent='Não foi possível carregar uma parte do portal: '+(err?.message||err);console.error(err);}
+function msg(el,text,error=false){el.className='small '+(error?'err':'ok');el.textContent=text;}
+async function safe(fn){try{return await fn();}catch(err){showFatal(err);return null;}}
+
+try{
+  const ctx=await getSessionProfile();
+  profile=ctx.profile;
+  if(!ctx.session||!profile?.ativo||profile.role==='pendente') throw new Error('Acesso não autorizado');
+}catch(err){location.replace('./login.html');throw err;}
+
+$('#who').textContent=profile.nome||profile.email;
+$('#role').textContent=roleLabel(profile.role);
+$('#subtitle').textContent=profile.role==='administrador'?'Acesso total ao sistema':profile.role==='gerente_comercial'?'Resultados de todos os supervisores sob sua gestão':'Lojas da sua rede e gestão de metas';
 if(profile.role!=='administrador') document.querySelectorAll('[data-admin]').forEach(x=>x.remove());
-$('#logout').onclick=async()=>{await supabase.auth.signOut();location.replace('./login.html')};
-document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('active'));b.classList.add('active');['dashboard','metas','usuarios','estrutura'].forEach(v=>$('#'+v+'View')?.classList.toggle('hidden',v!==b.dataset.view));if(b.dataset.view==='usuarios')loadUsers();if(b.dataset.view==='estrutura')loadStructure();});
-async function loadDashboard(){const {data:ls,error}=await supabase.from('lojas').select('id,nome,codigo').eq('ativa',true).order('nome');if(error)throw error;stores=ls||[];$('#kpiLojas').textContent=stores.length;fillStores();const now=new Date(),comp=new Date(now.getFullYear(),now.getMonth(),1).toISOString().slice(0,10),start=comp,end=new Date(now.getFullYear(),now.getMonth()+1,0).toISOString().slice(0,10);const [{data:metas},{data:res}]=await Promise.all([supabase.from('metas').select('loja_id,valor_meta').eq('competencia',comp),supabase.from('resultados').select('loja_id,valor_realizado').gte('data',start).lte('data',end)]);const mm=new Map((metas||[]).map(x=>[x.loja_id,Number(x.valor_meta)])),rr=new Map();(res||[]).forEach(x=>rr.set(x.loja_id,(rr.get(x.loja_id)||0)+Number(x.valor_realizado));let tm=0,tr=0;$('#resultsBody').innerHTML=stores.map(s=>{const m=mm.get(s.id)||0,r=rr.get(s.id)||0;tm+=m;tr+=r;return `<tr><td>${s.nome}</td><td>${money(m)}</td><td>${money(r)}</td><td>${m?((r/m)*100).toFixed(1):'0'}%</td></tr>`}).join('')||'<tr><td colspan="4" class="empty">Nenhuma loja disponível para este usuário.</td></tr>';$('#kpiMeta').textContent=money(tm);$('#kpiReal').textContent=money(tr);$('#kpiPct').textContent=(tm?tr/tm*100:0).toFixed(1)+'%';}
-function fillStores(){const opts='<option value="">Selecione a loja</option>'+stores.map(s=>`<option value="${s.id}">${s.codigo?s.codigo+' — ':''}${s.nome}</option>`).join('');$('#metaLoja').innerHTML=opts;if($('#lojaSelect'))$('#lojaSelect').innerHTML=opts;}
-$('#metaForm').onsubmit=async e=>{e.preventDefault();const loja_id=$('#metaLoja').value,competencia=$('#metaMes').value+'-01',valor_meta=Number($('#metaValor').value);const {error}=await supabase.from('metas').upsert({loja_id,competencia,valor_meta,criado_por:profile.id},{onConflict:'loja_id,competencia'});$('#metaMsg').className='small '+(error?'err':'ok');$('#metaMsg').textContent=error?error.message:'Meta salva com sucesso.';if(!error)loadDashboard();};
-async function loadUsers(){if(profile.role!=='administrador')return;const {data}=await supabase.from('profiles').select('id,nome,email,role,ativo').order('nome');$('#usersBody').innerHTML=(data||[]).map(u=>`<tr><td>${u.nome}</td><td>${u.email}</td><td>${roleLabel(u.role)}</td><td>${u.ativo?'Ativo':'Inativo'}</td></tr>`).join('');}
-$('#userForm').onsubmit=async e=>{e.preventDefault();const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});$('#userMsg').className='small '+(error||data?.error?'err':'ok');$('#userMsg').textContent=error?.message||data?.error||'Usuário cadastrado com sucesso.';if(!error&&!data?.error){e.target.reset();loadUsers();loadStructure();}};
-async function loadStructure(){if(profile.role!=='administrador')return;const [{data:users},{data:ls}]=await Promise.all([supabase.from('profiles').select('id,nome,role').eq('ativo',true).order('nome'),supabase.from('lojas').select('id,nome,codigo').eq('ativa',true).order('nome')]);stores=ls||[];fillStores();const ger=(users||[]).filter(x=>x.role==='gerente_comercial'),sup=(users||[]).filter(x=>x.role==='supervisor'),opts=a=>'<option value="">Selecione</option>'+a.map(x=>`<option value="${x.id}">${x.nome}</option>`).join('');$('#gerenteSelect').innerHTML=opts(ger);$('#supervisorSelect').innerHTML=opts(sup);$('#supervisorLojaSelect').innerHTML=opts(sup);}
-$('#storeForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('lojas').insert({codigo:$('#storeCode').value.trim()||null,nome:$('#storeName').value.trim()});showStruct(error,error?'':'Loja cadastrada.');if(!error){e.target.reset();loadDashboard();loadStructure();}};
-$('#gsForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#gerenteSelect').value,supervisor_id:$('#supervisorSelect').value});showStruct(error,error?'':'Vínculo Gerente → Supervisor salvo.');};
-$('#slForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorLojaSelect').value,loja_id:$('#lojaSelect').value});showStruct(error,error?'':'Vínculo Supervisor → Loja salvo.');};
-function showStruct(error,ok){$('#structureMsg').className='small '+(error?'err':'ok');$('#structureMsg').textContent=error?.message||ok;}
-await loadDashboard();
-</script></body></html>
+$('#logout').addEventListener('click',async()=>{await supabase.auth.signOut();location.replace('./login.html');});
+
+async function loadDashboard(){
+  const {data:ls,error}=await supabase.from('lojas').select('id,nome,codigo').eq('ativa',true).order('nome');
+  if(error) throw error;
+  stores=ls||[];
+  $('#kpiLojas').textContent=stores.length;
+  fillStores();
+  const now=new Date(),comp=new Date(now.getFullYear(),now.getMonth(),1).toISOString().slice(0,10),start=comp,end=new Date(now.getFullYear(),now.getMonth()+1,0).toISOString().slice(0,10);
+  const [{data:metas,error:me},{data:res,error:re}]=await Promise.all([
+    supabase.from('metas').select('loja_id,valor_meta').eq('competencia',comp),
+    supabase.from('resultados').select('loja_id,valor_realizado').gte('data',start).lte('data',end)
+  ]);
+  if(me) throw me;if(re) throw re;
+  const mm=new Map((metas||[]).map(x=>[x.loja_id,Number(x.valor_meta)])),rr=new Map();
+  (res||[]).forEach(x=>rr.set(x.loja_id,(rr.get(x.loja_id)||0)+Number(x.valor_realizado)));
+  let tm=0,tr=0;
+  $('#resultsBody').innerHTML=stores.map(s=>{const m=mm.get(s.id)||0,r=rr.get(s.id)||0;tm+=m;tr+=r;return `<tr><td>${s.nome}</td><td>${money(m)}</td><td>${money(r)}</td><td>${m?((r/m)*100).toFixed(1):'0'}%</td></tr>`}).join('')||'<tr><td colspan="4" class="empty">Nenhuma loja disponível para este usuário.</td></tr>';
+  $('#kpiMeta').textContent=money(tm);$('#kpiReal').textContent=money(tr);$('#kpiPct').textContent=(tm?tr/tm*100:0).toFixed(1)+'%';
+}
+function fillStores(){
+  const opts='<option value="">Selecione a loja</option>'+stores.map(s=>`<option value="${s.id}">${s.codigo?s.codigo+' — ':''}${s.nome}</option>`).join('');
+  $('#metaLoja').innerHTML=opts;
+  if($('#lojaSelect')) $('#lojaSelect').innerHTML=opts;
+}
+async function loadUsers(){
+  if(profile.role!=='administrador') return;
+  $('#usersBody').innerHTML='<tr><td colspan="4" class="empty">Carregando usuários...</td></tr>';
+  const {data,error}=await supabase.from('profiles').select('id,nome,email,role,ativo').order('nome');
+  if(error) throw error;
+  $('#usersBody').innerHTML=(data||[]).map(u=>`<tr><td>${u.nome}</td><td>${u.email}</td><td>${roleLabel(u.role)}</td><td>${u.ativo?'Ativo':'Inativo'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Nenhum usuário cadastrado.</td></tr>';
+}
+async function loadStructure(){
+  if(profile.role!=='administrador') return;
+  const [{data:users,error:ue},{data:ls,error:le}]=await Promise.all([
+    supabase.from('profiles').select('id,nome,role').eq('ativo',true).order('nome'),
+    supabase.from('lojas').select('id,nome,codigo').eq('ativa',true).order('nome')
+  ]);
+  if(ue) throw ue;if(le) throw le;
+  stores=ls||[];fillStores();
+  const ger=(users||[]).filter(x=>x.role==='gerente_comercial'),sup=(users||[]).filter(x=>x.role==='supervisor');
+  const opts=a=>'<option value="">Selecione</option>'+a.map(x=>`<option value="${x.id}">${x.nome}</option>`).join('');
+  $('#gerenteSelect').innerHTML=opts(ger);$('#supervisorSelect').innerHTML=opts(sup);$('#supervisorLojaSelect').innerHTML=opts(sup);
+}
+window.addEventListener('portal:viewchange',e=>{
+  const v=e.detail?.view;
+  if(v==='usuarios') safe(loadUsers);
+  if(v==='estrutura') safe(loadStructure);
+  if(v==='dashboard') safe(loadDashboard);
+});
+
+$('#metaForm').addEventListener('submit',async e=>{e.preventDefault();const loja_id=$('#metaLoja').value,competencia=$('#metaMes').value+'-01',valor_meta=Number($('#metaValor').value);const {error}=await supabase.from('metas').upsert({loja_id,competencia,valor_meta,criado_por:profile.id},{onConflict:'loja_id,competencia'});msg($('#metaMsg'),error?error.message:'Meta salva com sucesso.',!!error);if(!error) safe(loadDashboard);});
+$('#userForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const text=error?.message||data?.error||'Usuário cadastrado com sucesso.';msg($('#userMsg'),text,!!(error||data?.error));btn.disabled=false;if(!error&&!data?.error){e.target.reset();await safe(loadUsers);await safe(loadStructure);}});
+$('#storeForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await supabase.from('lojas').insert({codigo:$('#storeCode').value.trim()||null,nome:$('#storeName').value.trim()});msg($('#structureMsg'),error?error.message:'Loja cadastrada.',!!error);if(!error){e.target.reset();await safe(loadDashboard);await safe(loadStructure);}});
+$('#gsForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#gerenteSelect').value,supervisor_id:$('#supervisorSelect').value});msg($('#structureMsg'),error?error.message:'Vínculo Gerente → Supervisor salvo.',!!error);});
+$('#slForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorLojaSelect').value,loja_id:$('#lojaSelect').value});msg($('#structureMsg'),error?error.message:'Vínculo Supervisor → Loja salvo.',!!error);});
+
+await safe(loadDashboard);
+</script>
+</body>
+</html>
