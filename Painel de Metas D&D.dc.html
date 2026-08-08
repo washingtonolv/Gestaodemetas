@@ -847,13 +847,14 @@ class Component extends DCLogic {
     const w = this.state.w;
     const ehMobile = w < 760, ehTablet = w >= 760 && w < 1180, ehDesktop = w >= 1180;
     const compacto = w < 980;
-    const diasMes = this.props.diasUteis ?? 26;
-    const diasTrab = Math.min(this.props.diasTrabalhados ?? 18, diasMes);
+    const persistidos = this.dados();
+    const diasMes = Number(persistidos.diasUteis || this.props.diasUteis || 26);
+    const diasTrab = Math.min(Number(persistidos.diasTrabalhados || this.props.diasTrabalhados || 18), diasMes);
     const diasFaltam = Math.max(diasMes - diasTrab, 0);
-    const f2 = this.props.fatorMeta2 ?? 1.12;
-    const f3 = this.props.fatorMeta3 ?? 1.30;
-    const pace = diasTrab / diasMes;
-    const mesLabel = this.props.mes ?? 'MAIO 2026';
+    const f2 = Number(persistidos.fatorMeta2 || this.props.fatorMeta2 || 1.12);
+    const f3 = Number(persistidos.fatorMeta3 || this.props.fatorMeta3 || 1.30);
+    const pace = diasMes ? diasTrab / diasMes : 0;
+    const mesLabel = persistidos.mesLabel || this.props.mes || 'MAIO 2026';
 
     const navItens = PAGINAS.map(p => {
       const ativo = p.id === pagina;
@@ -871,7 +872,7 @@ class Component extends DCLogic {
       };
     });
 
-    const D = this.dados();
+    const D = persistidos;
     const BASE = D.lojas;
     const vendasHoje = D.vendasHoje || {};
     const extra = cod => Object.keys(vendasHoje).includes(cod) ? vendasHoje[cod] : null;
