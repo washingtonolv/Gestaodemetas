@@ -34,8 +34,3 @@ export function roleLabel(role) {
     pendente: 'Pendente',
   })[role] || role;
 }
-
-// Ações administrativas são carregadas somente na página de gestão.
-if (typeof location !== 'undefined' && /\/app-v3\.html$/.test(location.pathname)) {
-  queueMicrotask(() => import('./app-v3-admin.js').catch(console.error));
-}

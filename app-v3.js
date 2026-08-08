@@ -28,11 +28,13 @@ function buildNav(){
  const list=navByRole[profile.role]||navByRole.gerente_comercial;
  $('#nav').innerHTML=list.map(([id,label],i)=>`<button class="navbtn ${i===0?'active':''}" data-view="${id}"><span class="navdot"></span>${esc(label)}</button>`).join('');
  $$('.navbtn').forEach(b=>b.onclick=()=>openView(b.dataset.view,b.textContent.trim()));
- $$('[data-go]').forEach(b=>b.onclick=()=>openView(b.dataset.go,'Lançar vendas'));
+ const allowed=new Set(list.map(([id])=>id));
+ $$('[data-go]').forEach(b=>{const target=b.dataset.go;if(!allowed.has(target)){const tip=b.closest('.tip');if(tip)tip.style.display='none';return}b.onclick=()=>openView(target,'Lançar vendas')});
 }
 async function openView(id,label){
  $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
  $('#pageTitle').textContent=label;$('#crumb').textContent=label;
+ const fx=$('#fatal');fx.style.display='none';fx.textContent='';
  try{
    if(id==='lancar')await renderSales();
    if(id==='metas')await renderGoals();
@@ -42,7 +44,8 @@ async function openView(id,label){
  }catch(e){fatal(`Erro em ${label}: ${e.message||e}`)}
 }
 async function loadSession(){
- const ctx=await timeout(getSessionProfile());
+ let ctx;
+ try{ctx=await timeout(getSessionProfile())}catch(e){console.error(e);location.replace('./login.html');return false}
  if(!ctx.session||!ctx.profile?.ativo||ctx.profile.role==='pendente'){location.replace('./login.html');return false}
  profile=ctx.profile;$('#avatar').textContent=initials(profile.nome);$('#who').textContent=profile.nome||profile.email;$('#role').textContent=roleLabel(profile.role);
  $('#sessionInfo').innerHTML=`<div class="userrow"><div class="useravatar">${initials(profile.nome)}</div><div class="usermeta"><b>${esc(profile.nome)}</b><span>${esc(profile.email)}</span></div><span class="badge">${esc(roleLabel(profile.role))}</span></div>`;
@@ -85,16 +88,23 @@ async function renderSales(){
  const date=$('#salesDate').value||localDate();$('#salesDate').value=date;
  const r=await timeout(supabase.from('resultados').select('loja_id,valor_realizado').eq('data',date));if(r.error)throw r.error;
  const day=new Map((r.data||[]).map(x=>[x.loja_id,Number(x.valor_realizado)]));
- const days=Math.max(1,new Date(Number(competence.slice(0,4)),Number(competence.slice(5,7)),0).getDate());
- $('#salesSubtitle').textContent=`${(r.data||[]).length} de ${stores.length} lojas já lançaram em ${new Date(date+'T12:00:00').toLocaleDateString('pt-BR')}`;
- $('#salesRows').innerHTML=stores.map(s=>{const val=day.get(s.id);return `<tr><td><b>${esc(s.nome)}</b><div style="font-size:10px;color:#8D9997">${esc(s.codigo||'')}</div></td><td class="mono money">${money((goals.get(s.id)||0)/days)}</td><td><input class="field money sale-input" inputmode="decimal" data-id="${s.id}" value="${val!=null?num(val):''}" placeholder="0,00"></td><td><span class="status ${val!=null?'':'crit'}">${val!=null?'Lançado':'Pendente'}</span></td></tr>`}).join('');
+ const dayMonth=`${date.slice(0,7)}-01`, sameMonth=dayMonth===competence;
+ let dayGoals=goals;
+ if(!sameMonth){const mg=await timeout(supabase.from('metas').select('loja_id,valor_meta').eq('competencia',dayMonth));if(mg.error)throw mg.error;dayGoals=new Map((mg.data||[]).map(x=>[x.loja_id,Number(x.valor_meta)]))}
+ const [dy,dm]=[Number(date.slice(0,4)),Number(date.slice(5,7))];
+ const total=new Date(dy,dm,0).getDate();let uteis=0;for(let d=1;d<=total;d++)if(new Date(dy,dm-1,d).getDay()!==0)uteis++;
+ const days=Math.max(1,uteis);
+ $('#salesSubtitle').textContent=`${(r.data||[]).length} de ${stores.length} lojas já lançaram em ${new Date(date+'T12:00:00').toLocaleDateString('pt-BR')}${sameMonth?'':' · fora do mês selecionado no topo'}`;
+ $('#salesRows').innerHTML=stores.map(s=>{const val=day.get(s.id);return `<tr><td><b>${esc(s.nome)}</b><div style="font-size:10px;color:#8D9997">${esc(s.codigo||'')}</div></td><td class="mono money">${money((dayGoals.get(s.id)||0)/days)}</td><td><input class="field money sale-input" inputmode="decimal" data-id="${s.id}" value="${val!=null?num(val):''}" placeholder="0,00"></td><td><span class="status ${val!=null?'':'crit'}">${val!=null?'Lançado':'Pendente'}</span></td></tr>`}).join('');
 }
 async function saveSales(){
  const date=$('#salesDate').value;if(!date)return showMsg('#salesMsg',new Error('Informe a data.'),'');
- const rows=$$('.sale-input').filter(i=>i.value.trim()).map(i=>({loja_id:i.dataset.id,data,valor_realizado:parseBRL(i.value),criado_por:profile.id}));
+ const rows=$$('.sale-input').filter(i=>i.value.trim()).map(i=>({loja_id:i.dataset.id,data:date,valor_realizado:parseBRL(i.value),criado_por:profile.id}));
  if(rows.some(x=>!Number.isFinite(x.valor_realizado)||x.valor_realizado<0))return showMsg('#salesMsg',new Error('Existe um valor inválido. Use, por exemplo, 8.212,14.'),'');
  if(!rows.length)return showMsg('#salesMsg',new Error('Informe pelo menos um lançamento.'),'');
- const {error}=await timeout(supabase.from('resultados').upsert(rows,{onConflict:'loja_id,data'}));showMsg('#salesMsg',error,error?'':`${rows.length} lançamento(s) salvo(s).`);
+ const {error}=await timeout(supabase.from('resultados').upsert(rows,{onConflict:'loja_id,data'}));
+ const foraDoMes=`${date.slice(0,7)}-01`!==competence;
+ showMsg('#salesMsg',error,error?'':`${rows.length} lançamento(s) salvo(s).${foraDoMes?' Troque o mês no topo para ver no painel.':''}`);
  if(!error){await loadBase();await renderSales()}
 }
 async function renderGoals(){
@@ -146,8 +156,8 @@ $('#factor2').oninput=updateGoalCalcs;$('#factor3').oninput=updateGoalCalcs;
 
 $('#userForm').onsubmit=async e=>{e.preventDefault();const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const fail=error||data?.error;showMsg('#userMsg',fail?new Error(error?.message||data?.error):null,'Usuário cadastrado com sucesso.');if(!fail){e.target.reset();await loadUsers();await loadStructure()}};
 $('#storeForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('lojas').insert({codigo:$('#storeCode').value.trim()||null,nome:$('#storeName').value.trim()});showMsg('#structureMsg',error,'Loja cadastrada.');if(!error){e.target.reset();await loadBase();await loadStructure()}};
-$('#gsForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#managerSelect').value,supervisor_id:$('#supervisorSelect').value});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
-$('#slForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorStoreSelect').value,loja_id:$('#storeSelect').value});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
+$('#gsForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#managerSelect').value,supervisor_id:$('#supervisorSelect').value},{onConflict:'gerente_id,supervisor_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
+$('#slForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorStoreSelect').value,loja_id:$('#storeSelect').value},{onConflict:'supervisor_id,loja_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
 
 window.addEventListener('unhandledrejection',e=>{console.error(e.reason);fatal(`Erro inesperado: ${e.reason?.message||e.reason||'falha desconhecida'}`);loading(false)});
 window.addEventListener('error',e=>{console.error(e.error);fatal(`Erro no painel: ${e.message||'falha desconhecida'}`);loading(false)});

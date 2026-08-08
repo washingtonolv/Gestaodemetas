@@ -2,18 +2,26 @@ repo: washingtonolv/Gestaodemetas
 branch: main
 
 ## Last sync
-date: 2026-08-07T00:00:00Z
-status: repositório ainda vazio (sem commits em `main`) — nada a importar
+date: 2026-08-08T19:02:38Z
+tree: 760925b735dc
 
 ### Updated in this project
-- Tentativa de sync: `main` e `master` retornam 409 (repositório sem commits). Nenhuma tela foi alterada.
-- O painel segue autoral, com dados das planilhas de metas 2026.
+- Upstream reorganizado: `dashboard.html`, `index.html` e `portal.html` viraram redirects; o app real agora é `app-v3.html` + `app-v3.js` (Supabase Auth + Postgres + RLS).
+- Importados `app-v3.html`, `app-v3.js`, `login.html`, `supabase-client.js`, `MULTIUSUARIO.md`, `dashboard.html`.
+- **Bug corrigido em `app-v3.js`**: em `saveSales()` o payload usava o shorthand `data` (variável inexistente — a data está em `date`), causando ReferenceError e impedindo qualquer lançamento de venda. Agora `data:date`. Suba este arquivo no repositório.
+- `dashboard.html` local antigo (com o fix do `forEach`) foi substituído pelo redirect atual do upstream — aquele fix já não se aplica, o arquivo virou stub.
+- Protótipo `Painel de Metas D&D.dc.html` mantido como referência de design — não sobrescrito.
 
 ## Sync history
-- 2026-08-05 — associação registrada; repositório vazio, nada importado.
+- 2026-08-08T14:02Z — importado `dashboard.html` (v1) com correção de `)` faltando em `loadBase()`.
+- 2026-08-07 — repositório ainda vazio, nada a importar.
+- 2026-08-05 — associação registrada.
 
 ## Screen map
 | Tela do projeto | Arquivos do repositório |
 | --- | --- |
-| Painel de Metas D&D.dc.html | — (ainda sem fonte no repo) |
-| Explorações - Painel D&D.dc.html | — |
+| app-v3.html (app real: 9 telas por perfil) | app-v3.html, app-v3.js, supabase-client.js |
+| login.html | login.html |
+| dashboard.html (redirect → app-v3) | dashboard.html |
+| Painel de Metas D&D.dc.html (protótipo de referência) | Painel de Metas D&D.dc.html, support.js |
+| design_handoff_metas_dd/README.md (especificação) | MULTIUSUARIO.md, design_handoff_metas_dd/ |
