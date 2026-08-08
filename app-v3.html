@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Metas D&D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#05918C;--teal2:#0A5F5C;--pink:#CD4664;--pink2:#E890A2;--bg:#DCE9E7;--soft:#F4F8F7;--soft2:#E7F4F2;--line:#EFF4F3;--text:#16211F;--muted:#8D9997;--danger:#B42318}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);font-family:Manrope,system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit}.app{padding:clamp(10px,1.5vw,24px);min-height:100vh}.shell{min-height:calc(100vh - 24px);display:grid;grid-template-columns:252px minmax(0,1fr);background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 18px 50px rgba(20,60,55,.08)}
+aside{padding:28px 20px;display:flex;flex-direction:column;gap:26px;border-right:1px solid var(--line);min-width:0}.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.logo{position:relative;width:34px;height:34px;border-radius:11px;background:var(--teal);display:grid;place-items:center;color:#fff;font-weight:800;font-size:11px}.flower{position:absolute;right:-5px;top:-6px;width:10px;height:10px;border-radius:50%;background:var(--pink);border:2px solid #fff}.brand b{font-size:17px;letter-spacing:-.02em}
+nav{display:flex;flex-direction:column;gap:4px}.navbtn{width:100%;border:0;background:transparent;color:#5A6664;padding:13px 16px;border-radius:14px;display:flex;align-items:center;gap:11px;text-align:left;cursor:pointer;font-weight:500;font-size:13.5px}.navbtn:hover{background:var(--soft)}.navbtn.active{background:var(--teal);color:#fff;font-weight:700}.navdot{width:15px;height:15px;border-radius:4px;border:1.7px solid #B7C4C2;flex:none}.navbtn.active .navdot{background:#fff;border-color:#fff}.tip{margin-top:auto;background:var(--soft2);border-radius:20px;padding:22px 20px}.tip b{color:var(--teal2);font-size:15px}.tip p{font-size:11.5px;line-height:1.6;color:#4E6663}.tip button{width:100%;padding:11px;border:0;border-radius:12px;background:var(--teal);color:#fff;font-weight:700;cursor:pointer}
+main{padding:clamp(18px,2.2vw,30px) clamp(16px,2.4vw,34px) 26px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}.heading h1{margin:0;font-size:27px;line-height:1.1;letter-spacing:-.025em}.crumb{font-size:12px;color:var(--muted);margin-top:6px}.topright{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.search{min-width:230px;background:var(--soft);padding:11px 18px;border-radius:100px;color:#93A09E;font-size:12px}.monthsel{border:0;background:var(--soft2);color:var(--teal2);padding:11px 14px;border-radius:100px;font-weight:700}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#FDF1F3;color:var(--pink);font-weight:800}.who b{display:block;font-size:13.5px}.who span{font-size:11px;color:var(--muted)}.logout{border:0;background:transparent;color:var(--pink);font-weight:700;cursor:pointer}
+.view{display:none}.view.active{display:block}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.grid2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.85fr);gap:18px;margin-top:18px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 22px;min-width:0}.hero{background:#D8EFEA;border:0}.pink{background:#FDF1F3;border:0}.klabel{font-size:11px;color:#5A6664}.kvalue{font-size:27px;font-weight:800;letter-spacing:-.025em;margin-top:10px}.hero .kvalue{color:var(--teal2)}.pink .kvalue{color:var(--pink)}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.sectionhead h2{font-size:15.5px;margin:0}.badge{padding:7px 11px;border-radius:100px;background:var(--soft2);color:var(--teal2);font-size:10.5px;font-weight:700}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:700px}.table th,.table td{padding:11px 9px;border-bottom:1px solid #F1F5F4;text-align:left;font-size:11.5px}.table th{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#A8B7B5}.mono{font-family:'JetBrains Mono',monospace}.progress{height:7px;background:#F1F5F4;border-radius:7px;overflow:hidden}.progress span{display:block;height:100%;background:var(--teal);border-radius:7px}.stack{display:flex;flex-direction:column;gap:12px}.alert{padding:14px 15px;border-radius:15px;background:#FDF1F3}.alert b{font-size:12px}.alert div{font-size:11px;color:#5A6664;line-height:1.55;margin-top:4px}.notice{padding:12px 14px;border-radius:13px;background:#FFF4E5;color:#8A5A00;font-size:11.5px;margin-bottom:14px}.empty{padding:24px;text-align:center;color:var(--muted);font-size:11.5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 15px;background:var(--teal);color:#fff;font-weight:700;cursor:pointer}.btn.secondary{background:var(--soft);color:#5A6664}.btn.pinkbtn{background:var(--pink)}.field{width:100%;padding:10px 12px;border:1.5px solid #D8E6E4;border-radius:11px;background:#fff;outline:none}.field:focus{border-color:var(--teal);box-shadow:0 0 0 3px #05918c14}.money{font-family:'JetBrains Mono',monospace;text-align:right}.msg{min-height:16px;font-size:11px;margin-top:10px}.msg.ok{color:#067647}.msg.err{color:var(--danger)}
+.storecards{display:grid;grid-template-columns:repeat(4,minmax(210px,1fr));gap:16px}.storecard{border:1px solid var(--line);border-radius:20px;padding:18px 20px}.storetop{display:flex;justify-content:space-between;gap:10px}.storecard h3{margin:0;font-size:13px}.storecard small{color:var(--muted)}.status{padding:6px 10px;border-radius:100px;font-size:10px;font-weight:700;background:var(--soft2);color:var(--teal2)}.status.warn{background:#FCF0F3;color:var(--pink2)}.status.crit{background:#FDE9ED;color:var(--pink)}.storevalue{margin-top:14px;font-family:'JetBrains Mono',monospace;font-weight:700}.storefoot{display:flex;justify-content:space-between;color:#5A6664;font-size:10.5px;margin-top:10px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.userrow{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--line)}.useravatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#FDF1F3;color:var(--pink);font-weight:700;font-size:11px}.usermeta{flex:1}.usermeta b{display:block;font-size:12.5px}.usermeta span{font-size:10.5px;color:var(--muted)}.yearcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.yearcard{background:var(--soft);border-radius:16px;padding:16px}.yearcard b{font-size:12px}.yearcard strong{display:block;font-size:22px;margin-top:7px}.fatal{display:none;padding:13px 15px;border-radius:13px;background:#fff1f0;color:var(--danger);border:1px solid #f7c7c3;margin-bottom:14px;font-size:12px}.loading{position:fixed;inset:0;z-index:999;background:rgba(220,233,231,.88);display:grid;place-items:center}.loading div{background:#fff;padding:16px 20px;border-radius:15px;box-shadow:0 14px 40px rgba(0,0,0,.08);color:var(--teal2);font-weight:700}
+@media(max-width:1180px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);padding:16px}.brand{padding:0}.tip{display:none}nav{flex-direction:row;overflow:auto}.navbtn{width:auto;white-space:nowrap}.grid4{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.storecards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.app{padding:0}.shell{border-radius:0}.grid4,.storecards,.formgrid{grid-template-columns:1fr}.search{display:none}.who{display:none}.top{align-items:flex-start}.table{min-width:620px}.card{padding:16px}.heading h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div id="loading" class="loading"><div>Carregando seu painel…</div></div>
+<div class="app"><div class="shell">
+<aside>
+  <div class="brand"><div class="logo">D&D<span class="flower"></span></div><b>Metas D&D</b></div>
+  <nav id="nav"></nav>
+  <div class="tip"><b>Feche o dia até as 22h</b><p>Lance as vendas de hoje para o painel abrir certo amanhã em todas as lojas.</p><button type="button" data-go="lancar">Lançar vendas</button></div>
+</aside>
+<main>
+  <div id="fatal" class="fatal"></div>
+  <header class="top">
+    <div class="heading"><h1 id="pageTitle">Painel do mês</h1><div class="crumb">Início / <span id="crumb">Painel do mês</span></div></div>
+    <div class="topright"><div class="search">◯ &nbsp; Buscar loja, vendedora…</div><select id="monthSelect" class="monthsel"></select><div id="avatar" class="avatar">--</div><div class="who"><b id="who">Carregando…</b><span id="role"></span></div><button id="logout" class="logout">Sair</button></div>
+  </header>
+
+  <section id="painel" class="view active">
+    <div id="accessNotice" class="notice" style="display:none"></div>
+    <div class="grid4">
+      <div class="card hero"><div class="klabel">Atingimento da Meta 1</div><div id="kpiPct" class="kvalue">—</div><div id="paceText" class="klabel"></div></div>
+      <div class="card"><div class="klabel">Vendido até hoje</div><div id="kpiReal" class="kvalue">—</div></div>
+      <div class="card"><div class="klabel">Meta da rede</div><div id="kpiMeta" class="kvalue">—</div></div>
+      <div class="card"><div class="klabel">Lojas visíveis para você</div><div id="kpiLojas" class="kvalue">—</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="sectionhead"><h2>Desempenho por loja</h2><span id="competenciaBadge" class="badge"></span></div><div class="tablewrap"><table class="table"><thead><tr><th>Loja</th><th>Meta</th><th>Realizado</th><th>Atingimento</th></tr></thead><tbody id="storePerf"></tbody></table></div></div>
+      <div class="card"><div class="sectionhead"><h2>Para olhar hoje</h2></div><div id="alerts" class="stack"></div></div>
+    </div>
+  </section>
+
+  <section id="lancar" class="view">
+    <div class="card"><div class="sectionhead"><div><h2>Lançar vendas</h2><div id="salesSubtitle" class="klabel" style="margin-top:6px"></div></div><div class="actions"><input id="salesDate" class="field" type="date" style="width:auto"><button id="saveSales" class="btn">Salvar lançamentos</button></div></div>
+      <div class="tablewrap"><table class="table"><thead><tr><th>Loja</th><th>Meta do dia</th><th>Venda do dia</th><th>Status</th></tr></thead><tbody id="salesRows"></tbody></table></div><div id="salesMsg" class="msg"></div>
+    </div>
+  </section>
+
+  <section id="metas" class="view">
+    <div class="grid2">
+      <div class="card"><div class="sectionhead"><div><h2 id="goalTitle">Definir metas</h2><div class="klabel" style="margin-top:6px">Digite a Meta 1. Meta 2 e Meta 3 são calculadas pelos fatores.</div></div><div class="actions"><input id="goalMonth" class="field" type="month" style="width:auto"><button id="publishGoals" class="btn">Publicar metas</button></div></div>
+        <div class="tablewrap"><table class="table"><thead><tr><th>Loja</th><th>Meta 1</th><th>Meta 2</th><th>Meta 3</th></tr></thead><tbody id="goalRows"></tbody></table></div><div id="goalMsg" class="msg"></div>
+      </div>
+      <div class="stack"><div class="card"><div class="sectionhead"><h2>Fatores e dias</h2></div><label class="klabel">META 2 = META 1 ×</label><input id="factor2" class="field" value="1,12"><label class="klabel" style="display:block;margin-top:12px">META 3 = META 1 ×</label><input id="factor3" class="field" value="1,30"></div><div class="card hero"><h2 style="margin-top:0;font-size:15px;color:var(--teal2)">Como a sugestão é calculada</h2><p style="font-size:11.5px;line-height:1.65;color:#4E6663">Use a meta anterior como referência e ajuste manualmente antes de publicar. A gravação só acontece ao clicar em <b>Publicar metas</b>.</p></div></div>
+    </div>
+  </section>
+
+  <section id="lojas" class="view"><div class="sectionhead"><h2>Lojas</h2><span id="storeCount" class="badge"></span></div><div id="storeCards" class="storecards"></div></section>
+  <section id="ranking" class="view"><div class="card"><div class="sectionhead"><h2>Ranking de lojas</h2><span class="badge">por atingimento</span></div><div class="tablewrap"><table class="table"><thead><tr><th>#</th><th>Loja</th><th>% da meta</th><th>Realizado</th><th>Falta</th></tr></thead><tbody id="rankingBody"></tbody></table></div></div></section>
+  <section id="ano" class="view"><div class="grid4"><div class="card"><div class="klabel">Meta acumulada</div><div id="yearMeta" class="kvalue">—</div></div><div class="card hero"><div class="klabel">Realizado</div><div id="yearReal" class="kvalue">—</div></div><div class="card"><div class="klabel">Meses batidos</div><div id="yearHit" class="kvalue">—</div></div><div class="card pink"><div class="klabel">Gap do ano</div><div id="yearGap" class="kvalue">—</div></div></div><div class="card" style="margin-top:18px"><div class="sectionhead"><h2>Fechamento mês a mês</h2></div><div id="yearCards" class="yearcards"></div></div></section>
+
+  <section id="usuarios" class="view"><div class="grid2"><div class="card"><div class="sectionhead"><h2>Cadastrar usuário</h2><span class="badge">Administrador</span></div><form id="userForm" class="formgrid"><input id="uNome" class="field" placeholder="Nome completo" required><input id="uEmail" class="field" type="email" placeholder="E-mail" required><input id="uSenha" class="field" type="password" minlength="8" placeholder="Senha inicial" required><select id="uRole" class="field"><option value="gerente_comercial">Gerente Comercial</option><option value="supervisor">Supervisor</option><option value="administrador">Administrador</option></select><button class="btn" type="submit">Cadastrar usuário</button></form><div id="userMsg" class="msg"></div></div><div class="card"><div class="sectionhead"><h2>Quem tem acesso</h2></div><div id="usersList"></div></div></div></section>
+
+  <section id="estrutura" class="view"><div class="grid2"><div class="stack"><div class="card"><div class="sectionhead"><h2>Nova loja</h2></div><form id="storeForm" class="formgrid"><input id="storeCode" class="field" placeholder="Código Microvix"><input id="storeName" class="field" placeholder="Nome da loja" required><button class="btn" type="submit">Cadastrar loja</button></form></div><div class="card"><div class="sectionhead"><h2>Gerente Comercial → Supervisor</h2></div><form id="gsForm" class="formgrid"><select id="managerSelect" class="field" required></select><select id="supervisorSelect" class="field" required></select><button class="btn" type="submit">Vincular</button></form></div><div class="card"><div class="sectionhead"><h2>Supervisor → Loja</h2></div><form id="slForm" class="formgrid"><select id="supervisorStoreSelect" class="field" required></select><select id="storeSelect" class="field" required></select><button class="btn" type="submit">Vincular</button></form><div id="structureMsg" class="msg"></div></div></div><div class="card"><div class="sectionhead"><h2>Estrutura atual</h2></div><div id="structureSummary"></div></div></div></section>
+
+  <section id="config" class="view"><div class="grid2"><div class="card"><div class="sectionhead"><h2>Sessão e permissões</h2></div><div id="sessionInfo"></div></div><div class="card"><div class="sectionhead"><h2>Dados sincronizados</h2></div><p style="font-size:12px;line-height:1.7;color:#5A6664">Metas, resultados, usuários e vínculos são gravados no Supabase. O GitHub contém somente o código do sistema.</p></div></div></section>
+</main>
+</div></div>
+<script type="module" src="./app-v3.js"></script>
+</body>
+</html>
