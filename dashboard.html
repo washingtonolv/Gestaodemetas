@@ -82,7 +82,7 @@ document.querySelector('#profileSave').onclick=async()=>{
  profile.nome=nome;profileMsg.textContent='Dados atualizados.';renderProfile();personalize();setTimeout(()=>editBox.classList.remove('open'),700)
 };
 document.querySelector('#profilePhotoAction').onclick=()=>document.querySelector('#profilePhotoInput').click();
-document.querySelector('#profilePhotoInput').onchange=e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>2*1024*1024){profileMsg.textContent='Escolha uma imagem de até 2 MB.';return}const reader=new FileReader();reader.onload=()=>{localStorage.setItem(profilePhotoKey(),reader.result);renderProfile()};reader.readAsDataURL(file)};
+document.querySelector('#profilePhotoInput').onchange=e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>2*1024*1024){profileMsg.textContent='Escolha uma imagem de até 2 MB.';return}const reader=new FileReader();reader.onload=()=>{localStorage.setItem(profilePhotoKey(),reader.result);renderProfile();personalize()};reader.readAsDataURL(file)};
 document.querySelector('#profileLogout').onclick=async()=>{await supabase.auth.signOut({scope:'local'});location.replace('./login.html')};
 async function prepare(){
  const ctx=await getSessionProfile();
@@ -122,13 +122,19 @@ window.addEventListener('storage',e=>{if(e.key==='metasdd.v1'&&e.newValue)syncLo
 function personalize(){
  try{
    const doc=frame.contentDocument;if(!doc?.body)return;
-   const role=roleLabel(profile.role),ini=initials(profile.nome);
+   const role=roleLabel(profile.role),ini=initials(profile.nome),saved=localStorage.getItem(profilePhotoKey());
    [...doc.querySelectorAll('div,span')].forEach(el=>{
      const t=(el.textContent||'').trim();
      if(t==='Layane Andrade')el.textContent=profile.nome;
      else if(t==='Supervisora')el.textContent=role;
      else if(t==='LA'&&el.children.length===0)el.textContent=ini;
-     if((t===profile.nome||t===ini)&&el.children.length===0){el.style.cursor='pointer';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.onclick=openProfile;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfile()}}}
+     const isAvatar=t==='LA'||t===ini||el.dataset.profileAvatar==='true';
+     if(saved&&isAvatar){
+       el.dataset.profileAvatar='true';el.innerHTML='<img alt="Foto do perfil">';
+       const img=el.querySelector('img');img.src=saved;img.style.cssText='width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit';
+       el.style.overflow='hidden';
+     }
+     if(t===profile.nome||isAvatar){el.style.cursor='pointer';el.setAttribute('role','button');el.setAttribute('tabindex','0');el.onclick=openProfile;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProfile()}}}
      if(profile.role==='gerente_comercial'&&['Lançar vendas','Definir metas','Configurações'].includes(t))el.style.display='none';
    });
  }catch{}
