@@ -40,7 +40,7 @@ html,body{margin:0;width:100%;height:100%;background:#DCE9E7;overflow:hidden}#pa
         <div class="profile-row"><span>Na D&amp;D desde</span><b id="profileSince">—</b></div>
       </div>
       <div id="profileEdit" class="profile-edit"><label for="profileNameInput">Nome completo</label><input id="profileNameInput" autocomplete="name"><div class="profile-edit-actions"><button id="profileCancel" class="profile-cancel" type="button">Cancelar</button><button id="profileSave" class="profile-save" type="button">Salvar</button></div><div id="profileMsg" class="profile-msg"></div></div>
-      <div class="profile-actions"><button id="profileEditAction" class="profile-btn" type="button"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/edit-03.svg" alt="" aria-hidden="true">Editar meus dados</button><button id="profileLogout" class="profile-btn logout" type="button"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/log-out-01.svg" alt="" aria-hidden="true">Sair do painel</button></div>
+      <div class="profile-actions"><button id="profileAdminAction" class="profile-btn" type="button" hidden><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/settings-01.svg" alt="" aria-hidden="true">Abrir administração</button><button id="profileEditAction" class="profile-btn" type="button"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/edit-03.svg" alt="" aria-hidden="true">Editar meus dados</button><button id="profileLogout" class="profile-btn logout" type="button"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/log-out-01.svg" alt="" aria-hidden="true">Sair do painel</button></div>
     </div>
   </section>
 </div>
@@ -62,6 +62,7 @@ function renderProfile(){
  document.querySelector('#profileStores').textContent=String(visibleStoreCount);
  document.querySelector('#profileSince').textContent=sessionUser?.created_at?new Date(sessionUser.created_at).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'}):'Não informado';
  document.querySelector('#profileNameInput').value=profile.nome||'';
+ document.querySelector('#profileAdminAction').hidden=profile.role!=='administrador';
 }
 function openProfile(){renderProfile();overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.querySelector('#profileClose').focus()}
 function closeProfile(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');editBox.classList.remove('open');profileMsg.textContent=''}
@@ -88,6 +89,7 @@ document.querySelector('#profileClose').onclick=closeProfile;
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeProfile()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))closeProfile()});
 document.querySelector('#profileEditAction').onclick=()=>{editBox.classList.add('open');document.querySelector('#profileNameInput').focus()};
+document.querySelector('#profileAdminAction').onclick=()=>location.href='./admin.html';
 document.querySelector('#profileCancel').onclick=()=>{editBox.classList.remove('open');profileMsg.textContent=''};
 document.querySelector('#profileSave').onclick=async()=>{
  const nome=document.querySelector('#profileNameInput').value.trim();if(nome.length<2){profileMsg.textContent='Informe seu nome completo.';return}
@@ -120,4 +122,3 @@ try{
 <script type="module" src="./dashboard-fluid.js?v=20260809-interacoes7"></script>
 </body>
 </html>
-

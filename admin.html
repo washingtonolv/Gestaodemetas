@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Administração · Metas D&amp;D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#05918c;--teal-dark:#0a5f5c;--pink:#cd4664;--ink:#1d2430;--muted:#7c8695;--line:#e1e5eb;--soft:#f4f6f8}*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:#e7e9ec;font-family:Manrope,system-ui,sans-serif;overflow:hidden}#adminPanel{width:100%;height:100%;border:0;display:block;background:#e7e9ec;opacity:0;transition:opacity .40s ease,transform .40s cubic-bezier(.22,1,.36,1);transform:scale(.998)}#adminPanel.ready{opacity:1;transform:scale(1)}.loading{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:#e7e9ec;color:var(--teal-dark);font-size:13px;font-weight:800}.loading.hide{display:none}.toast{position:fixed;left:50%;bottom:20px;z-index:200;transform:translate(-50%,18px);max-width:min(520px,calc(100vw - 28px));padding:12px 17px;border-radius:999px;background:var(--ink);color:#fff;box-shadow:0 16px 44px #1d24304d;font-size:11.5px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .40s ease,transform .40s ease}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.error{background:#a82e4b}.dialog{width:min(620px,calc(100vw - 28px));border:0;border-radius:22px;padding:0;color:var(--ink);box-shadow:0 28px 80px rgba(18,31,48,.28)}.dialog::backdrop{background:rgba(20,28,40,.48);backdrop-filter:blur(5px)}.dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:22px 24px;border-bottom:1px solid #edf0f3}.dialog-head h2{margin:0;font-size:17px}.dialog-head p{margin:5px 0 0;color:#8d98a6;font-size:11px;line-height:1.5}.close{width:34px;height:34px;border:0;border-radius:11px;background:var(--soft);color:#687483;font-size:19px;cursor:pointer}.dialog-body{padding:22px 24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field.full{grid-column:1/-1}.field label{display:block;margin:0 0 7px;color:#657180;font-size:10.5px;font-weight:700}.field input,.field select{width:100%;min-height:43px;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;background:#fafbfc;color:var(--ink);font:600 12px/1 Manrope,sans-serif;outline:none}.field input:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px #05918c1c}.toggle{display:flex;align-items:center;gap:9px;min-height:43px;padding:10px 12px;border:1.5px solid var(--line);border-radius:11px;background:#fafbfc;color:#556170;font-size:11.5px;font-weight:600}.toggle input{accent-color:var(--teal)}.actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.button{border:0;border-radius:11px;padding:11px 17px;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer}.button.secondary{background:var(--soft);color:#5b6675}.button.primary{background:var(--teal);color:#fff}.button:disabled{opacity:.55;cursor:wait}.message{min-height:18px;margin-top:11px;color:var(--pink);font-size:11px}.weekdays{display:flex;flex-wrap:wrap;gap:8px}.weekday{display:flex;align-items:center;gap:6px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fafbfc;font-size:10.5px;font-weight:700}.weekday input{accent-color:var(--teal)}@media(max-width:620px){.dialog{width:100%;max-height:92vh;border-radius:22px 22px 0 0}.dialog[open]{margin:auto 0 0}.dialog-body{max-height:75vh;overflow:auto}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{display:grid;grid-template-columns:1fr 1fr}.button{width:100%}}
+</style>
+</head>
+<body>
+<div id="loading" class="loading">Preparando a administração D&amp;D…</div>
+<iframe id="adminPanel" title="Painel administrativo D&amp;D"></iframe>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<dialog id="userDialog" class="dialog">
+  <header class="dialog-head"><div><h2 id="userDialogTitle">Cadastrar usuário</h2><p id="userDialogSubtitle">Crie o acesso e defina a responsabilidade da pessoa.</p></div><button class="close" type="button" data-close="userDialog" aria-label="Fechar">×</button></header>
+  <form id="userForm" class="dialog-body">
+    <input id="userId" type="hidden">
+    <div class="grid">
+      <div class="field full"><label for="userName">Nome completo</label><input id="userName" required autocomplete="name"></div>
+      <div class="field"><label for="userEmail">E-mail</label><input id="userEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label for="userLogin">Login personalizado</label><input id="userLogin" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,29}" autocapitalize="none" spellcheck="false"></div>
+      <div class="field"><label for="userRole">Perfil de acesso</label><select id="userRole"><option value="supervisor">Supervisor</option><option value="gerente_comercial">Gerente Comercial</option><option value="administrador">Administrador</option><option value="pendente">Pendente</option></select></div>
+      <div id="passwordField" class="field"><label for="userPassword">Senha inicial</label><input id="userPassword" type="password" minlength="8" autocomplete="new-password"></div>
+      <label id="activeField" class="toggle full"><input id="userActive" type="checkbox" checked> Usuário ativo e autorizado a entrar</label>
+    </div>
+    <div id="userMessage" class="message"></div>
+    <div class="actions"><button class="button secondary" type="button" data-close="userDialog">Cancelar</button><button id="userSubmit" class="button primary" type="submit">Cadastrar usuário</button></div>
+  </form>
+</dialog>
+
+<dialog id="storeDialog" class="dialog">
+  <header class="dialog-head"><div><h2 id="storeDialogTitle">Cadastrar loja</h2><p>Cadastre a loja e já escolha quem poderá acompanhá-la.</p></div><button class="close" type="button" data-close="storeDialog" aria-label="Fechar">×</button></header>
+  <form id="storeForm" class="dialog-body">
+    <input id="storeId" type="hidden">
+    <div class="grid">
+      <div class="field"><label for="storeName">Nome da loja</label><input id="storeName" required></div>
+      <div class="field"><label for="storeCode">Código Microvix</label><input id="storeCode"></div>
+      <div class="field"><label for="storeBranch">Ramo</label><select id="storeBranch"><option>Franquias</option><option>Multimarcas</option></select></div>
+      <div class="field"><label for="storeLocation">Cidade ou bairro</label><input id="storeLocation"></div>
+      <div class="field full"><label for="storeSupervisor">Supervisor responsável</label><select id="storeSupervisor"><option value="">Sem supervisor por enquanto</option></select></div>
+      <label id="storeActiveField" class="toggle full"><input id="storeActive" type="checkbox" checked> Loja ativa no sistema</label>
+    </div>
+    <div id="storeMessage" class="message"></div>
+    <div class="actions"><button class="button secondary" type="button" data-close="storeDialog">Cancelar</button><button id="storeSubmit" class="button primary" type="submit">Cadastrar e vincular</button></div>
+  </form>
+</dialog>
+
+<dialog id="monthDialog" class="dialog">
+  <header class="dialog-head"><div><h2>Competência do painel</h2><p>Troque o mês analisado em todas as áreas da administração.</p></div><button class="close" type="button" data-close="monthDialog" aria-label="Fechar">×</button></header>
+  <form id="monthForm" class="dialog-body"><div class="field"><label for="monthInput">Mês e ano</label><input id="monthInput" type="month" required></div><div class="actions"><button class="button secondary" type="button" data-close="monthDialog">Cancelar</button><button class="button primary" type="submit">Aplicar mês</button></div></form>
+</dialog>
+
+<dialog id="rulesDialog" class="dialog">
+  <header class="dialog-head"><div><h2>Regras gerais de metas</h2><p>Estas regras valem para toda a rede e para novas competências.</p></div><button class="close" type="button" data-close="rulesDialog" aria-label="Fechar">×</button></header>
+  <form id="rulesForm" class="dialog-body">
+    <div class="grid">
+      <div class="field"><label for="factor2">Fator da Meta 2</label><input id="factor2" inputmode="decimal" required></div>
+      <div class="field"><label for="factor3">Fator da Meta 3</label><input id="factor3" inputmode="decimal" required></div>
+      <div class="field"><label for="growth">Crescimento da sugestão</label><input id="growth" inputmode="decimal" required></div>
+      <div class="field"><label for="rounding">Arredondamento</label><input id="rounding" inputmode="numeric" required></div>
+      <div class="field full"><label>Dias normalmente úteis</label><div id="weekdays" class="weekdays"></div></div>
+    </div>
+    <div id="rulesMessage" class="message"></div>
+    <div class="actions"><button class="button secondary" type="button" data-close="rulesDialog">Cancelar</button><button id="rulesSubmit" class="button primary" type="submit">Salvar regras</button></div>
+  </form>
+</dialog>
+
+<dialog id="sellerDialog" class="dialog">
+  <header class="dialog-head"><div><h2>Cadastrar vendedora</h2><p>Inclua a pessoa na loja para acompanhar meta, resultado e comissão.</p></div><button class="close" type="button" data-close="sellerDialog" aria-label="Fechar">×</button></header>
+  <form id="sellerForm" class="dialog-body">
+    <div class="grid">
+      <div class="field full"><label for="sellerName">Nome completo</label><input id="sellerName" required autocomplete="name"></div>
+      <div class="field"><label for="sellerStore">Loja</label><select id="sellerStore" required></select></div>
+      <div class="field"><label for="sellerAdmission">Admissão</label><input id="sellerAdmission" type="date"></div>
+      <div class="field full"><label for="sellerCpf">CPF (opcional)</label><input id="sellerCpf" inputmode="numeric" maxlength="14" autocomplete="off"></div>
+    </div>
+    <div id="sellerMessage" class="message"></div>
+    <div class="actions"><button class="button secondary" type="button" data-close="sellerDialog">Cancelar</button><button id="sellerSubmit" class="button primary" type="submit">Cadastrar vendedora</button></div>
+  </form>
+</dialog>
+
+<script type="module" src="./admin-backend.js?v=20260809-admin1"></script>
+</body>
+</html>
