@@ -45,7 +45,8 @@ function setMode(next){
 }
 modeButtons.forEach(button=>button.addEventListener('click',()=>setMode(button.dataset.mode)));
 
-try{const {session,profile}=await getSessionProfile();if(session&&profile?.ativo&&profile.role!=='pendente')location.replace('./dashboard.html');}catch{}
+const destination=profile=>profile?.role==='administrador'?'./admin.html':'./dashboard.html';
+try{const {session,profile}=await getSessionProfile();if(session&&profile?.ativo&&profile.role!=='pendente')location.replace(destination(profile));}catch{}
 
 form.addEventListener('submit',async e=>{
  e.preventDefault();msg.textContent='';btn.disabled=true;btn.textContent='Entrando...';
@@ -67,7 +68,7 @@ form.addEventListener('submit',async e=>{
      msg.className='msg error';msg.textContent='Seu acesso ainda não foi liberado pelo Administrador.';
      return;
    }
-   location.replace('./dashboard.html');
+   location.replace(destination(profile));
  }catch{
    await supabase.auth.signOut({scope:'local'}).catch(()=>{});
    msg.className='msg error';msg.textContent='E-mail, login ou senha inválidos.';
