@@ -369,7 +369,7 @@
               </sc-if>
               <span style="font:700 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.nome }}</span>
             </div>
-            <div style="text-align:right;min-width:0"><input type="text" inputMode="numeric" value="{{ n.m1 }}" onChange="{{ n.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;text-align:right;outline:none"></div>
+            <div style="text-align:right;min-width:0"><input type="text" inputMode="decimal" value="{{ n.m1 }}" onChange="{{ n.digitar }}" aria-label="Meta 1 em reais" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;text-align:right;outline:none"></div>
             <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ n.m2 }}</div></sc-if>
             <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ n.m3 }}</div></sc-if>
             <div style="text-align:right;white-space:nowrap;font:700 11.5px/1 'JetBrains Mono',monospace;color:{{ n.cor }}">{{ n.delta }}</div>
@@ -386,20 +386,25 @@
 
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 18px;font:700 15.5px/1 Manrope,sans-serif">Fatores e dias</h2>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px"><h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Fatores e dias</h2><span data-governance-status style="padding:6px 9px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 9.5px/1 Manrope,sans-serif;white-space:nowrap">Edição liberada</span></div>
           <div style="display:flex;flex-direction:column;gap:16px">
             <div>
               <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 2 = Meta 1 ×</div>
-              <div style="margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace">{{ fator2Txt }}</div>
+              <input data-goal-factor="fator_meta2" type="text" inputMode="decimal" value="{{ fator2Txt }}" onChange="{{ alterarFator2 }}" aria-label="Fator da Meta 2" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
             <div>
               <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 3 = Meta 1 ×</div>
-              <div style="margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace">{{ fator3Txt }}</div>
+              <input data-goal-factor="fator_meta3" type="text" inputMode="decimal" value="{{ fator3Txt }}" onChange="{{ alterarFator3 }}" aria-label="Fator da Meta 3" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
             <div>
               <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Dias úteis de junho</div>
-              <div style="margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace">25</div>
+              <input data-goal-days type="text" inputMode="numeric" value="{{ diasUteisConfig }}" onChange="{{ alterarDiasUteis }}" aria-label="Dias úteis da competência" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
+            <div data-governance-actions style="display:flex;flex-wrap:wrap;gap:8px;padding-top:2px">
+              <button data-governance-save type="button" style="flex:1;min-width:160px;padding:11px 13px;border:0;border-radius:11px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif;cursor:pointer">Salvar fatores e dias</button>
+              <button data-governance-lock type="button" style="display:none;flex:1;min-width:150px;padding:11px 13px;border:1.5px solid #F0CCD5;border-radius:11px;background:#FFF5F7;color:#B33755;font:700 11px/1 Manrope,sans-serif;cursor:pointer">Bloquear edição</button>
+            </div>
+            <div data-governance-hint style="font:500 10.5px/1.5 Manrope,sans-serif;color:#6F7A89">As alterações valem somente para esta competência.</div>
           </div>
         </div>
         <div style="background:#E7F4F2;border-radius:20px;padding:22px 24px">
@@ -754,7 +759,7 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;mes&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MAIO 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasUteis&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:26,&quot;min&quot;:20,&quot;max&quot;:27,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasTrabalhados&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:18,&quot;min&quot;:1,&quot;max&quot;:26,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;fatorMeta2&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.12,&quot;min&quot;:1,&quot;max&quot;:1.6,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;},&quot;fatorMeta3&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.3,&quot;min&quot;:1,&quot;max&quot;:2,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;}}">
-const BRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+const BRL = n => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const K = n => Math.round(n).toLocaleString('pt-BR');
 const PCT = n => (n * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
 const NUM = (n, d) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -841,6 +846,14 @@ class Component extends DCLogic {
   }
 
   soNumero(t) { return Number(String(t).replace(/\D/g, '')) || 0; }
+  soDinheiro(t) {
+    let s = String(t ?? '').trim().replace(/R\$/gi, '').replace(/\s/g, '').replace(/[^0-9,.-]/g, '');
+    if (!s) return 0;
+    if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+    else if ((s.match(/\./g) || []).length > 1) s = s.replace(/\./g, '');
+    return Number(s) || 0;
+  }
+  soDecimal(t) { return Number(String(t ?? '').trim().replace(',', '.').replace(/[^0-9.-]/g, '')) || 0; }
 
   renderVals() {
     const pagina = this.state.pagina;
@@ -1039,11 +1052,11 @@ class Component extends DCLogic {
     const novasMetas = novasRaw.map(n => {
       const d = n.ant > 0 ? n.m1 / n.ant - 1 : null;
       return {
-        nome: n.nome, cod: n.cod, m1: String(n.m1), m2: K(n.m1 * f2), m3: K(n.m1 * f3),
+        nome: n.nome, cod: n.cod, m1: BRL(n.m1), m2: BRL(n.m1 * f2), m3: BRL(n.m1 * f3),
         delta: d === null ? '—' : (d >= 0 ? '+' : '') + NUM(d * 100, 1) + '%',
         cor: d === null ? '#8D9997' : d >= 0 ? TEAL : ROSA,
         digitar: e => {
-          const v = this.soNumero(e.target.value);
+          const v = this.soDinheiro(e.target.value);
           this.gravar(d2 => { d2.metasProx = { ...(d2.metasProx || {}), [n.cod]: v }; });
         }
       };
@@ -1142,7 +1155,7 @@ class Component extends DCLogic {
 
     const colsLoja = ehMobile ? 'minmax(0,1.5fr) minmax(0,1.2fr) minmax(0,.85fr)' : compacto ? 'minmax(0,2.1fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.85fr)' : 'minmax(0,1.5fr) minmax(0,1.6fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,.85fr)';
     const colsLanc = ehMobile ? 'minmax(0,1.4fr) minmax(110px,1fr) minmax(0,.9fr)' : compacto ? 'minmax(0,1.4fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.9fr)' : 'minmax(0,1.5fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.8fr) minmax(0,.9fr)';
-    const colsMetas = ehMobile ? 'minmax(0,1.3fr) minmax(110px,1fr) minmax(0,.8fr)' : compacto ? 'minmax(0,1.3fr) minmax(116px,1fr) minmax(0,1fr) minmax(0,.8fr)' : 'minmax(0,1.4fr) minmax(116px,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr)';
+    const colsMetas = ehMobile ? 'minmax(0,1fr) minmax(144px,1.2fr) minmax(0,.55fr)' : compacto ? 'minmax(0,1.2fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,.7fr)' : 'minmax(0,1.3fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.75fr)';
     const colsRank = ehMobile ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.1fr)' : compacto ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.4fr) minmax(0,1fr)' : 'minmax(0,.4fr) minmax(0,1.7fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.9fr) minmax(0,.9fr)';
 
     return {
@@ -1283,8 +1296,11 @@ class Component extends DCLogic {
       totalHojeTxt: BRL(totalHoje),
       pctDiaTxt: PCT(totalHoje / metaDia),
       pctDiaW: Math.min(totalHoje / metaDia * 100, 100).toFixed(1) + '%',
-      fator2Txt: NUM(f2, 2), fator3Txt: NUM(f3, 2),
-      novoTot1: K(novoT1), novoTot2: K(novoT1 * f2), novoTot3: K(novoT1 * f3),
+      fator2Txt: NUM(f2, 2), fator3Txt: NUM(f3, 2), diasUteisConfig: String(diasMes),
+      alterarFator2: e => { const v = this.soDecimal(e.target.value); if (v > 0) this.gravar(d2 => { d2.fatorMeta2 = v; }); },
+      alterarFator3: e => { const v = this.soDecimal(e.target.value); if (v > 0) this.gravar(d2 => { d2.fatorMeta3 = v; }); },
+      alterarDiasUteis: e => { const v = this.soNumero(e.target.value); if (v > 0) this.gravar(d2 => { d2.diasUteis = v; }); },
+      novoTot1: BRL(novoT1), novoTot2: BRL(novoT1 * f2), novoTot3: BRL(novoT1 * f3),
       novoDelta: (novoT1 >= antT ? '+' : '') + NUM((novoT1 / antT - 1) * 100, 1) + '%',
       totalLojas: String(lojas.length),
       hojeLabel: hojeLabelDinamico.charAt(0).toUpperCase() + hojeLabelDinamico.slice(1),
