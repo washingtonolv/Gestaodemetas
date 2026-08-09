@@ -135,8 +135,8 @@ async function renderYear(){
  $('#yearCards').innerHTML=used.length?used.map(([k,x])=>`<div class="yearcard"><b>${monthLabel(k+'-01')}</b><strong style="color:${x.meta&&x.real>=x.meta?'#05918C':'#CD4664'}">${x.meta?pct(x.real/x.meta):'—'}</strong><div style="font-size:10.5px;color:#5A6664;margin-top:6px">${money(x.real)} / ${money(x.meta)}</div></div>`).join(''):'<div class="empty">Sem dados no ano.</div>'
 }
 async function loadUsers(){
- if(profile.role!=='administrador')return;const {data,error}=await timeout(supabase.from('profiles').select('id,nome,email,role,ativo').order('nome'));if(error)throw error;
- $('#usersList').innerHTML=(data||[]).map(u=>`<div class="userrow"><div class="useravatar">${initials(u.nome)}</div><div class="usermeta"><b>${esc(u.nome)}</b><span>${esc(u.email)}</span></div><span class="badge">${esc(roleLabel(u.role))}</span></div>`).join('')||'<div class="empty">Nenhum usuário.</div>'
+ if(profile.role!=='administrador')return;const {data,error}=await timeout(supabase.from('profiles').select('id,nome,email,login,role,ativo').order('nome'));if(error)throw error;
+ $('#usersList').innerHTML=(data||[]).map(u=>`<div class="userrow"><div class="useravatar">${initials(u.nome)}</div><div class="usermeta"><b>${esc(u.nome)}</b><span>${esc(u.email)} · @${esc(u.login)}</span></div><span class="badge">${esc(roleLabel(u.role))}</span></div>`).join('')||'<div class="empty">Nenhum usuário.</div>'
 }
 async function loadStructure(){
  if(profile.role!=='administrador')return;
@@ -154,7 +154,7 @@ $('#goalMonth').onchange=()=>renderGoals().catch(e=>fatal(e.message||e));
 $('#publishGoals').onclick=()=>publishGoals().catch(e=>showMsg('#goalMsg',e,''));
 $('#factor2').oninput=updateGoalCalcs;$('#factor3').oninput=updateGoalCalcs;
 
-$('#userForm').onsubmit=async e=>{e.preventDefault();const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const fail=error||data?.error;showMsg('#userMsg',fail?new Error(error?.message||data?.error):null,'Usuário cadastrado com sucesso.');if(!fail){e.target.reset();await loadUsers();await loadStructure()}};
+$('#userForm').onsubmit=async e=>{e.preventDefault();const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),login:$('#uLogin').value.trim().toLowerCase(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const fail=error||data?.error;showMsg('#userMsg',fail?new Error(error?.message||data?.error):null,'Usuário cadastrado com sucesso.');if(!fail){e.target.reset();await loadUsers();await loadStructure()}};
 $('#storeForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('lojas').insert({codigo:$('#storeCode').value.trim()||null,nome:$('#storeName').value.trim()});showMsg('#structureMsg',error,'Loja cadastrada.');if(!error){e.target.reset();await loadBase();await loadStructure()}};
 $('#gsForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#managerSelect').value,supervisor_id:$('#supervisorSelect').value},{onConflict:'gerente_id,supervisor_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
 $('#slForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorStoreSelect').value,loja_id:$('#storeSelect').value},{onConflict:'supervisor_id,loja_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
