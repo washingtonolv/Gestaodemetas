@@ -32,14 +32,24 @@ async function loadPeriods(){
 
 function findMonthButton(doc){
   const current = monthLabel(currentKey());
-  return [...doc.querySelectorAll('div,span')].find(el => {
+  const label = [...doc.querySelectorAll('div,span')].find(el => {
     const t = (el.textContent || '').trim();
     return (t === current || /^[A-ZÁÉÍÓÚÃÕÇ]+\s+\d{4}\s*▾?$/.test(t)) && el.children.length <= 1;
   });
+  if(!label) return null;
+  const pill = label.parentElement;
+  return pill?.querySelector('img[src*="chevron-down"]') ? pill : label;
 }
 
-function closeMenu(doc){
-  doc.getElementById('dd-period-menu')?.remove();
+function closeMenu(doc,instant=false){
+  const menu=doc.getElementById('dd-period-menu');
+  const trigger=doc.querySelector('[data-period-ready="1"]');
+  trigger?.setAttribute('aria-expanded','false');
+  if(!menu)return;
+  if(instant){menu.remove();return}
+  menu.style.opacity='0';
+  menu.style.transform='translateY(-6px) scale(.985)';
+  setTimeout(()=>menu.remove(),170);
 }
 
 function statusText(p){
@@ -50,13 +60,14 @@ function statusText(p){
 }
 
 function openMenu(doc, anchor){
-  closeMenu(doc);
+  closeMenu(doc,true);
   const menu = doc.createElement('div');
   menu.id = 'dd-period-menu';
   Object.assign(menu.style,{
     position:'fixed',zIndex:'999999',background:'#fff',border:'1px solid #E2ECEA',borderRadius:'16px',
     boxShadow:'0 18px 45px rgba(20,60,55,.18)',padding:'8px',minWidth:'220px',maxHeight:'320px',overflowY:'auto',
-    fontFamily:'Manrope,system-ui,sans-serif'
+    fontFamily:'Manrope,system-ui,sans-serif',opacity:'0',transform:'translateY(-6px) scale(.985)',
+    transformOrigin:'top center',transition:'opacity .17s ease,transform .22s cubic-bezier(.22,1,.36,1)'
   });
   const r = anchor.getBoundingClientRect();
   const left = Math.min(Math.max(12,r.left), Math.max(12,doc.defaultView.innerWidth-240));
@@ -69,7 +80,8 @@ function openMenu(doc, anchor){
     const active = p.key === currentKey();
     Object.assign(row.style,{
       width:'100%',border:'0',background:active?'#E7F4F2':'#fff',borderRadius:'11px',padding:'11px 12px',
-      display:'flex',alignItems:'center',justifyContent:'space-between',gap:'12px',cursor:'pointer',textAlign:'left',color:'#16211F'
+      display:'flex',alignItems:'center',justifyContent:'space-between',gap:'12px',cursor:'pointer',textAlign:'left',
+      color:'#16211F',transition:'background-color .16s ease,transform .16s ease'
     });
     const leftBox = doc.createElement('span');
     leftBox.style.display='flex';leftBox.style.flexDirection='column';leftBox.style.gap='3px';
@@ -87,6 +99,8 @@ function openMenu(doc, anchor){
     menu.appendChild(row);
   }
   doc.body.appendChild(menu);
+  anchor.setAttribute('aria-expanded','true');
+  doc.defaultView.requestAnimationFrame(()=>{menu.style.opacity='1';menu.style.transform='translateY(0) scale(1)'});
   setTimeout(()=>doc.addEventListener('click',()=>closeMenu(doc),{once:true}),0);
 }
 
@@ -99,11 +113,23 @@ async function wire(){
     if(!btn || btn.dataset.periodReady) return;
     btn.dataset.periodReady='1';
     btn.style.cursor='pointer';
+    btn.style.transition='background-color .18s ease,box-shadow .18s ease,transform .18s ease';
     btn.title='Selecionar período';
-    btn.addEventListener('click',async e=>{
+    btn.setAttribute('role','button');
+    btn.setAttribute('tabindex','0');
+    btn.setAttribute('aria-haspopup','listbox');
+    btn.setAttribute('aria-expanded','false');
+    const activate=async e=>{
       e.preventDefault();e.stopImmediatePropagation();
+      const open=doc.getElementById('dd-period-menu');
+      if(open){closeMenu(doc);return}
       if(!periods.length) await loadPeriods();
       openMenu(doc,btn);
+    };
+    btn.addEventListener('click',activate,true);
+    btn.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown')activate(e);
+      else if(e.key==='Escape')closeMenu(doc);
     },true);
   };
   attach();
