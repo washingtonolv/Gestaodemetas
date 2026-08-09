@@ -164,3 +164,26 @@ for each row execute function private.registrar_auditoria_calendario_metas();
 alter table public.configuracoes_meta replica identity full;
 alter table public.calendario_loja_excecoes replica identity full;
 
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (
+       select 1 from pg_publication_tables
+       where pubname = 'supabase_realtime'
+         and schemaname = 'public'
+         and tablename = 'configuracoes_meta'
+     ) then
+    alter publication supabase_realtime add table public.configuracoes_meta;
+  end if;
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (
+       select 1 from pg_publication_tables
+       where pubname = 'supabase_realtime'
+         and schemaname = 'public'
+         and tablename = 'calendario_loja_excecoes'
+     ) then
+    alter publication supabase_realtime add table public.calendario_loja_excecoes;
+  end if;
+end;
+$$;
+
