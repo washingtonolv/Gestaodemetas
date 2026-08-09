@@ -10,21 +10,22 @@ const parseMoney=v=>{let s=String(v??'').trim().replace(/R\$/gi,'').replace(/\s/
 const toast=(text,kind='ok',ms=3200)=>{if(!status)return;status.textContent=text;status.dataset.kind=kind;status.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>status.classList.remove('on'),ms)};
 const exact=(doc,text)=>[...doc.querySelectorAll('div,span,h1,h2,h3')].find(e=>(e.textContent||'').trim()===text);
 const monthShift=(key,delta)=>{const a=key.split('-').map(Number),d=new Date(a[0],a[1]-1+delta,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)};
-let profile=null,stores=[],sellers=[],daily=new Map(),goals=new Map(),results=[],activeFilter='Todas',scheduled=false;
+let profile=null,stores=[],sellers=[],users=[],daily=new Map(),goals=new Map(),results=[],activeFilter='Todas',scheduled=false;
 
 async function loadContext(){
  const a=start(),b=end();
- const [s,v,m,r]=await Promise.all([
+ const [s,v,m,r,p]=await Promise.all([
    supabase.from('lojas').select('id,codigo,nome,ativa').eq('ativa',true).order('nome'),
    supabase.from('vendedoras').select('id,loja_id,nome,ativa').eq('ativa',true).order('nome'),
    supabase.from('metas').select('loja_id,valor_meta').eq('competencia',a),
-   supabase.from('resultados').select('loja_id,data,valor_realizado').gte('data',a).lte('data',b).order('data')
+   supabase.from('resultados').select('loja_id,data,valor_realizado').gte('data',a).lte('data',b).order('data'),
+   supabase.from('profiles').select('id,nome,email,role,ativo').eq('ativo',true).order('nome')
  ]);
  const error=s.error||v.error||m.error||r.error;if(error)throw error;
  stores=s.data||[];const names=new Map(stores.map(x=>[x.id,x.nome]));
  sellers=(v.data||[]).map(x=>({...x,loja:names.get(x.loja_id)||'Sem loja'}));
  goals=new Map((m.data||[]).map(x=>[x.loja_id,Number(x.valor_meta)||0]));
- results=r.data||[];daily=new Map();
+ users=!p.error&&(p.data||[]).length?p.data:[profile];results=r.data||[];daily=new Map();
  for(const x of results)daily.set(x.data,(daily.get(x.data)||0)+Number(x.valor_realizado||0));
 }
 
@@ -152,7 +153,18 @@ function patchRankingEmpty(doc){
  const note=[...card.querySelectorAll('div,span')].find(e=>(e.textContent||'').includes('Rodrigo Silva · 106%'));
  if(name)name.textContent='Nenhuma vendedora cadastrada';if(note)note.textContent='Use “Adicionar vendedora” para iniciar o ranking real deste período.';
 }
-function patch(doc){patchSearch(doc);makeInteractive(doc);patchCalendar(doc);patchRankingEmpty(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
+function patchAccess(doc){
+ const title=exact(doc,'Quem tem acesso'),card=title?.parentElement?.parentElement,list=card?.children?.[1];if(!list||list.dataset.realAccess)return;
+ list.dataset.realAccess='1';list.innerHTML='';
+ const initials=name=>String(name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'--';
+ users.forEach((u,i)=>{const row=doc.createElement('div');row.style.cssText='display:flex;align-items:center;gap:12px';const admin=u.role==='administrador';row.innerHTML='<span style="width:36px;height:36px;border-radius:50%;background:'+(admin?'#E7F4F2':'#FDF1F3')+';display:flex;align-items:center;justify-content:center;font:800 10px/1 Manrope,sans-serif;color:'+(admin?'#05918C':'#CD4664')+';flex:none">'+initials(u.nome)+'</span><span style="min-width:0;flex:1"><b style="display:block;font:700 12px/1.25 Manrope,sans-serif">'+(u.nome||u.email||'Usuário')+'</b><small style="display:block;margin-top:3px;font:500 10px/1.3 Manrope,sans-serif;color:#8D9997">'+(admin?'Toda a rede':'Lojas autorizadas')+'</small></span><span style="padding:6px 10px;border-radius:100px;background:#F4F8F7;font:600 10px/1 Manrope,sans-serif;color:#5A6664">'+roleLabel(u.role)+'</span>';list.appendChild(row)});
+}
+function patchCloseDescription(doc){
+ const title=exact(doc,'Encerrar o mês'),card=title?.parentElement;if(!card)return;const desc=[...card.querySelectorAll('div')].find(e=>(e.textContent||'').trim().startsWith('Congela os números de'));if(!desc)return;
+ const nextKey=monthShift(selected(),1),parts=nextKey.split('-').map(Number),cur=selected().split('-').map(Number),fmt=new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}),name=fmt.format(new Date(parts[0],parts[1]-1,1)),current=fmt.format(new Date(cur[0],cur[1]-1,1));
+ desc.textContent='Congela os números de '+current+' e libera '+name+' para lançamento. Não dá para desfazer.';
+}
+function patch(doc){patchSearch(doc);makeInteractive(doc);patchCalendar(doc);patchRankingEmpty(doc);patchAccess(doc);patchCloseDescription(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
 async function wire(){
  const ctx=await getSessionProfile();profile=ctx.profile;if(!profile)return;await loadContext();
  const doc=frame.contentDocument;if(!doc?.body)return;patch(doc);
