@@ -853,7 +853,7 @@ class Component extends DCLogic {
     const diasFaltam = Math.max(diasMes - diasTrab, 0);
     const f2 = Number(persistidos.fatorMeta2 || this.props.fatorMeta2 || 1.12);
     const f3 = Number(persistidos.fatorMeta3 || this.props.fatorMeta3 || 1.30);
-    const pace = diasMes ? diasTrab / diasMes : 0;
+    const pacePadrao = diasMes ? diasTrab / diasMes : 0;
     const mesLabel = persistidos.mesLabel || this.props.mes || 'MAIO 2026';
 
     const navItens = PAGINAS.map(p => {
@@ -884,8 +884,12 @@ class Component extends DCLogic {
       const temMeta = Number(l.meta) > 0;
       const pct = temMeta ? l.real / l.meta : 0;
       const falta = temMeta ? Math.max(l.meta - l.real, 0) : 0;
-      const noRitmo = temMeta && pct >= pace - 0.02;
-      const atencao = temMeta && pct >= pace - 0.09;
+      const diasLoja = Math.max(Number(l.diasUteis || diasMes), 1);
+      const trabalhadosLoja = Math.min(Number(l.diasTrabalhados ?? diasTrab), diasLoja);
+      const faltamLoja = Math.max(diasLoja - trabalhadosLoja, 0);
+      const paceLoja = diasLoja ? trabalhadosLoja / diasLoja : pacePadrao;
+      const noRitmo = temMeta && pct >= paceLoja - 0.02;
+      const atencao = temMeta && pct >= paceLoja - 0.09;
       return {
         ...l, pct, temMeta,
         corT: !temMeta ? '#8D9997' : noRitmo ? TEAL : atencao ? ROSA_CLARO : ROSA,
@@ -893,7 +897,8 @@ class Component extends DCLogic {
         pctTxt: temMeta ? PCT(pct) : '—', pctW: temMeta ? Math.min(pct * 100, 100).toFixed(1) + '%' : '0%',
         realTxt: K(l.real), metaTxt: temMeta ? K(l.meta) : '—', metaBRL: temMeta ? BRL(l.meta) : 'Sem meta',
         ticket: 'R$ ' + NUM(l.ticket, 2),
-        porDiaTxt: temMeta && diasFaltam ? K(falta / diasFaltam) : '—',
+        diasUteis: diasLoja, diasTrabalhados: trabalhadosLoja, diasFaltam: faltamLoja, pace: paceLoja,
+        porDiaTxt: temMeta && faltamLoja ? K(falta / faltamLoja) : '—',
         situacao: !temMeta ? 'Sem meta' : noRitmo ? 'No ritmo' : atencao ? 'Atenção' : 'Crítico'
       };
     }).sort((a, b) => (b.temMeta ? b.pct : -1) - (a.temMeta ? a.pct : -1));
@@ -901,8 +906,16 @@ class Component extends DCLogic {
     const totMeta = BASE.reduce((s, l) => s + l.meta, 0);
     const totReal = BASE.reduce((s, l) => s + l.real + (extra(l.cod) ? extra(l.cod).valor : 0), 0);
     const totPct = totReal / totMeta;
-    const proj = totReal / diasTrab * diasMes;
-    const metaDia = totMeta / diasMes;
+    const proj = BASE.reduce((s, l) => {
+      const real = l.real + (extra(l.cod) ? extra(l.cod).valor : 0);
+      const du = Math.max(Number(l.diasUteis || diasMes), 1);
+      const dt = Math.max(Number(l.diasTrabalhados ?? diasTrab), 1);
+      return s + real / dt * du;
+    }, 0);
+    const metaDia = BASE.reduce((s, l) => s + Number(l.meta || 0) / Math.max(Number(l.diasUteis || diasMes), 1), 0);
+    const esperadoHoje = BASE.reduce((s, l) => s + Number(l.meta || 0) * (Math.min(Number(l.diasTrabalhados ?? diasTrab), Math.max(Number(l.diasUteis || diasMes), 1)) / Math.max(Number(l.diasUteis || diasMes), 1)), 0);
+    const pace = totMeta ? esperadoHoje / totMeta : pacePadrao;
+    const porDiaRede = lojas.reduce((s, l) => s + (l.temMeta && l.diasFaltam ? Math.max(l.meta - l.real, 0) / l.diasFaltam : 0), 0);
 
     // calendário e gráfico baseados nos lançamentos reais do período
     const competencia = D.competencia || '2026-05';
@@ -916,18 +929,19 @@ class Component extends DCLogic {
     const hoje = Math.max(diaAtual, ultimoComVenda);
     const calDias = [];
     for (let d = 1; d <= totalDias; d++) {
-      const domingo = new Date(calAno, calMes - 1, d).getDay() === 0;
-      const passado = d <= hoje;
       const dataKey = competencia + '-' + String(d).padStart(2, '0');
+      const fechadoRede = Number((D.calendarioRede || {})[dataKey] || 0) === 0;
+      const passado = d <= hoje;
       const venda = Number(historicoDiario[dataKey] || 0);
-      const razao = metaDia ? venda / metaDia : 0;
+      const metaData = Number((D.metasDiariasRede || {})[dataKey] || metaDia);
+      const razao = metaData ? venda / metaData : 0;
       let bgT = '#fff', txtT = '#A8B7B5';
-      if (domingo) { bgT = '#F1F5F4'; txtT = '#BFCBC9'; }
+      if (fechadoRede) { bgT = '#F1F5F4'; txtT = '#BFCBC9'; }
       else if (passado) {
         bgT = razao >= 1 ? TEAL_ESC : razao >= 0.85 ? '#9FD8D3' : '#F5C3CE';
         txtT = razao >= 1 ? '#fff' : '#16211F';
       }
-      calDias.push({ num: String(d), realizado: passado && !domingo, venda, bgT, txtT, bordaT: dataKey === hojeIso ? ROSA : 'transparent' });
+      calDias.push({ num: String(d), realizado: passado && !fechadoRede, venda, bgT, txtT, bordaT: dataKey === hojeIso ? ROSA : 'transparent' });
     }
     const calVazios = [];
     for (let i = 0; i < primeiroDiaSemana; i++) calVazios.push({ i: String(i) });
@@ -981,7 +995,7 @@ class Component extends DCLogic {
     const rasc = this.state.rascunho || {};
     const lancamentos = BASE.map(l => {
       const salvo = vendasHoje[l.cod];
-      const metaDiaLoja = l.meta / diasMes;
+      const metaDiaLoja = l.meta / Math.max(Number(l.diasUteis || diasMes), 1);
       const texto = rasc[l.cod] !== undefined ? rasc[l.cod] : (salvo ? String(Math.round(salvo.valor)) : '');
       const valor = this.soNumero(texto);
       return {
@@ -1098,8 +1112,8 @@ class Component extends DCLogic {
     const configCampos = [
       { rot: 'Fator da Meta 2', desc: 'Multiplicador sobre a Meta 1', valor: NUM(f2, 2) },
       { rot: 'Fator da Meta 3', desc: 'Multiplicador sobre a Meta 1', valor: NUM(f3, 2) },
-      { rot: 'Dias úteis padrão', desc: 'Usado quando o mês não tem calendário próprio', valor: String(diasMes) },
-      { rot: 'Horário de corte', desc: 'Depois disso o dia fecha automaticamente', valor: '22:00' }
+      { rot: 'Crescimento sugerido', desc: 'Sobre a média dos últimos 3 meses', valor: NUM(((D.regrasMeta || {}).crescimento_sugestao || 1.06) * 100 - 100, 1) + '%' },
+      { rot: 'Arredondamento', desc: 'Aplicado à sugestão automática', valor: BRL((D.regrasMeta || {}).arredondamento_meta || 1000) }
     ];
     const notifDefs = [
       { id: 'meta', rot: 'Loja bateu a meta do dia', desc: 'Aviso na hora para a supervisão' },
@@ -1282,7 +1296,7 @@ class Component extends DCLogic {
       linhaPath, areaPath: linhaPath + ' L900 200 L0 200 Z', metaY: py(metaDia / 1000).toFixed(1),
       totMetaTxt: BRL(totMeta), totRealTxt: BRL(totReal), totPctTxt: PCT(totPct),
       totFaltaTxt: BRL(totMeta - totReal),
-      totPorDiaTxt: diasFaltam ? BRL((totMeta - totReal) / diasFaltam) : '—',
+      totPorDiaTxt: porDiaRede ? BRL(porDiaRede) : '—',
       paceTxt: PCT(pace),
       ritmoDelta: (delta >= 0 ? '+' : '') + NUM(delta * 100, 1) + ' pts',
       ritmoCor: delta >= 0 ? TEAL : ROSA,
