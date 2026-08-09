@@ -236,7 +236,1377 @@
           <span style="width:38px;height:38px;border-radius:50%;background:#F4F6F8;display:flex;align-items:center;justify-content:center;font:800 11.5px/1 Manrope,sans-serif;color:#5B6675;flex:none">{{ v.ini }}</span>
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
-              <span style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-o…26855 tokens truncated…roUsuario = this.state.filtroUsuario;
+              <span style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.nome }}</span>
+              <span style="font:800 12px/1 'JetBrains Mono',monospace;color:{{ v.cor }};flex:none">{{ v.pctTxt }}</span>
+            </div>
+            <div style="height:6px;border-radius:4px;background:#F1F3F6;overflow:hidden;margin-top:8px"><div style="height:100%;border-radius:4px;background:{{ v.cor }};width:{{ v.pctW }}"></div></div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:7px">
+              <span>{{ v.vendaTxt }} · ticket {{ v.ticket }}</span>
+              <span style="padding:3px 8px;border-radius:100px;background:{{ v.badge }};color:{{ v.cor }};font:700 9.5px/1 Manrope,sans-serif">{{ v.nivel }}</span>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+    </sc-if>
+
+    <div style="margin-top:auto;padding:18px 26px;border-top:1px solid #EDEFF3;background:#F9FAFC;display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-end;position:sticky;bottom:0">
+      <span style="padding:11px 16px;border-radius:11px;background:#fff;border:1px solid #E1E5EB;font:600 11.5px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer">Exportar</span>
+      <span style="padding:11px 16px;border-radius:11px;background:#fff;border:1px solid #E1E5EB;font:600 11.5px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer">Editar loja</span>
+      <span style="padding:11px 16px;border-radius:11px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer">Lançar venda</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ cadastroAberto }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:90;background:rgba(20,28,40,.42);display:flex;align-items:flex-start;justify-content:center;padding:22px;overflow:auto">
+  <div onClick="{{ fecharCadastro }}" style="position:absolute;inset:0;cursor:pointer"></div>
+  <div style="position:relative;width:min(660px,100%);background:#fff;border-radius:22px;box-shadow:0 26px 64px rgba(14,22,34,.28);overflow:hidden">
+    <div style="padding:22px 26px;border-bottom:1px solid #EDEFF3;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div style="min-width:0">
+        <div style="font:800 16px/1.1 Manrope,sans-serif">Cadastrar loja</div>
+        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:5px">Ramo, dados e supervisor responsável no mesmo passo — a loja já nasce visível no painel.</div>
+      </div>
+      <span onClick="{{ fecharCadastro }}" style="width:32px;height:32px;border-radius:11px;background:#F4F6F8;display:flex;align-items:center;justify-content:center;font:700 14px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer;flex:none">×</span>
+    </div>
+
+    <div style="padding:24px 26px;display:flex;flex-direction:column;gap:24px">
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px">
+          <span style="width:20px;height:20px;border-radius:50%;background:#1D2430;color:#fff;font:800 10px/20px Manrope,sans-serif;text-align:center;flex:none">1</span>
+          <span style="font:700 12.5px/1 Manrope,sans-serif">Ramo de varejo</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+          <sc-for list="{{ ramosOpcoes }}" as="r" hint-placeholder-count="2">
+            <div onClick="{{ r.escolher }}" style="padding:14px 16px;border-radius:13px;border:1.5px solid {{ r.borda }};background:{{ r.bg }};color:{{ r.cor }};font:{{ r.fonte }};cursor:pointer;display:flex;align-items:center;gap:9px">
+              <span style="width:9px;height:9px;border-radius:3px;background:{{ r.cor }};display:block;flex:none"></span>{{ r.nome }}
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:12px">
+          <span style="width:20px;height:20px;border-radius:50%;background:#1D2430;color:#fff;font:800 10px/20px Manrope,sans-serif;text-align:center;flex:none">2</span>
+          <span style="font:700 12.5px/1 Manrope,sans-serif">Dados da loja</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px">
+          <sc-for list="{{ camposLoja }}" as="c" hint-placeholder-count="4">
+            <div style="min-width:0">
+              <div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">{{ c.rot }}</div>
+              <div style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:11px;border:1.5px solid #E1E5EB;background:#F9FAFC;font:500 12.5px/1.2 Manrope,sans-serif;color:#A3ADBB">{{ c.dica }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="width:20px;height:20px;border-radius:50%;background:#1D2430;color:#fff;font:800 10px/20px Manrope,sans-serif;text-align:center;flex:none">3</span>
+            <span style="font:700 12.5px/1 Manrope,sans-serif">Supervisor responsável</span>
+          </div>
+          <span style="padding:7px 12px;border-radius:9px;background:#F4F6F8;font:600 10.5px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer;white-space:nowrap">+ Novo supervisor</span>
+        </div>
+        <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:12px">Sem vínculo a loja não aparece para ninguém lançar venda.</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ supervisoresOpcoes }}" as="s" hint-placeholder-count="3">
+            <div onClick="{{ s.escolher }}" style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:13px;border:1.5px solid {{ s.borda }};background:{{ s.bg }};cursor:pointer">
+              <span style="width:32px;height:32px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font:800 11px/1 Manrope,sans-serif;color:{{ s.cor }};flex:none">{{ s.ini }}</span>
+              <div style="min-width:0;flex:1">
+                <div style="font:700 12.5px/1.2 Manrope,sans-serif;color:{{ s.cor }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.nome }}</div>
+                <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px">{{ s.escopo }}</div>
+              </div>
+              <span style="width:20px;height:20px;border-radius:50%;background:{{ s.marcaBg }};border:1.6px solid {{ s.marcaBorda }};display:flex;align-items:center;justify-content:center;font:700 10px/1 Manrope,sans-serif;color:#fff;flex:none">{{ s.marca }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 26px;border-top:1px solid #EDEFF3;background:#F9FAFC;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <span style="font:500 11.5px/1.4 Manrope,sans-serif;color:#7C8695;min-width:0">{{ resumoCadastro }}</span>
+      <div style="display:flex;gap:9px;flex:none">
+        <span onClick="{{ fecharCadastro }}" style="padding:11px 17px;border-radius:11px;background:#fff;border:1px solid #E1E5EB;font:600 12px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer">Cancelar</span>
+        <span onClick="{{ fecharCadastro }}" style="padding:11px 17px;border-radius:11px;background:#05918C;color:#fff;font:700 12px/1 Manrope,sans-serif;cursor:pointer">Cadastrar e vincular</span>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<div style="padding:clamp(12px,1.6vw,24px);background:#E7E9EC;min-height:100vh;box-sizing:border-box">
+<div style="display:grid;grid-template-columns:{{ shellCols }};align-items:stretch;background:#fff;border-radius:{{ shellRaio }};overflow:hidden;box-shadow:0 16px 44px rgba(20,28,40,.10);color:#1B2129">
+
+  <aside style="background:#1D2430;color:#C7CFDA;display:flex;flex-direction:column;gap:{{ asideGap }};padding:{{ asidePad }};min-width:0">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 8px">
+      <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 11.5px/1 Manrope,sans-serif;color:#fff;flex:none">D&amp;D<svg width="17" height="17" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#1D2430" stroke-width="1.6"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
+      <div style="min-width:0">
+        <div style="font:800 15px/1.1 Manrope,sans-serif;color:#fff">Administração</div>
+        <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#7E8B9C;margin-top:3px">Metas D&amp;D</div>
+      </div>
+    </div>
+
+    <nav style="display:flex;flex-direction:{{ navDir }};gap:{{ navGap }};overflow-x:{{ navOverflow }};overflow-y:hidden;scrollbar-width:none;padding-bottom:2px">
+      <sc-for list="{{ navItens }}" as="n" hint-placeholder-count="8">
+        <sc-if value="{{ n.abreGrupo }}" hint-placeholder-val="{{ false }}">
+          <div style="font:700 9.5px/1 Manrope,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#65758A;padding:14px 14px 7px">{{ n.grupo }}</div>
+        </sc-if>
+        <div data-admin-nav="{{ n.id }}" role="button" tabindex="0" onClick="{{ n.ir }}" style="display:flex;align-items:center;gap:11px;padding:{{ navPad }};border-radius:12px;cursor:pointer;white-space:nowrap;flex:none;background:{{ n.bg }};color:{{ n.cor }};font:{{ n.fonte }}" style-hover="background:{{ n.bgHover }}">
+          <span style="width:14px;height:14px;display:block;flex:none;border-radius:{{ n.raio }};background:{{ n.pontoBg }};border:1.6px solid {{ n.pontoBorda }}"></span>{{ n.rot }}
+          <sc-if value="{{ n.temSelo }}" hint-placeholder-val="{{ false }}">
+            <span style="margin-left:auto;padding:3px 7px;border-radius:100px;background:#CD4664;color:#fff;font:700 10px/1 Manrope,sans-serif">{{ n.selo }}</span>
+          </sc-if>
+        </div>
+      </sc-for>
+    </nav>
+
+    <sc-if value="{{ ehDesktop }}" hint-placeholder-val="{{ true }}">
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="background:#252E3C;border:1px solid #313C4D;border-radius:16px;padding:18px">
+        <div style="font:700 12.5px/1.3 Manrope,sans-serif;color:#fff">Voltar ao painel</div>
+        <div style="font:500 11px/1.6 Manrope,sans-serif;color:#8D9BAD;margin:7px 0 12px">Metas, vendas e ranking ficam no painel de operação.</div>
+        <div style="padding:9px;border-radius:10px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif;text-align:center">Abrir painel</div>
+      </div>
+      <div onClick="{{ abrirPerfil }}" style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid #2C3644;cursor:pointer">
+        <div style="position:relative;width:34px;height:34px;border-radius:50%;background:#31404F;display:flex;align-items:center;justify-content:center;font:800 11px/1 Manrope,sans-serif;color:#9FD8D3;flex:none;overflow:hidden">
+          <sc-if value="{{ temFoto }}" hint-placeholder-val="{{ false }}">
+            <div role="img" aria-label="Foto do administrador" style="position:absolute;inset:0;background-image:{{ fotoCss }};background-size:cover;background-position:center"></div>
+          </sc-if>
+          <sc-if value="{{ naoTemFoto }}" hint-placeholder-val="{{ true }}">{{ adminIni }}</sc-if>
+        </div>
+        <div style="min-width:0;flex:1"><div style="font:700 12px/1.2 Manrope,sans-serif;color:#fff">{{ adminNomeCurto }}</div><div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#7E8B9C">Administrador</div></div>
+        <span style="font:500 11px/1 Manrope,sans-serif;color:#65758A;flex:none">▾</span>
+      </div>
+    </div>
+    </sc-if>
+  </aside>
+
+  <main style="padding:clamp(18px,2.2vw,28px) clamp(16px,2.4vw,32px) 28px;display:flex;flex-direction:column;gap:20px;min-width:0">
+    <header style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid #EDEFF3">
+      <div style="min-width:0">
+        <h1 style="margin:0;font:800 clamp(20px,2.3vw,25px)/1.1 Manrope,sans-serif;letter-spacing:-.025em">{{ tituloPagina }}</h1>
+        <div style="font:500 11.5px/1.4 Manrope,sans-serif;color:#7C8695;margin-top:6px">{{ subtituloPagina }}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+          <input value="{{ busca }}" onChange="{{ buscar }}" aria-label="Buscar usuário ou loja" placeholder="Buscar usuário, loja…" style="box-sizing:border-box;padding:10px 16px;border:1.5px solid transparent;border-radius:10px;background:#F4F6F8;min-width:210px;font:500 12px/1 Manrope,sans-serif;color:#3E4756;outline:none">
+        </sc-if>
+        <div data-admin-action="month" role="button" tabindex="0" aria-label="Trocar competência" style="display:flex;align-items:center;gap:8px;padding:10px 15px;border-radius:10px;background:#F4F6F8;font:700 12px/1 Manrope,sans-serif;color:#3E4756;cursor:pointer">{{ competencia }} <span style="color:#6F7A89">▾</span></div>
+        <div style="position:relative;width:38px;height:38px;border-radius:11px;background:#F4F6F8;display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:4px 4px 6px 6px;border:2px solid #3E4756;display:block"></span><span style="position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #F4F6F8;display:block"></span></div>
+        <div onClick="{{ abrirPerfil }}" style="position:relative;width:38px;height:38px;border-radius:50%;background:#E4F1F0;display:flex;align-items:center;justify-content:center;font:800 12px/1 Manrope,sans-serif;color:#0A5F5C;flex:none;cursor:pointer;overflow:hidden">
+          <sc-if value="{{ temFoto }}" hint-placeholder-val="{{ false }}">
+            <div role="img" aria-label="Foto do administrador" style="position:absolute;inset:0;background-image:{{ fotoCss }};background-size:cover;background-position:center"></div>
+          </sc-if>
+          <sc-if value="{{ naoTemFoto }}" hint-placeholder-val="{{ true }}">{{ adminIni }}</sc-if>
+        </div>
+      </div>
+    </header>
+
+    <sc-if value="{{ ehInicio }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Admin · Visão geral" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:14px">
+        <sc-for list="{{ kpis }}" as="s" hint-placeholder-count="4">
+          <div style="background:{{ s.bg }};border:1px solid {{ s.borda }};border-radius:16px;padding:18px 20px;min-width:0">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ s.cor }};display:block;flex:none"></span>
+              <span style="font:600 11px/1 Manrope,sans-serif;color:#7C8695">{{ s.rot }}</span>
+            </div>
+            <div style="font:800 24px/1.2 Manrope,sans-serif;margin-top:12px;letter-spacing:-.025em;color:{{ s.corVal }};white-space:nowrap">{{ s.valor }}</div>
+            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">{{ s.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+          <div>
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Faturamento acumulado</h2>
+            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">{{ totRealTxt }} acumulados · meta do mês {{ totMetaTxt }}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;font:500 11px/1 Manrope,sans-serif;color:#98A2B0">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;border-radius:2px;background:#05918C;display:block"></span>realizado</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:0;border-top:2px dashed #CD4664;display:block"></span>meta ideal</span>
+          </div>
+        </div>
+        <svg viewBox="0 0 900 200" preserveAspectRatio="none" style="width:100%;height:210px;display:block">
+          <defs><linearGradient id="gAdm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05918C" stop-opacity=".20"></stop><stop offset="1" stop-color="#05918C" stop-opacity="0"></stop></linearGradient></defs>
+          <line x1="0" x2="900" y1="{{ metaTopoY }}" y2="{{ metaTopoY }}" stroke="#EDEFF3" stroke-width="1.5" vector-effect="non-scaling-stroke"></line>
+          <path d="{{ areaCurva }}" fill="url(#gAdm)"></path>
+          <path d="{{ metaLinha }}" fill="none" stroke="#CD4664" stroke-width="2" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"></path>
+          <path d="{{ curva }}" fill="none" stroke="#05918C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+          <circle cx="{{ pontoX }}" cy="{{ pontoY }}" r="5" fill="#fff" stroke="#05918C" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;font:500 10.5px/1 'JetBrains Mono',monospace;color:#A3ADBB">
+          <sc-for list="{{ eixoDias }}" as="e" hint-placeholder-count="5"><span>{{ e.dia }}</span></sc-for>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minRosca }},1fr));gap:18px;align-items:start">
+        <sc-for list="{{ roscas }}" as="r" hint-placeholder-count="3">
+          <div style="background:{{ r.bg }};border:1px solid {{ r.borda }};border-radius:18px;padding:22px 24px;min-width:0">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+              <span style="width:9px;height:9px;border-radius:3px;background:{{ r.cor }};display:block;flex:none"></span>
+              <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">{{ r.titulo }}</h2>
+            </div>
+            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:18px">{{ r.sub }}</div>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;flex:none">
+                <svg width="132" height="132" viewBox="0 0 152 152">
+                  <circle cx="76" cy="76" r="64" fill="none" stroke="#F1F3F6" stroke-width="22"></circle>
+                  <sc-for list="{{ r.segmentos }}" as="s" hint-placeholder-count="3">
+                    <circle cx="76" cy="76" r="64" fill="none" stroke="{{ s.cor }}" stroke-width="22" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.off }}" transform="rotate(-90 76 76)"></circle>
+                  </sc-for>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font:800 27px/1 Manrope,sans-serif;letter-spacing:-.02em">{{ r.total }}</div>
+                  <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:4px">lojas</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:110px">
+                <sc-for list="{{ r.segmentos }}" as="s" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:10px;height:10px;border-radius:50%;background:{{ s.cor }};display:block;flex:none"></span>
+                    <span style="font:600 12px/1 Manrope,sans-serif;flex:1;min-width:0">{{ s.rot }}</span>
+                    <span style="font:800 12px/1 'JetBrains Mono',monospace;color:#5B6675;flex:none">{{ s.n }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:24px">
+          <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Ritmo da rede</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#98A2B0">dia útil {{ diasTrab }} de {{ diasMes }} · faltam {{ diasFaltam }}</span>
+        </div>
+        <div style="position:relative;height:52px;margin-bottom:8px">
+          <div style="position:absolute;inset:14px 0 auto 0;height:22px;border-radius:7px;background:#F1F3F6;overflow:hidden">
+            <div style="height:100%;background:linear-gradient(90deg,#05918C,#17ABA5);width:{{ totPctW }}"></div>
+          </div>
+          <div style="position:absolute;top:4px;bottom:14px;width:2px;background:#1D2430;left:{{ paceW }}"></div>
+          <div style="position:absolute;top:0;left:{{ paceW }};transform:translateX(-50%);white-space:nowrap;font:700 9.5px/1 Manrope,sans-serif;color:#1D2430">RITMO {{ paceTxt }}</div>
+          <div style="position:absolute;top:4px;bottom:14px;width:2px;background:#C98A2E;left:{{ projW }}"></div>
+          <div style="position:absolute;top:42px;left:{{ projW }};transform:translateX(-50%);white-space:nowrap;font:700 9.5px/1 'JetBrains Mono',monospace;color:#8A6420">projeção</div>
+          <div style="position:absolute;top:42px;left:{{ totPctW }};transform:translateX(-50%);white-space:nowrap;font:700 9.5px/1 'JetBrains Mono',monospace;color:#05918C">{{ totPctTxtRede }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;padding-top:20px;border-top:1px solid #F1F3F6">
+          <div><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">No ritmo</div><div style="font:800 20px/1.2 Manrope,sans-serif;margin-top:7px;color:#05918C">{{ nRitmo }}</div></div>
+          <div><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">Atenção</div><div style="font:800 20px/1.2 Manrope,sans-serif;margin-top:7px;color:#8A6420">{{ nAtencao }}</div></div>
+          <div><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">Crítico</div><div style="font:800 20px/1.2 Manrope,sans-serif;margin-top:7px;color:#CD4664">{{ nCritico }}</div></div>
+          <sc-for list="{{ porRamo }}" as="r" hint-placeholder-count="2">
+            <div><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">{{ r.nome }}</div><div style="font:800 20px/1.2 Manrope,sans-serif;margin-top:7px;color:{{ r.cor }}">{{ r.pctTxt }}</div></div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:14px">
+        <sc-for list="{{ saude }}" as="s" hint-placeholder-count="4">
+          <div style="background:{{ s.bg }};border:1px solid {{ s.borda }};border-radius:16px;padding:18px 20px">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ s.cor }};display:block;flex:none"></span>
+              <span style="font:600 11px/1 Manrope,sans-serif;color:#7C8695">{{ s.rot }}</span>
+            </div>
+            <div style="font:800 26px/1.2 Manrope,sans-serif;margin-top:12px;letter-spacing:-.02em;color:{{ s.corVal }}">{{ s.valor }}</div>
+            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">{{ s.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minColuna }},1fr));gap:18px;align-items:start">
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Exige ação sua</h2>
+            <span style="padding:6px 11px;border-radius:100px;background:#FDF1F3;font:700 10.5px/1 Manrope,sans-serif;color:#CD4664">{{ nPendencias }} pendências</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:16px">Coisas que só o administrador resolve.</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ pendencias }}" as="p" hint-placeholder-count="5">
+              <div onClick="{{ p.ir }}" style="display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:13px;background:{{ p.bg }};cursor:pointer" style-hover="background:{{ p.bgHover }}">
+                <span style="width:34px;height:34px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;font:800 12px/1 'JetBrains Mono',monospace;color:{{ p.cor }};flex:none">{{ p.n }}</span>
+                <div style="min-width:0;flex:1">
+                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ p.titulo }}</div>
+                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#7C8695;margin-top:4px">{{ p.texto }}</div>
+                </div>
+                <span style="font:700 11px/1 Manrope,sans-serif;color:{{ p.cor }};white-space:nowrap;flex:none">{{ p.acao }} →</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+          <div style="background:#1D2430;border-radius:18px;padding:22px 24px;color:#fff">
+            <div style="font:500 10.5px/1 Manrope,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8D9BAD">Competência {{ competencia }}</div>
+            <div style="display:flex;align-items:baseline;gap:10px;margin:14px 0 10px;flex-wrap:wrap">
+              <span style="font:800 24px/1 Manrope,sans-serif">Aberta</span>
+              <span style="padding:5px 10px;border-radius:100px;background:#31404F;font:700 10.5px/1 Manrope,sans-serif;color:#9FD8D3">dia 18 de 26</span>
+            </div>
+            <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#A9B5C4">Fatores 1,12 e 1,30 · fechamento libera junho e congela os números de maio.</div>
+            <div style="display:flex;gap:8px;margin-top:16px">
+              <span onClick="{{ irCompetencias }}" style="flex:1;padding:10px;border-radius:10px;background:#31404F;font:700 11px/1 Manrope,sans-serif;color:#fff;text-align:center;cursor:pointer">Ajustar</span>
+              <span onClick="{{ irCompetencias }}" style="flex:1;padding:10px;border-radius:10px;background:#05918C;font:700 11px/1 Manrope,sans-serif;color:#fff;text-align:center;cursor:pointer">Fechar mês</span>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Últimas alterações</h2>
+              <span onClick="{{ irAuditoria }}" style="font:600 11px/1 Manrope,sans-serif;color:#05918C;cursor:pointer">Ver tudo</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:15px">
+              <sc-for list="{{ auditoriaResumo }}" as="a" hint-placeholder-count="4">
+                <div style="display:flex;gap:11px">
+                  <span style="width:7px;height:7px;border-radius:50%;background:{{ a.cor }};display:block;flex:none;margin-top:5px"></span>
+                  <div style="min-width:0;flex:1">
+                    <div style="font:600 12px/1.4 Manrope,sans-serif">{{ a.texto }}</div>
+                    <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px">{{ a.quem }} · {{ a.quando }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehLojas }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Lojas" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <sc-for list="{{ filtrosLoja }}" as="f" hint-placeholder-count="5">
+            <span onClick="{{ f.escolher }}" style="padding:8px 14px;border-radius:100px;background:{{ f.bg }};color:{{ f.cor }};font:{{ f.fonte }};white-space:nowrap;cursor:pointer;transition:background .4s ease,color .4s ease">{{ f.rot }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span style="padding:10px 16px;border-radius:10px;background:#F4F6F8;font:600 11.5px/1 Manrope,sans-serif;color:#3E4756;cursor:pointer;white-space:nowrap">Exportar</span>
+          <span onClick="{{ abrirCadastro }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:10px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Cadastrar loja</span>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:20px 22px;min-width:0">
+        <div style="display:grid;grid-template-columns:{{ colsLojaAdm }};gap:12px;padding-bottom:12px;border-bottom:1px solid #EDEFF3;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">
+          <div>Loja · <span style="color:#05918C">{{ nFiltradas }}</span></div><div>Atingimento</div>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div>Supervisor</div></sc-if>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Faturamento</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta</div></sc-if>
+          <div style="text-align:right">Situação</div>
+        </div>
+        <sc-for list="{{ lojasFiltradas }}" as="l" hint-placeholder-count="11">
+          <div onClick="{{ l.abrir }}" style="display:grid;grid-template-columns:{{ colsLojaAdm }};gap:12px;align-items:center;padding:13px 8px;margin:0 -8px;border-radius:10px;border-bottom:1px solid #F4F6F8;cursor:pointer;transition:background .4s ease" style-hover="background:#F9FAFC">
+            <div style="display:flex;align-items:center;gap:11px;min-width:0">
+              <span style="width:32px;height:32px;border-radius:10px;background:#F4F6F8;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5B6675;flex:none">{{ l.cod }}</span>
+              <div style="flex:1;min-width:0">
+                <div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</div>
+                <span style="display:inline-block;margin-top:5px;padding:3px 8px;border-radius:100px;background:{{ l.ramoBg }};color:{{ l.ramoCor }};font:700 9.5px/1 Manrope,sans-serif;white-space:nowrap">{{ l.ramo }}</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <div style="flex:1;height:8px;border-radius:5px;background:#F1F3F6;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ l.barra }};width:{{ l.pctW }}"></div></div>
+              <span style="font:700 11.5px/1 'JetBrains Mono',monospace;width:46px;text-align:right;color:{{ l.sitCor }}">{{ l.pctTxt }}</span>
+            </div>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+              <div style="font:500 11.5px/1.4 Manrope,sans-serif;color:{{ l.supCor }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.sup }}</div>
+            </sc-if>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:right;white-space:nowrap;font:600 12px/1 'JetBrains Mono',monospace">{{ l.realTxt }}</div>
+            </sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#7C8695">{{ l.metaTxt }}</div>
+            </sc-if>
+            <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap;background:{{ l.sitBg }};color:{{ l.sitCor }}">{{ l.situacao }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehDesempenho }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Desempenho" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <sc-for list="{{ abasDesempenho }}" as="a" hint-placeholder-count="3">
+          <span onClick="{{ a.escolher }}" style="padding:9px 16px;border-radius:100px;background:{{ a.bg }};color:{{ a.cor }};font:{{ a.fonte }};cursor:pointer;white-space:nowrap;transition:background .4s ease,color .4s ease">{{ a.rot }}</span>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:14px">
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:16px;padding:18px 20px">
+          <div style="font:600 11px/1 Manrope,sans-serif;color:#7C8695">Meta acumulada</div>
+          <div style="font:800 22px/1.2 Manrope,sans-serif;margin-top:11px;white-space:nowrap">{{ anoMetaTxt }}</div>
+          <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">5 meses lançados</div>
+        </div>
+        <div style="background:#E4F1F0;border:1px solid #CBE5E3;border-radius:16px;padding:18px 20px">
+          <div style="font:600 11px/1 Manrope,sans-serif;color:#4E6663">Realizado</div>
+          <div style="font:800 22px/1.2 Manrope,sans-serif;margin-top:11px;color:#0A5F5C;white-space:nowrap">{{ anoRealTxt }}</div>
+          <div style="font:500 11px/1.5 Manrope,sans-serif;color:#4E6663;margin-top:6px">{{ anoPctTxt }} da meta</div>
+        </div>
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:16px;padding:18px 20px">
+          <div style="font:600 11px/1 Manrope,sans-serif;color:#7C8695">Meses batidos</div>
+          <div style="font:800 22px/1.2 Manrope,sans-serif;margin-top:11px">{{ mesesBatidos }} de 5</div>
+          <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">março foi o melhor</div>
+        </div>
+        <div style="background:#FDF1F3;border:1px solid #F6D9E0;border-radius:16px;padding:18px 20px">
+          <div style="font:600 11px/1 Manrope,sans-serif;color:#6B5B60">Gap do ano</div>
+          <div style="font:800 22px/1.2 Manrope,sans-serif;margin-top:11px;color:#CD4664;white-space:nowrap">{{ gapAnoTxt }}</div>
+          <div style="font:500 11px/1.5 Manrope,sans-serif;color:#6B5B60;margin-top:6px">a recuperar até dezembro</div>
+        </div>
+      </div>
+
+      <sc-if value="{{ dsVendedoras }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:14px">
+        <sc-for list="{{ kpisVend }}" as="k" hint-placeholder-count="4">
+          <div style="background:{{ k.bg }};border:1px solid {{ k.borda }};border-radius:16px;padding:18px 20px;min-width:0">
+            <div style="font:600 11px/1 Manrope,sans-serif;color:#7C8695">{{ k.rot }}</div>
+            <div style="font:800 22px/1.2 Manrope,sans-serif;margin-top:11px;letter-spacing:-.02em;color:{{ k.cor }};white-space:nowrap">{{ k.valor }}</div>
+            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#98A2B0;margin-top:6px">{{ k.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ dsVendedoras }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+          <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Desempenho das vendedoras</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#98A2B0">rede inteira · comissão sobre o realizado</span>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ colsVend }};gap:12px;padding-bottom:12px;border-bottom:1px solid #EDEFF3;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">
+          <div>#</div><div>Vendedora</div><div>% da meta</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vendido</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Ticket</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Comissão</div></sc-if>
+        </div>
+        <sc-for list="{{ vendedoras }}" as="v" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:{{ colsVend }};gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #F4F6F8">
+            <div style="font:700 12px/1 'JetBrains Mono',monospace;color:#A3ADBB">{{ v.pos }}</div>
+            <div style="display:flex;align-items:center;gap:11px;min-width:0">
+              <span style="width:32px;height:32px;border-radius:50%;background:#F4F6F8;display:flex;align-items:center;justify-content:center;font:800 10.5px/1 Manrope,sans-serif;color:#5B6675;flex:none">{{ v.ini }}</span>
+              <div style="min-width:0">
+                <div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.nome }}</div>
+                <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.loja }} · {{ v.nivel }}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <div style="flex:1;height:8px;border-radius:5px;background:#F1F3F6;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ v.cor }};width:{{ v.pctW }}"></div></div>
+              <span style="font:700 11.5px/1 'JetBrains Mono',monospace;width:46px;text-align:right;color:{{ v.cor }}">{{ v.pctTxt }}</span>
+            </div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:right;white-space:nowrap;font:600 12px/1 'JetBrains Mono',monospace">{{ v.realTxt }}</div>
+            </sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#7C8695">{{ v.ticket }}</div>
+            </sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 'JetBrains Mono',monospace;white-space:nowrap;background:{{ v.badge }};color:{{ v.cor }}">{{ v.comissao }}</span></div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ dsRamo }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:24px 26px;margin-bottom:18px;min-width:0">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px">
+          <span style="width:10px;height:10px;border-radius:3px;background:{{ ramoAtivoCor }};display:block;flex:none"></span>
+          <h2 style="margin:0;font:700 16px/1 Manrope,sans-serif;color:{{ ramoAtivoCor }}">{{ ramoAtivo }}</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#98A2B0">{{ resumoRamoAtivo.qtd }}</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+          <span style="font:800 30px/1 Manrope,sans-serif;letter-spacing:-.025em;color:{{ ramoAtivoCor }}">{{ resumoRamoAtivo.pctTxt }}</span>
+          <span style="font:500 12px/1 Manrope,sans-serif;color:#7C8695">{{ resumoRamoAtivo.realTxt }} de {{ resumoRamoAtivo.metaTxt }}</span>
+        </div>
+        <div style="height:10px;border-radius:6px;background:#F1F3F6;overflow:hidden"><div style="height:100%;border-radius:6px;background:{{ ramoAtivoCor }};width:{{ resumoRamoAtivo.pctW }}"></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid #F1F3F6">
+          <div><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">Fatia da rede</div><div style="font:800 15px/1.3 Manrope,sans-serif;margin-top:6px">{{ resumoRamoAtivo.fatia }}</div></div>
+          <div style="text-align:right"><div style="font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">Situação</div><div style="font:800 15px/1.3 Manrope,sans-serif;margin-top:6px;color:{{ resumoRamoAtivo.sitCor }}">{{ resumoRamoAtivo.situacao }}</div></div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+          <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Lojas de {{ ramoAtivo }}</h2>
+          <span style="font:500 11.5px/1 Manrope,sans-serif;color:#98A2B0">por atingimento da Meta 1 em {{ competencia }}</span>
+        </div>
+        <sc-for list="{{ rankLojas }}" as="l" hint-placeholder-count="9">
+          <div onClick="{{ l.abrir }}" style="display:flex;align-items:center;gap:13px;padding:13px 8px;margin:0 -8px;border-radius:10px;border-bottom:1px solid #F4F6F8;cursor:pointer;transition:background .4s ease" style-hover="background:#F9FAFC">
+            <span style="font:700 12px/1 'JetBrains Mono',monospace;color:#A3ADBB;width:18px;flex:none">{{ l.pos }}</span>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                <span style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+                <span style="font:800 12px/1 'JetBrains Mono',monospace;color:{{ l.sitCor }};flex:none">{{ l.pctTxt }}</span>
+              </div>
+              <div style="height:7px;border-radius:4px;background:#F1F3F6;overflow:hidden;margin-top:8px"><div style="height:100%;border-radius:4px;background:{{ l.barra }};width:{{ l.pctW }}"></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:7px">
+                <span>{{ l.realTxt }} de {{ l.metaTxt }} · {{ l.sup }}</span>
+                <span style="padding:3px 8px;border-radius:100px;background:{{ l.ramoBg }};color:{{ l.ramoCor }};font:700 9.5px/1 Manrope,sans-serif">{{ l.ramo }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minColuna }},1fr));gap:18px;align-items:start">
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:22px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Meta × realizado por mês</h2>
+            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Manrope,sans-serif;color:#98A2B0">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#E1E6EB;display:block"></span>meta</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#05918C;display:block"></span>realizado</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:16px;height:200px">
+            <sc-for list="{{ meses }}" as="m" hint-placeholder-count="5">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0">
+                <div style="display:flex;align-items:flex-end;gap:4px;height:150px">
+                  <div style="width:16px;border-radius:4px 4px 0 0;background:#E1E6EB;height:{{ m.hMeta }}"></div>
+                  <div style="width:16px;border-radius:4px 4px 0 0;background:{{ m.cor }};height:{{ m.hReal }}"></div>
+                </div>
+                <div style="font:700 10.5px/1 Manrope,sans-serif;color:#5B6675">{{ m.nome }}</div>
+                <div style="font:700 10px/1 'JetBrains Mono',monospace;color:{{ m.cor }}">{{ m.pctTxt }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+          <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+            <h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Por ramo de varejo</h2>
+            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:18px">Franquias e Multimarcas somadas separadamente.</div>
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <sc-for list="{{ porRamo }}" as="r" hint-placeholder-count="2">
+                <div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between;margin-bottom:9px">
+                    <span style="display:flex;align-items:center;gap:8px;min-width:0">
+                      <span style="width:9px;height:9px;border-radius:3px;background:{{ r.cor }};display:block;flex:none"></span>
+                      <span style="font:700 12.5px/1.2 Manrope,sans-serif">{{ r.nome }}</span>
+                      <span style="font:500 10.5px/1.2 Manrope,sans-serif;color:#98A2B0">{{ r.qtd }}</span>
+                    </span>
+                    <span style="font:800 13px/1 'JetBrains Mono',monospace;color:{{ r.cor }}">{{ r.pctTxt }}</span>
+                  </div>
+                  <div style="height:8px;border-radius:5px;background:#F1F3F6;overflow:hidden;margin-bottom:7px"><div style="height:100%;border-radius:5px;background:{{ r.cor }};width:{{ r.pctW }}"></div></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0">
+                    <span>{{ r.realTxt }} de {{ r.metaTxt }}</span>
+                    <span>{{ r.fatia }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+            <h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Por supervisor</h2>
+            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:18px">Soma das lojas sob cada responsável.</div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ porSupervisor }}" as="s" hint-placeholder-count="2">
+                <div>
+                  <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
+                    <span style="width:32px;height:32px;border-radius:50%;background:{{ s.bg }};display:flex;align-items:center;justify-content:center;font:800 11px/1 Manrope,sans-serif;color:{{ s.cor }};flex:none">{{ s.ini }}</span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.nome }}</div>
+                      <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px">{{ s.lojas }} · {{ s.realTxt }}</div>
+                    </div>
+                    <span style="font:800 13px/1 'JetBrains Mono',monospace;color:{{ s.cor }};flex:none">{{ s.pctTxt }}</span>
+                  </div>
+                  <div style="height:8px;border-radius:5px;background:#F1F3F6;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ s.cor }};width:{{ s.pctW }}"></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+            <h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Faixas de comissão · vendedoras</h2>
+            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:16px">Distribuição das vendedoras da rede.</div>
+            <div style="display:flex;height:12px;border-radius:7px;overflow:hidden;margin-bottom:16px">
+              <sc-for list="{{ faixasVend }}" as="f" hint-placeholder-count="4">
+                <div style="height:100%;background:{{ f.cor }};width:{{ f.largura }}"></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ faixasVend }}" as="f" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="width:10px;height:10px;border-radius:3px;background:{{ f.cor }};display:block;flex:none"></span>
+                  <span style="font:600 11.5px/1 Manrope,sans-serif;flex:1;min-width:0">{{ f.rot }}</span>
+                  <span style="font:800 12px/1 'JetBrains Mono',monospace;color:{{ f.cor }};flex:none">{{ f.qtd }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+            <h2 style="margin:0 0 16px;font:700 15px/1 Manrope,sans-serif">Fechamento mês a mês</h2>
+            <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.7fr);gap:12px;padding-bottom:12px;border-bottom:1px solid #EDEFF3;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">
+              <div>Mês</div><div style="text-align:right">Meta</div><div style="text-align:right">Realizado</div><div style="text-align:right">%</div>
+            </div>
+            <sc-for list="{{ tabelaAno }}" as="t" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.7fr);gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #F4F6F8">
+                <div style="font:700 12px/1 Manrope,sans-serif">{{ t.mes }}</div>
+                <div style="text-align:right;white-space:nowrap;font:500 11.5px/1 'JetBrains Mono',monospace;color:#7C8695">{{ t.metaTxt }}</div>
+                <div style="text-align:right;white-space:nowrap;font:600 11.5px/1 'JetBrains Mono',monospace">{{ t.realTxt }}</div>
+                <div style="text-align:right;white-space:nowrap;font:700 11.5px/1 'JetBrains Mono',monospace;color:{{ t.cor }}">{{ t.pctTxt }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehUsuarios }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Usuários" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <sc-for list="{{ filtrosUsuario }}" as="f" hint-placeholder-count="5">
+            <span onClick="{{ f.escolher }}" style="padding:8px 14px;border-radius:100px;background:{{ f.bg }};color:{{ f.cor }};font:{{ f.fonte }};white-space:nowrap;cursor:pointer">{{ f.rot }}</span>
+          </sc-for>
+        </div>
+        <span style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:10px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Cadastrar usuário</span>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:20px 22px;min-width:0">
+        <div style="display:grid;grid-template-columns:{{ colsUsuario }};gap:12px;padding-bottom:12px;border-bottom:1px solid #EDEFF3;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">
+          <div>Usuário</div><div>Papel</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div>Escopo</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div>Último acesso</div></sc-if>
+          <div style="text-align:right">Ações</div>
+        </div>
+        <sc-for list="{{ usuarios }}" as="u" hint-placeholder-count="7">
+          <div style="display:grid;grid-template-columns:{{ colsUsuario }};gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #F4F6F8">
+            <div style="display:flex;align-items:center;gap:11px;min-width:0">
+              <span style="width:34px;height:34px;border-radius:50%;background:{{ u.avBg }};display:flex;align-items:center;justify-content:center;font:800 11px/1 Manrope,sans-serif;color:{{ u.avCor }};flex:none">{{ u.ini }}</span>
+              <div style="min-width:0">
+                <div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.nome }}</div>
+                <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.email }}</div>
+              </div>
+            </div>
+            <div><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap;background:{{ u.papelBg }};color:{{ u.papelCor }}">{{ u.papel }}</span></div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
+              <div style="font:500 11.5px/1.4 Manrope,sans-serif;color:#5B6675;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ u.escopo }}</div>
+            </sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+              <div style="font:500 11.5px/1.4 Manrope,sans-serif;color:{{ u.acessoCor }};white-space:nowrap">{{ u.acesso }}</div>
+            </sc-if>
+            <div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap">
+              <span style="padding:7px 11px;border-radius:9px;background:#F4F6F8;font:600 10.5px/1 Manrope,sans-serif;color:#5B6675;cursor:pointer;white-space:nowrap">Editar</span>
+              <span style="padding:7px 11px;border-radius:9px;background:{{ u.acaoBg }};font:700 10.5px/1 Manrope,sans-serif;color:{{ u.acaoCor }};cursor:pointer;white-space:nowrap">{{ u.acaoRot }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="background:#FFF8E9;border:1px solid #F2E2BE;border-radius:16px;padding:18px 22px;display:flex;gap:13px;align-items:flex-start">
+        <span style="width:8px;height:8px;border-radius:50%;background:#C98A2E;display:block;flex:none;margin-top:5px"></span>
+        <div>
+          <div style="font:700 12.5px/1.3 Manrope,sans-serif">Usuário nunca é excluído</div>
+          <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#6B6353;margin-top:4px">Desativar mantém o histórico de quem lançou cada venda. A revisão de acessos está pendente há 94 dias — vale confirmar quem ainda precisa entrar.</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehEstrutura }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Estrutura" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:18px;align-items:start">
+      <div style="grid-column:{{ colunasDuplas }};background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Organograma comercial</h2>
+          <span onClick="{{ abrirCadastro }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:10px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Cadastrar loja</span>
+        </div>
+        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:18px">Ramo → gerente comercial → supervisor → lojas. O histórico pertence à loja: desvincular não apaga venda nenhuma.</div>
+
+        <sc-for list="{{ arvore }}" as="r" hint-placeholder-count="2">
+          <div style="border:1.5px solid {{ r.ramoBg }};border-radius:18px;margin-bottom:16px;overflow:hidden">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 18px;background:{{ r.ramoBg }}">
+              <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                <span style="width:9px;height:9px;border-radius:3px;background:{{ r.ramoCor }};display:block;flex:none"></span>
+                <span style="font:800 13px/1.2 Manrope,sans-serif;color:{{ r.ramoCor }}">{{ r.ramo }}</span>
+              </div>
+              <span style="font:600 11px/1 Manrope,sans-serif;color:{{ r.ramoCor }};white-space:nowrap">{{ r.resumoRamo }}</span>
+            </div>
+
+            <div style="padding:14px 16px">
+              <sc-for list="{{ r.gerentes }}" as="g" hint-placeholder-count="1">
+                <div style="border:1px solid #EDEFF3;border-radius:14px;padding:14px 16px;margin-bottom:10px">
+                  <div style="display:flex;align-items:center;gap:11px;padding-bottom:12px;border-bottom:1px solid #F4F6F8">
+                    <span style="width:32px;height:32px;border-radius:10px;background:#F4F6F8;display:flex;align-items:center;justify-content:center;font:800 11px/1 Manrope,sans-serif;color:#3E4756;flex:none">{{ g.ini }}</span>
+                    <div style="min-width:0;flex:1">
+                      <div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.nome }}</div>
+                      <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#98A2B0;margin-top:3px">Gerente comercial</div>
+                    </div>
+                    <span style="font:600 10.5px/1 Manrope,sans-serif;color:#98A2B0;white-space:nowrap;flex:none">{{ g.resumo }}</span>
+                  </div>
+                  <sc-for list="{{ g.supervisores }}" as="s" hint-placeholder-count="2">
+                    <div style="padding:13px 0 3px;border-bottom:1px solid #F4F6F8">
+                      <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
+                        <span style="width:16px;height:16px;border-left:1.6px solid #D6DCE4;border-bottom:1.6px solid #D6DCE4;border-radius:0 0 0 5px;display:block;flex:none;margin-left:6px"></span>
+                        <span style="width:28px;height:28px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:800 10px/1 Manrope,sans-serif;color:#CD4664;flex:none">{{ s.ini }}</span>
+                        <span style="font:700 12px/1.2 Manrope,sans-serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.nome }}</span>
+                        <span style="padding:6px 10px;border-radius:9px;background:#F4F6F8;font:600 10.5px/1 Manrope,sans-serif;color:#7C8695;cursor:pointer;flex:none">Desvincular</span>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;gap:7px;padding:0 0 12px 50px">
+                        <sc-for list="{{ s.lojas }}" as="l" hint-placeholder-count="3">
+                          <span style="display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:100px;background:{{ l.ramoBg }};font:600 11px/1 Manrope,sans-serif;color:{{ l.ramoCor }};white-space:nowrap">{{ l.nome }}<span style="font:700 11px/1 Manrope,sans-serif;opacity:.55;cursor:pointer">×</span></span>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+        <div style="background:#FDF1F3;border:1px solid #F6D9E0;border-radius:18px;padding:22px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif;color:#CD4664">Lojas sem supervisor</h2>
+            <span style="font:800 18px/1 'JetBrains Mono',monospace;color:#CD4664">{{ nOrfas }}</span>
+          </div>
+          <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#6B5B60;margin-bottom:16px">Sem vínculo, ninguém lança venda e ela some do painel dos supervisores.</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ orfas }}" as="o" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:12px;background:#fff">
+                <span style="width:30px;height:30px;border-radius:9px;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#CD4664;flex:none">{{ o.cod }}</span>
+                <span style="font:700 12px/1.2 Manrope,sans-serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.nome }}</span>
+                <span onClick="{{ abrirCadastro }}" style="font:700 11px/1 Manrope,sans-serif;color:#CD4664;cursor:pointer;flex:none">Vincular</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+          <h2 style="margin:0 0 16px;font:700 15px/1 Manrope,sans-serif">Lojas cadastradas</h2>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ lojasResumo }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:11px">
+                <span style="width:9px;height:9px;border-radius:50%;background:{{ l.cor }};display:block;flex:none"></span>
+                <span style="font:600 12px/1.2 Manrope,sans-serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+                <span style="font:500 10.5px/1 'JetBrains Mono',monospace;color:#98A2B0;flex:none">{{ l.cod }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div onClick="{{ abrirCadastro }}" style="margin-top:18px;padding:11px;border-radius:11px;background:#F4F6F8;font:700 11.5px/1 Manrope,sans-serif;color:#3E4756;text-align:center;cursor:pointer">Cadastrar loja</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehCompetencias }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Competências" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:18px;align-items:start">
+      <div style="grid-column:{{ colunasDuplas }};background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Competências de 2026</h2>
+        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:18px">Dias úteis excluem domingos e feriados — é o divisor da meta diária.</div>
+        <div style="display:grid;grid-template-columns:{{ colsComp }};gap:12px;padding-bottom:12px;border-bottom:1px solid #EDEFF3;font:600 10px/1 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A3ADBB">
+          <div>Mês</div><div style="text-align:right">Dias úteis</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Fator 2</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Fator 3</div></sc-if>
+          <div style="text-align:right">Situação</div>
+        </div>
+        <sc-for list="{{ competencias }}" as="c" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:{{ colsComp }};gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #F4F6F8">
+            <div style="font:700 12.5px/1 Manrope,sans-serif">{{ c.mes }}</div>
+            <div style="text-align:right;font:600 12px/1 'JetBrains Mono',monospace">{{ c.dias }}</div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#7C8695">{{ c.f2 }}</div></sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#7C8695">{{ c.f3 }}</div></sc-if>
+            <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap;background:{{ c.bg }};color:{{ c.cor }}">{{ c.situacao }}</span></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+          <h2 style="margin:0 0 16px;font:700 15px/1 Manrope,sans-serif">Fechar {{ competencia }}</h2>
+          <div style="display:flex;flex-direction:column;gap:11px;margin-bottom:16px">
+            <sc-for list="{{ checklistFechamento }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="width:18px;height:18px;border-radius:6px;background:{{ c.bg }};border:1.6px solid {{ c.borda }};display:flex;align-items:center;justify-content:center;font:700 10px/1 Manrope,sans-serif;color:#fff;flex:none">{{ c.marca }}</span>
+                <span style="font:500 11.5px/1.4 Manrope,sans-serif;color:{{ c.cor }};flex:1;min-width:0">{{ c.rot }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="padding:14px;border-radius:12px;background:#FDF1F3;font:500 11.5px/1.6 Manrope,sans-serif;color:#6B5B60;margin-bottom:14px">Depois de fechado, nenhum supervisor lança ou corrige maio. Correções passam a exigir solicitação aprovada.</div>
+          <div style="padding:12px;border-radius:12px;background:#1D2430;color:#fff;font:700 12px/1 Manrope,sans-serif;text-align:center;cursor:pointer">Fechar competência</div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h2 style="margin:0;font:700 15px/1 Manrope,sans-serif">Correções pendentes</h2>
+            <span style="padding:5px 10px;border-radius:100px;background:#FDF1F3;font:700 10.5px/1 Manrope,sans-serif;color:#CD4664">{{ nCorrecoes }}</span>
+          </div>
+          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#98A2B0;margin-bottom:16px">Alterações em mês já fechado.</div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ correcoes }}" as="c" hint-placeholder-count="2">
+              <div style="padding:14px 15px;border-radius:13px;background:#F7F8FA">
+                <div style="font:700 12px/1.3 Manrope,sans-serif">{{ c.titulo }}</div>
+                <div style="font:500 11px/1.6 Manrope,sans-serif;color:#7C8695;margin:5px 0 11px">{{ c.motivo }}</div>
+                <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                  <span style="font:600 11px/1 'JetBrains Mono',monospace;color:#98A2B0;text-decoration:line-through">{{ c.de }}</span>
+                  <span style="font:700 11px/1 Manrope,sans-serif;color:#A3ADBB">→</span>
+                  <span style="font:700 11px/1 'JetBrains Mono',monospace;color:#0A5F5C">{{ c.para }}</span>
+                  <span style="margin-left:auto;display:flex;gap:6px">
+                    <span style="padding:7px 11px;border-radius:9px;background:#fff;font:600 10.5px/1 Manrope,sans-serif;color:#7C8695;cursor:pointer">Recusar</span>
+                    <span style="padding:7px 11px;border-radius:9px;background:#05918C;font:700 10.5px/1 Manrope,sans-serif;color:#fff;cursor:pointer">Aprovar</span>
+                  </span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehAuditoria }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Auditoria" style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <sc-for list="{{ filtrosAuditoria }}" as="f" hint-placeholder-count="5">
+            <span onClick="{{ f.escolher }}" style="padding:8px 14px;border-radius:100px;background:{{ f.bg }};color:{{ f.cor }};font:{{ f.fonte }};white-space:nowrap;cursor:pointer">{{ f.rot }}</span>
+          </sc-for>
+        </div>
+        <span style="padding:10px 16px;border-radius:10px;background:#F4F6F8;font:700 11.5px/1 Manrope,sans-serif;color:#3E4756;cursor:pointer;white-space:nowrap">Exportar registro</span>
+      </div>
+
+      <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;min-width:0">
+        <sc-for list="{{ auditoria }}" as="a" hint-placeholder-count="7">
+          <div style="display:flex;gap:14px;padding:15px 0;border-bottom:1px solid #F4F6F8">
+            <div style="display:flex;flex-direction:column;align-items:center;flex:none;padding-top:3px">
+              <span style="width:9px;height:9px;border-radius:50%;background:{{ a.cor }};display:block"></span>
+              <span style="width:1.5px;flex:1;background:#EDEFF3;display:block;margin-top:5px"></span>
+            </div>
+            <div style="min-width:0;flex:1">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+                <span style="padding:4px 9px;border-radius:6px;background:{{ a.tagBg }};font:700 9.5px/1 Manrope,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:{{ a.cor }}">{{ a.tag }}</span>
+                <span style="font:700 12.5px/1.3 Manrope,sans-serif">{{ a.titulo }}</span>
+              </div>
+              <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#7C8695;margin-top:6px">{{ a.detalhe }}</div>
+              <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#A3ADBB;margin-top:6px">{{ a.quem }} · {{ a.quando }} · {{ a.ip }}</div>
+            </div>
+            <sc-if value="{{ a.temValores }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none">
+                <span style="font:500 11px/1 'JetBrains Mono',monospace;color:#A3ADBB;text-decoration:line-through">{{ a.de }}</span>
+                <span style="font:700 12px/1 'JetBrains Mono',monospace;color:{{ a.cor }}">{{ a.para }}</span>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehConfig }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Admin · Preferências" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:18px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+        <div data-admin-action="rules" role="button" tabindex="0" aria-label="Editar regras gerais de metas" style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px;cursor:pointer" style-hover="border-color:#B8D8D5;box-shadow:0 12px 30px rgba(5,145,140,.09)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px">
+            <div><h2 style="margin:0 0 6px;font:700 15px/1 Manrope,sans-serif">Regras gerais</h2><div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#6F7A89">Valem para toda a rede e para as competências novas.</div></div>
+            <span style="padding:8px 11px;border-radius:10px;background:#EAF6F5;color:#0A5F5C;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap">Editar regras →</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:15px">
+            <sc-for list="{{ prefsGerais }}" as="p" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ p.rot }}</div>
+                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#6F7A89;margin-top:3px">{{ p.desc }}</div>
+                </div>
+                <span style="padding:10px 14px;border-radius:10px;border:1.5px solid #E1E5EB;background:#F9FAFC;font:700 12.5px/1 'JetBrains Mono',monospace;color:#1B2129;flex:none;white-space:nowrap">{{ p.valor }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+          <h2 style="margin:0 0 18px;font:700 15px/1 Manrope,sans-serif">Alertas automáticos</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ prefsAlertas }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ t.rot }}</div>
+                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#6F7A89;margin-top:3px">{{ t.desc }}</div>
+                </div>
+                <div style="width:44px;height:25px;border-radius:100px;background:{{ t.trilho }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.pos }};flex:none">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;display:block"></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+        <div style="background:#fff;border:1px solid #EDEFF3;border-radius:18px;padding:22px 24px">
+          <h2 style="margin:0 0 18px;font:700 15px/1 Manrope,sans-serif">Integrações</h2>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ prefsIntegracao }}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 15px;border-radius:13px;background:#F7F8FA">
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ i.rot }}</div>
+                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#6F7A89;margin-top:3px">{{ i.desc }}</div>
+                </div>
+                <span style="padding:6px 11px;border-radius:100px;background:{{ i.bg }};color:{{ i.cor }};font:700 10.5px/1 Manrope,sans-serif;flex:none;white-space:nowrap">{{ i.estado }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#1D2430;border-radius:18px;padding:22px 24px;color:#fff">
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Manrope,sans-serif">Exportar tudo</h2>
+          <div style="font:500 11.5px/1.7 Manrope,sans-serif;color:#A9B5C4;margin-bottom:16px">Metas, vendas, cadastros e registro de auditoria do ano em um arquivo. A exportação fica registrada na auditoria.</div>
+          <div style="display:flex;gap:8px">
+            <span style="flex:1;padding:11px;border-radius:11px;background:#31404F;font:700 11.5px/1 Manrope,sans-serif;text-align:center;cursor:pointer">Excel</span>
+            <span style="flex:1;padding:11px;border-radius:11px;background:#05918C;font:700 11.5px/1 Manrope,sans-serif;text-align:center;cursor:pointer">PDF</span>
+          </div>
+        </div>
+
+        <div style="background:#FDF1F3;border:1px solid #F6D9E0;border-radius:18px;padding:22px 24px">
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Manrope,sans-serif;color:#CD4664">Reabrir competência fechada</h2>
+          <div style="font:500 11.5px/1.7 Manrope,sans-serif;color:#6B5B60;margin-bottom:16px">Destrava os números de um mês já congelado. Exige digitar o nome do mês para confirmar e fica registrado na auditoria.</div>
+          <div style="padding:12px;border-radius:12px;background:#fff;border:1.5px solid #F6D9E0;font:700 12px/1 Manrope,sans-serif;color:#CD4664;text-align:center;cursor:pointer">Reabrir mês…</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #EDEFF3;font:500 11px/1 Manrope,sans-serif;color:#A3ADBB">
+      <span>Administração · D&amp;D Cosméticos</span>
+      <span>{{ totalUsuarios }} usuários · {{ totalLojas }} lojas · competência {{ competencia }}</span>
+    </footer>
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;competenciaAtual&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MAIO 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contexto&quot;},&quot;mostrarSelos&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Navegação&quot;}}">
+const TEAL = '#05918C', TEAL_ESC = '#0A5F5C', ROSA = '#CD4664', AMBAR = '#C98A2E', GRAFITE = '#1D2430';
+const ADMIN_DATA = (() => {
+  try { return JSON.parse(localStorage.getItem('metasdd.admin.v1') || '{}'); }
+  catch (_) { return {}; }
+})();
+
+const PAGINAS = [
+  { id: 'inicio', rot: 'Visão geral', raio: '4px', grupo: 'Operação' },
+  { id: 'lojas', rot: 'Lojas', raio: '4px', grupo: 'Operação' },
+  { id: 'desempenho', rot: 'Desempenho', raio: '3px', grupo: 'Operação' },
+  { id: 'usuarios', rot: 'Usuários', raio: '50%', grupo: 'Administração' },
+  { id: 'estrutura', rot: 'Estrutura', raio: '4px', grupo: 'Administração' },
+  { id: 'competencias', rot: 'Competências', raio: '3px', grupo: 'Administração' },
+  { id: 'auditoria', rot: 'Auditoria', raio: '4px', grupo: 'Administração' },
+  { id: 'config', rot: 'Preferências', raio: '50%', grupo: 'Administração' }
+];
+
+const LOJAS = Array.isArray(ADMIN_DATA.lojas) && ADMIN_DATA.lojas.length ? ADMIN_DATA.lojas : [
+  { nome: 'RODO 3', cod: '1017', meta: 269314, real: 171648.07, sup: 'Layane Andrade', ramo: 'Franquias' },
+  { nome: 'TIJUCA 3', cod: '157', meta: 235633, real: 146808.19, sup: 'Márcia Bastos', ramo: 'Franquias' },
+  { nome: 'ITABORAÍ 2', cod: '257', meta: 233744, real: 149548.50, sup: 'Márcia Bastos', ramo: 'Franquias' },
+  { nome: 'RIO BRANCO', cod: '363', meta: 220000, real: 135115.64, sup: 'Layane Andrade', ramo: 'Multimarcas' },
+  { nome: 'COPA 2', cod: '165', meta: 200000, real: 113166.98, sup: 'Layane Andrade', ramo: 'Franquias' },
+  { nome: 'RODRIGO SILVA', cod: '997', meta: 180000, real: 139354.01, sup: 'Layane Andrade', ramo: 'Multimarcas' },
+  { nome: 'CONCEIÇÃO', cod: '109', meta: 169598, real: 102588.12, sup: 'Márcia Bastos', ramo: 'Multimarcas' },
+  { nome: 'CENTER IV', cod: '117', meta: 167300, real: 95764.39, sup: 'Márcia Bastos', ramo: 'Franquias' },
+  { nome: 'SÃO JOSÉ', cod: '236', meta: 152846, real: 91900.81, sup: 'Layane Andrade', ramo: 'Multimarcas' },
+  { nome: 'SÃO GONÇALO', cod: '364', meta: 0, real: 0, sup: null, ramo: 'Multimarcas' },
+  { nome: 'ALCÂNTARA', cod: '401', meta: 0, real: 0, sup: null, ramo: 'Franquias' }
+];
+
+const RAMO_COR = { Franquias: { cor: '#0A5F5C', bg: '#E4F1F0' }, Multimarcas: { cor: '#8A4B92', bg: '#F3EAF6' } };
+
+const MESES = Array.isArray(ADMIN_DATA.meses) && ADMIN_DATA.meses.length ? ADMIN_DATA.meses : [
+  { nome: 'JAN', meta: 1222921, real: 1035086.67 },
+  { nome: 'FEV', meta: 1241284, real: 791620.54 },
+  { nome: 'MAR', meta: 1285691, real: 1504070.63 },
+  { nome: 'ABR', meta: 1363444, real: 1268293.56 },
+  { nome: 'MAI', meta: 1828435, real: 1145894.71 }
+];
+
+const BRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+const K = n => Math.round(n).toLocaleString('pt-BR');
+const PCT = n => (n * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+
+const USUARIOS = Array.isArray(ADMIN_DATA.usuarios) && ADMIN_DATA.usuarios.length ? ADMIN_DATA.usuarios : [
+  { nome: 'Washington Oliveira', email: 'washington@ddcosmeticos.com.br', papel: 'Administrador', escopo: 'Sistema inteiro', acesso: 'agora', ativo: true },
+  { nome: 'Layane Andrade', email: 'layane@ddcosmeticos.com.br', papel: 'Supervisora', escopo: '5 lojas · zona sul', acesso: 'há 12 min', ativo: true },
+  { nome: 'Márcia Bastos', email: 'marcia@ddcosmeticos.com.br', papel: 'Supervisora', escopo: '4 lojas · centro', acesso: 'há 2 h', ativo: true },
+  { nome: 'Renata Coelho', email: 'renata@ddcosmeticos.com.br', papel: 'Gerente comercial', escopo: 'Todas as lojas', acesso: 'ontem', ativo: true },
+  { nome: 'Patrícia Reis', email: 'patricia@ddcosmeticos.com.br', papel: 'Supervisora', escopo: '2 lojas · Niterói', acesso: 'há 71 dias', ativo: true },
+  { nome: 'Simone Alves', email: 'simone@ddcosmeticos.com.br', papel: 'Pendente', escopo: 'Convite enviado', acesso: 'nunca', ativo: false },
+  { nome: 'Carla Menezes', email: 'carla@ddcosmeticos.com.br', papel: 'Inativa', escopo: 'Desligada em 03/2026', acesso: 'há 5 meses', ativo: false }
+];
+
+class Component extends DCLogic {
+  state = { pagina: ADMIN_DATA.pagina || 'inicio', w: typeof window !== 'undefined' ? window.innerWidth : 1440, busca: '', filtroLoja: 'Todas', filtroUsuario: 'Todos', filtroAuditoria: 'Tudo', abaDesempenho: 'vendedoras', cadastroAberto: false, perfilAberto: false, sessaoEncerrada: false, foto: ADMIN_DATA.foto || null, ramoNovo: 'Franquias', supNovo: ADMIN_DATA.supervisores?.[0]?.nome || 'Sem supervisor', lojaAberta: null, abaFicha: 'resumo' };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  _ficha(lojas, diasMes, diasTrab, diasFaltam, pace) {
+    const cod = this.state.lojaAberta;
+    if (!cod) return { fichaAberta: false };
+    const l = lojas.find(x => x.cod === cod);
+    if (!l) return { fichaAberta: false };
+    const aba = this.state.abaFicha;
+    const semMeta = l._meta === 0;
+    const proj = semMeta ? 0 : l._real / diasTrab * diasMes;
+
+    const pesos = [1.02, 1.24, 0, .78, .86, .91, .97, 1.06, 1.31, 0, .74, .82, .88, .95, 1.04, 1.28, 0, .79, .87, .93, 1.09];
+    const soma = pesos.reduce((s, v) => s + v, 0);
+    const metaDia = semMeta ? 0 : l._meta / diasMes;
+    const dias = [];
+    const diarioReal = ADMIN_DATA.diario?.[l.id] || [];
+    if (!semMeta && diarioReal.length) diarioReal.forEach(item => {
+      const v = Number(item.valor || 0), razao = metaDia ? v / metaDia : 0;
+      dias.push({ dia: String(item.data || '').slice(-2), valorTxt: K(v), pctTxt: PCT(razao), cor: razao >= 1 ? TEAL : razao >= 0.85 ? '#8A6420' : ROSA, bg: razao >= 1 ? '#E4F1F0' : razao >= 0.85 ? '#FFF8E9' : '#FDF1F3', largura: Math.min(razao * 100, 100).toFixed(0) + '%', quem: item.quem || l.sup });
+    });
+    else if (!semMeta && !ADMIN_DATA.profile) pesos.forEach((p, i) => {
+      if (p === 0) return;
+      const v = l._real * (p / soma);
+      const razao = metaDia ? v / metaDia : 0;
+      dias.push({
+        dia: String(i + 1).padStart(2, '0'),
+        valorTxt: K(v),
+        pctTxt: PCT(razao),
+        cor: razao >= 1 ? TEAL : razao >= 0.85 ? '#8A6420' : ROSA,
+        bg: razao >= 1 ? '#E4F1F0' : razao >= 0.85 ? '#FFF8E9' : '#FDF1F3',
+        largura: Math.min(razao * 100, 100).toFixed(0) + '%',
+        quem: i % 7 === 0 ? 'Washington O. (admin)' : l.sup
+      });
+    });
+    dias.reverse();
+
+    const histRaw = semMeta ? [] : (ADMIN_DATA.historico?.[l.id] || (ADMIN_DATA.profile ? [] : [
+      { mes: 'Janeiro', meta: l._meta * 0.62, real: l._meta * 0.70 },
+      { mes: 'Fevereiro', meta: l._meta * 0.64, real: l._meta * 0.51 },
+      { mes: 'Março', meta: l._meta * 0.71, real: l._meta * 0.88 },
+      { mes: 'Abril', meta: l._meta * 0.78, real: l._meta * 0.81 },
+      { mes: 'Maio', meta: l._meta, real: l._real }
+    ]));
+    const maxH = Math.max(...histRaw.map(h => Math.max(h.meta, h.real)), 1);
+    const historico = histRaw.map(h => ({
+      mes: h.mes, metaTxt: K(h.meta), realTxt: K(h.real),
+      pctTxt: PCT(h.real / h.meta),
+      cor: h.real >= h.meta ? TEAL : h.real / h.meta > 0.9 ? '#8A6420' : ROSA,
+      hMeta: Math.round(h.meta / maxH * 110) + 'px',
+      hReal: Math.round(h.real / maxH * 110) + 'px',
+      nome: h.mes.slice(0, 3).toUpperCase()
+    }));
+
+    const vendedoras = semMeta ? [] : (ADMIN_DATA.vendedoras || []).filter(v => v.lojaId === l.id).map(v => ({ nome: v.nome, pct: v.meta ? v.real / v.meta : 0, venda: v.real, ticket: v.atend ? v.real / v.atend : 0 })).concat(!ADMIN_DATA.profile ? [
+      { nome: 'Aline Ferreira', pct: 1.06, venda: l._real * 0.28, ticket: 168.2 },
+      { nome: 'Bruna Cardoso', pct: 0.94, venda: l._real * 0.26, ticket: 151.4 },
+      { nome: 'Camila Nunes', pct: 0.82, venda: l._real * 0.24, ticket: 142.9 },
+      { nome: 'Denise Rocha', pct: 0.61, venda: l._real * 0.22, ticket: 128.6 }
+    ] : []).map(v => ({
+      nome: v.nome, ini: v.nome.split(' ').map(p => p[0]).join(''),
+      pctTxt: PCT(v.pct), vendaTxt: K(v.venda), ticket: 'R$ ' + v.ticket.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      pctW: Math.min(v.pct * 100, 100).toFixed(0) + '%',
+      cor: v.pct >= 1 ? TEAL : v.pct >= 0.9 ? TEAL : v.pct >= 0.75 ? '#8A6420' : ROSA,
+      nivel: v.pct >= 1 ? '3ª meta' : v.pct >= 0.9 ? '2ª meta' : v.pct >= 0.75 ? '1ª meta' : 'sem meta',
+      badge: v.pct >= 0.9 ? '#E4F1F0' : v.pct >= 0.75 ? '#FFF8E9' : '#FDF1F3'
+    }));
+
+    const abas = [
+      { id: 'resumo', rot: 'Resumo' },
+      { id: 'dias', rot: 'Vendas por dia' },
+      { id: 'equipe', rot: 'Vendedoras' }
+    ].map(a => ({
+      rot: a.rot, escolher: () => this.setState({ abaFicha: a.id }),
+      bg: aba === a.id ? '#1D2430' : '#F4F6F8',
+      cor: aba === a.id ? '#fff' : '#5B6675',
+      fonte: aba === a.id ? '700 11.5px/1 Manrope,sans-serif' : '600 11.5px/1 Manrope,sans-serif'
+    }));
+
+    return {
+      fichaAberta: true,
+      fecharFicha: () => this.setState({ lojaAberta: null }),
+      fichaNome: l.nome, fichaCod: l.cod, fichaSup: l.sup, fichaRamo: l.ramo,
+      fichaRamoCor: l.ramoCor, fichaRamoBg: l.ramoBg,
+      fichaSit: l.situacao, fichaSitCor: l.sitCor, fichaSitBg: l.sitBg,
+      fichaPct: l.pctTxt, fichaPctW: l.pctW, fichaBarra: l.barra,
+      fichaReal: semMeta ? '—' : BRL(l._real), fichaMeta: semMeta ? '—' : BRL(l._meta),
+      fichaFalta: semMeta ? '—' : BRL(Math.max(l._meta - l._real, 0)),
+      fichaPorDia: semMeta ? '—' : BRL(Math.max(l._meta - l._real, 0) / Math.max(diasFaltam, 1)),
+      fichaProj: semMeta ? '—' : BRL(proj),
+      fichaProjPct: semMeta ? '—' : PCT(proj / l._meta),
+      fichaMetaDia: semMeta ? '—' : BRL(metaDia),
+      fichaDiasTxt: diasTrab + ' de ' + diasMes + ' dias úteis',
+      fichaAbas: abas,
+      fichaEhResumo: aba === 'resumo', fichaEhDias: aba === 'dias', fichaEhEquipe: aba === 'equipe',
+      fichaDias: dias, fichaHistorico: historico, fichaVendedoras: vendedoras,
+      semMeta, temMeta: !semMeta,
+      vazioTitulo: 'Loja ainda sem meta lançada',
+      vazioTexto: 'Vincule um supervisor e cadastre a Meta 1 para esta competência. Sem isso a loja não aparece no painel de operação e ninguém consegue lançar venda.',
+      fichaMeta2: semMeta ? '—' : BRL(l._meta * 1.12),
+      fichaMeta3: semMeta ? '—' : BRL(l._meta * 1.30)
+    };
+  }
+
+  renderVals() {
+    const pagina = this.state.pagina, w = this.state.w;
+    const ehMobile = w < 760, ehDesktop = w >= 1180, compacto = w < 980;
+    const ir = id => () => this.setState({ pagina: id });
+
+    const pendenciasNav = Array.isArray(ADMIN_DATA.pendencias) ? ADMIN_DATA.pendencias : [];
+    const selosPorPagina = pendenciasNav.reduce((totais, item) => {
+      const paginaPendente = item?.pagina;
+      if (!paginaPendente) return totais;
+      const quantidade = Math.max(1, Number(item.n) || 1);
+      totais[paginaPendente] = (totais[paginaPendente] || 0) + quantidade;
+      return totais;
+    }, {});
+
+    let grupoAnterior = null;
+    const navItens = PAGINAS.map(p => {
+      const ativo = p.id === pagina;
+      const totalSelo = selosPorPagina[p.id] || 0;
+      const abreGrupo = ehDesktop && p.grupo !== grupoAnterior;
+      if (abreGrupo) grupoAnterior = p.grupo;
+      return {
+        id: p.id, rot: p.rot, raio: p.raio, ir: ir(p.id),
+        abreGrupo, grupo: p.grupo,
+        temSelo: totalSelo > 0 && !ativo && (this.props.mostrarSelos ?? true), selo: String(totalSelo),
+        bg: ativo ? TEAL : 'transparent',
+        bgHover: ativo ? TEAL : '#293343',
+        cor: ativo ? '#fff' : '#B4BFCD',
+        fonte: ativo ? '700 13px/1 Manrope,sans-serif' : '500 13px/1 Manrope,sans-serif',
+        pontoBg: ativo ? '#fff' : 'transparent',
+        pontoBorda: ativo ? '#fff' : '#65758A'
+      };
+    });
+
+    // ---- números reais da rede ----
+    const diasMes = Number(ADMIN_DATA.diasMes || 26), diasTrab = Number(ADMIN_DATA.diasTrab || 1), diasFaltam = Math.max(diasMes - diasTrab, 0), pace = Math.min(diasTrab / Math.max(diasMes, 1), 1);
+    const ativas = LOJAS.filter(l => l.meta > 0);
+    const totMeta = ativas.reduce((s, l) => s + l.meta, 0);
+    const totReal = ativas.reduce((s, l) => s + l.real, 0);
+    const totPct = totMeta ? totReal / totMeta : 0;
+    const proj = diasTrab ? totReal / diasTrab * diasMes : 0;
+    const delta = totPct - pace;
+
+    const situacaoDe = pct => pct >= pace - 0.02 ? { rot: 'No ritmo', cor: TEAL, bg: '#E4F1F0' }
+      : pct >= pace - 0.09 ? { rot: 'Atenção', cor: '#8A6420', bg: '#FFF8E9' }
+        : { rot: 'Crítico', cor: ROSA, bg: '#FDF1F3' };
+
+    const lojas = LOJAS.map(l => {
+      const semMeta = l.meta === 0;
+      const pct = semMeta ? 0 : l.real / l.meta;
+      const st = semMeta ? { rot: 'Sem meta', cor: '#5B6675', bg: '#F4F6F8' } : situacaoDe(pct);
+      return {
+        id: l.id, nome: l.nome, cod: l.cod, sup: l.sup || 'Sem supervisor',
+        ramo: l.ramo, ramoCor: RAMO_COR[l.ramo].cor, ramoBg: RAMO_COR[l.ramo].bg,
+        supCor: l.sup ? '#5B6675' : ROSA,
+        metaTxt: semMeta ? '—' : K(l.meta),
+        realTxt: semMeta ? '—' : K(l.real),
+        pctTxt: semMeta ? '—' : PCT(pct),
+        pctW: Math.min(pct * 100, 100).toFixed(1) + '%',
+        porDiaTxt: semMeta ? '—' : K(Math.max(l.meta - l.real, 0) / Math.max(diasFaltam, 1)),
+        situacao: st.rot, sitCor: st.cor, sitBg: st.bg,
+        barra: semMeta ? '#DDE2E8' : st.cor,
+        abrir: () => this.setState({ lojaAberta: l.cod, abaFicha: 'resumo' }),
+        _pct: pct, _meta: l.meta, _real: l.real
+      };
+    }).sort((a, b) => b._pct - a._pct);
+
+    const nRitmo = lojas.filter(l => l.situacao === 'No ritmo').length;
+    const nAtencao = lojas.filter(l => l.situacao === 'Atenção').length;
+    const nCritico = lojas.filter(l => l.situacao === 'Crítico').length;
+
+    const VEND = Array.isArray(ADMIN_DATA.vendedoras) ? ADMIN_DATA.vendedoras : [
+      { nome: 'Aline Ferreira', loja: 'Rodrigo Silva', meta: 39000, real: 41280, atend: 245 },
+      { nome: 'Bruna Cardoso', loja: 'Rodo 3', meta: 41400, real: 38940, atend: 257 },
+      { nome: 'Camila Nunes', loja: 'Tijuca 3', meta: 39900, real: 35110, atend: 246 },
+      { nome: 'Daniela Prado', loja: 'Itaboraí 2', meta: 40800, real: 33480, atend: 260 },
+      { nome: 'Elaine Souza', loja: 'Rio Branco', meta: 39300, real: 30250, atend: 217 },
+      { nome: 'Fabiana Lima', loja: 'Copa 2', meta: 39600, real: 27310, atend: 175 },
+      { nome: 'Gisele Amorim', loja: 'Conceição', meta: 40800, real: 24870, atend: 212 },
+      { nome: 'Helena Dias', loja: 'Center IV', meta: 39700, real: 21460, atend: 172 }
+    ];
+    const nivelDe = p => p >= 1 ? { n: '3ª meta', c: 1.2 } : p >= 0.9 ? { n: '2ª meta', c: 1.0 } : p >= 0.75 ? { n: '1ª meta', c: 0.8 } : { n: 'sem meta', c: 0 };
+    const vendedoras = VEND.map(v => {
+      const pct = v.real / v.meta, nv = nivelDe(pct), ticket = v.real / v.atend;
+      const cor = pct >= 1 ? TEAL : pct >= 0.9 ? TEAL : pct >= 0.75 ? '#8A6420' : ROSA;
+      return {
+        nome: v.nome, loja: v.loja, ini: v.nome.split(' ').map(p => p[0]).join(''),
+        pctTxt: PCT(pct), pctW: Math.min(pct * 100, 100).toFixed(0) + '%',
+        realTxt: K(v.real), metaTxt: K(v.meta),
+        ticket: 'R$ ' + ticket.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        atend: String(v.atend),
+        nivel: nv.n, comissao: nv.c ? BRL(v.real * nv.c / 100) : '—',
+        cor, badge: pct >= 0.9 ? '#E4F1F0' : pct >= 0.75 ? '#FFF8E9' : '#FDF1F3',
+        _pct: pct, _c: nv.c, _real: v.real, _ticket: ticket
+      };
+    }).sort((a, b) => b._pct - a._pct).map((v, i) => ({ ...v, pos: String(i + 1) }));
+
+    const totComissao = vendedoras.reduce((s, v) => s + v._real * v._c / 100, 0);
+    const ticketMedioRede = vendedoras.length ? vendedoras.reduce((s, v) => s + v._ticket, 0) / vendedoras.length : 0;
+    const kpisVend = [
+      { rot: 'Vendedoras ativas', valor: String(vendedoras.length), sub: 'em ' + LOJAS.filter(l => l.meta > 0).length + ' lojas com meta', cor: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { rot: 'Bateram alguma meta', valor: String(vendedoras.filter(v => v._c > 0).length), sub: 'com direito a comissão', cor: TEAL_ESC, bg: '#E4F1F0', borda: '#CBE5E3' },
+      { rot: 'Comissão projetada', valor: BRL(totComissao), sub: 'sobre o realizado até hoje', cor: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { rot: 'Ticket médio da rede', valor: 'R$ ' + ticketMedioRede.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), sub: 'por atendimento', cor: '#1B2129', bg: '#fff', borda: '#EDEFF3' }
+    ];
+    const faixasVend = [
+      { rot: '3ª meta · 1,2%', qtd: vendedoras.filter(v => v._pct >= 1).length, cor: TEAL_ESC, bg: '#D3EBE9' },
+      { rot: '2ª meta · 1,0%', qtd: vendedoras.filter(v => v._pct >= 0.9 && v._pct < 1).length, cor: TEAL, bg: '#E4F1F0' },
+      { rot: '1ª meta · 0,8%', qtd: vendedoras.filter(v => v._pct >= 0.75 && v._pct < 0.9).length, cor: '#8A6420', bg: '#FFF8E9' },
+      { rot: 'Sem comissão', qtd: vendedoras.filter(v => v._pct < 0.75).length, cor: ROSA, bg: '#FDF1F3' }
+    ].map(f => ({ ...f, qtd: String(f.qtd), largura: (vendedoras.length ? f.qtd / vendedoras.length * 100 : 0).toFixed(1) + '%' }));
+
+    const porRamo = ['Franquias', 'Multimarcas'].map(ramo => {
+      const suas = LOJAS.filter(l => l.ramo === ramo && l.meta > 0);
+      const m = suas.reduce((s, l) => s + l.meta, 0), r = suas.reduce((s, l) => s + l.real, 0);
+      const pct = m ? r / m : 0, st = situacaoDe(pct);
+      const c = RAMO_COR[ramo];
+      return {
+        nome: ramo, qtd: String(LOJAS.filter(l => l.ramo === ramo).length) + ' lojas',
+        metaTxt: BRL(m), realTxt: BRL(r), pctTxt: PCT(pct),
+        pctW: Math.min(pct * 100, 100).toFixed(1) + '%',
+        cor: c.cor, bg: c.bg, sitCor: st.cor, situacao: st.rot,
+        fatia: PCT(r / totReal) + ' do faturamento'
+      };
+    });
+
+    const porSupervisor = [...new Set(LOJAS.map(l => l.sup).filter(Boolean))].map(nome => {
+      const suas = LOJAS.filter(l => l.sup === nome && l.meta > 0);
+      const m = suas.reduce((s, l) => s + l.meta, 0), r = suas.reduce((s, l) => s + l.real, 0);
+      const pct = m ? r / m : 0, st = situacaoDe(pct);
+      return {
+        nome, ini: nome.split(' ').map(p => p[0]).join(''),
+        lojas: String(suas.length) + ' lojas',
+        metaTxt: BRL(m), realTxt: BRL(r), pctTxt: PCT(pct),
+        pctW: Math.min(pct * 100, 100).toFixed(1) + '%',
+        cor: st.cor, bg: st.bg, situacao: st.rot
+      };
+    });
+
+    const maxMes = Math.max(...MESES.map(m => Math.max(m.meta, m.real)));
+    const meses = MESES.map(m => ({
+      nome: m.nome,
+      hMeta: Math.round(m.meta / maxMes * 150) + 'px',
+      hReal: Math.round(m.real / maxMes * 150) + 'px',
+      cor: m.real >= m.meta ? TEAL : m.real / m.meta > 0.9 ? AMBAR : ROSA,
+      pctTxt: PCT(m.real / m.meta)
+    }));
+    const anoMeta = MESES.reduce((s, m) => s + m.meta, 0);
+    const anoReal = MESES.reduce((s, m) => s + m.real, 0);
+
+    const tabelaAno = MESES.map(m => ({
+      mes: { JAN: 'Janeiro', FEV: 'Fevereiro', MAR: 'Março', ABR: 'Abril', MAI: 'Maio' }[m.nome],
+      metaTxt: K(m.meta), realTxt: K(m.real), pctTxt: PCT(m.real / m.meta),
+      cor: m.real >= m.meta ? TEAL : m.real / m.meta > 0.9 ? AMBAR : ROSA,
+      situacao: m.real >= m.meta ? 'Bateu' : 'Abaixo'
+    }));
+
+    // ---- curva do mês: acumulado realizado vs linha de meta ----
+    const pesos = [1.02, 1.24, 0, .78, .86, .91, .97, 1.06, 1.31, 0, .74, .82, .88, .95, 1.04, 1.28, 0, .79, .87, .93, 1.09];
+    const somaP = pesos.reduce((s, v) => s + v, 0);
+    let acc = 0;
+    const serie = [];
+    pesos.forEach((p, i) => {
+      if (p === 0) return;
+      acc += totReal * (p / somaP);
+      serie.push({ dia: i + 1, v: acc });
+    });
+    const topo = Math.max(totMeta, ...serie.map(p => p.v));
+    const pxX = i => (i / (serie.length - 1 || 1)) * 900;
+    const pxY = v => 190 - (v / topo) * 165;
+    let curva = '';
+    serie.forEach((p, i) => {
+      const x = pxX(i), y = pxY(p.v);
+      if (!i) curva += `M${x.toFixed(1)} ${y.toFixed(1)}`;
+      else {
+        const xa = pxX(i - 1), ya = pxY(serie[i - 1].v), cx = (xa + x) / 2;
+        curva += ` C${cx.toFixed(1)} ${ya.toFixed(1)} ${cx.toFixed(1)} ${y.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      }
+    });
+    const ultimoX = pxX(serie.length - 1), ultimoY = pxY(serie[serie.length - 1].v);
+    const metaLinha = `M0 ${pxY(0).toFixed(1)} L900 ${pxY(totMeta).toFixed(1)}`;
+    const eixoDias = [0, .25, .5, .75, 1].map((f, i) => {
+      const p = serie[Math.min(Math.round(f * (serie.length - 1)), serie.length - 1)];
+      return { i: String(i), dia: 'dia ' + p.dia };
+    });
+
+    const fazDonut = conjunto => {
+      let a = 0;
+      const nR = conjunto.filter(l => l._pct >= pace - 0.02).length;
+      const nA = conjunto.filter(l => l._pct < pace - 0.02 && l._pct >= pace - 0.09).length;
+      const nC = conjunto.filter(l => l._pct < pace - 0.09).length;
+      return [
+        { n: nR, cor: TEAL, rot: 'No ritmo' },
+        { n: nA, cor: '#F2AABA', rot: 'Atenção' },
+        { n: nC, cor: ROSA, rot: 'Crítico' }
+      ].map(seg => {
+        const frac = conjunto.length ? seg.n / conjunto.length : 0;
+        const o = { ...seg, n: String(seg.n), dash: (frac * 402).toFixed(0) + ' 402', off: (-a * 402).toFixed(0) };
+        a += frac;
+        return o;
+      });
+    };
+
+    const lojasAtivas = lojas.filter(l => l.situacao !== 'Sem meta');
+    const donut = fazDonut(lojasAtivas);
+
+    const roscas = [
+      { titulo: 'Rede', sub: 'todas as lojas com meta', total: lojasAtivas.length, segmentos: donut, cor: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { titulo: 'Franquias', sub: 'lojas próprias da bandeira', total: lojasAtivas.filter(l => l.ramo === 'Franquias').length, segmentos: fazDonut(lojasAtivas.filter(l => l.ramo === 'Franquias')), cor: RAMO_COR.Franquias.cor, bg: '#fff', borda: '#EDEFF3' },
+      { titulo: 'Multimarcas', sub: 'pontos de venda parceiros', total: lojasAtivas.filter(l => l.ramo === 'Multimarcas').length, segmentos: fazDonut(lojasAtivas.filter(l => l.ramo === 'Multimarcas')), cor: RAMO_COR.Multimarcas.cor, bg: '#fff', borda: '#EDEFF3' }
+    ].map(r => ({ ...r, total: String(r.total) }));
+
+    const kpis = [
+      { rot: 'Faturamento do mês', valor: BRL(totReal), sub: 'de ' + BRL(totMeta) + ' em meta', cor: TEAL, corVal: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { rot: 'Atingimento da rede', valor: PCT(totPct), sub: (delta >= 0 ? '+' : '') + (delta * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' pts vs ritmo ' + PCT(pace), cor: delta >= 0 ? TEAL : ROSA, corVal: delta >= 0 ? TEAL_ESC : ROSA, bg: delta >= 0 ? '#E4F1F0' : '#FDF1F3', borda: delta >= 0 ? '#CBE5E3' : '#F6D9E0' },
+      { rot: 'Projeção do mês', valor: BRL(proj), sub: 'fecha em ' + PCT(proj / totMeta) + ' da meta', cor: AMBAR, corVal: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { rot: 'Falta para a meta', valor: BRL(Math.max(totMeta - totReal, 0)), sub: diasFaltam ? BRL(Math.max(totMeta - totReal, 0) / diasFaltam) + '/dia em ' + diasFaltam + ' dias' : 'competência concluída', cor: ROSA, corVal: ROSA, bg: '#fff', borda: '#EDEFF3' }
+    ];
+
+    const saude = Array.isArray(ADMIN_DATA.saude) ? ADMIN_DATA.saude : [
+      { rot: 'Usuários ativos', valor: '5', sub: '1 convite pendente', cor: TEAL, corVal: '#1B2129', bg: '#fff', borda: '#EDEFF3' },
+      { rot: 'Lojas sem supervisor', valor: '2', sub: 'invisíveis no painel', cor: ROSA, corVal: ROSA, bg: '#FDF1F3', borda: '#F6D9E0' },
+      { rot: 'Não lançaram hoje', valor: '3', sub: 'de 9 lojas · corte às 22h', cor: AMBAR, corVal: '#8A6420', bg: '#FFF8E9', borda: '#F2E2BE' },
+      { rot: 'Metas não conferidas', valor: '4', sub: 'aguardando o gerente', cor: TEAL, corVal: '#1B2129', bg: '#fff', borda: '#EDEFF3' }
+    ];
+
+    const pendencias = Array.isArray(ADMIN_DATA.pendencias) ? ADMIN_DATA.pendencias.map(p => ({ ...p, ir: ir(p.pagina || 'inicio') })) : [
+      { n: '2', titulo: 'Lojas sem supervisor vinculado', texto: 'São Gonçalo (364) e Alcântara (401) não aparecem para ninguém lançar.', acao: 'Vincular', cor: ROSA, bg: '#FDF1F3', bgHover: '#FBE7EB', ir: ir('estrutura') },
+      { n: '1', titulo: 'Convite pendente há 9 dias', texto: 'Simone Alves não aceitou o convite. Expira automaticamente em 7 dias.', acao: 'Reenviar', cor: AMBAR, bg: '#FFF8E9', bgHover: '#FBF0D9', ir: ir('usuarios') },
+      { n: '1', titulo: 'Supervisora sem acesso há 71 dias', texto: 'Patrícia Reis mantém acesso a 2 lojas. Confirme se ainda precisa.', acao: 'Revisar', cor: AMBAR, bg: '#FFF8E9', bgHover: '#FBF0D9', ir: ir('usuarios') },
+      { n: '2', titulo: 'Correções aguardando decisão', texto: 'Alterações em abril, já fechado — precisam da sua aprovação.', acao: 'Decidir', cor: TEAL, bg: '#F1F8F7', bgHover: '#E4F1F0', ir: ir('competencias') },
+      { n: '1', titulo: 'Revisão de acessos vencida', texto: 'A última confirmação foi há 94 dias. O ciclo recomendado é 90.', acao: 'Revisar', cor: TEAL, bg: '#F1F8F7', bgHover: '#E4F1F0', ir: ir('usuarios') }
+    ];
+
+    const auditoriaResumo = Array.isArray(ADMIN_DATA.auditoriaResumo) ? ADMIN_DATA.auditoriaResumo : [
+      { texto: 'Meta da Copa 2 alterada de R$ 200.000 para R$ 180.000', quem: 'Layane Andrade', quando: 'há 40 min', cor: ROSA },
+      { texto: 'Venda de 20/05 corrigida na Tijuca 3', quem: 'Márcia Bastos', quando: 'há 3 h', cor: AMBAR },
+      { texto: 'Renata Coelho conferiu 5 metas de maio', quem: 'Renata Coelho', quando: 'ontem, 18:12', cor: TEAL },
+      { texto: 'Loja Alcântara (401) cadastrada', quem: 'Washington O.', quando: 'ontem, 09:40', cor: TEAL }
+    ];
+
+    const papelCor = p => p === 'Administrador' ? { bg: '#1D2430', cor: '#fff' }
+      : p === 'Gerente comercial' ? { bg: '#E4F1F0', cor: TEAL_ESC }
+        : p === 'Supervisora' ? { bg: '#F4F6F8', cor: '#3E4756' }
+          : p === 'Pendente' ? { bg: '#FFF8E9', cor: '#8A6420' }
+            : { bg: '#FDF1F3', cor: ROSA };
+
+    const usuariosTodos = USUARIOS.map(u => {
+      const pc = papelCor(u.papel);
+      const semAcesso = u.acesso.includes('dias') || u.acesso.includes('meses') || u.acesso === 'nunca';
+      return {
+        nome: u.nome, email: u.email, papel: u.papel, escopo: u.escopo, acesso: u.acesso, ativo: u.ativo,
+        ini: u.nome.split(' ').map(p => p[0]).slice(0, 2).join(''),
+        avBg: u.papel === 'Administrador' ? '#1D2430' : u.ativo ? '#E4F1F0' : '#F4F6F8',
+        avCor: u.papel === 'Administrador' ? '#9FD8D3' : u.ativo ? TEAL_ESC : '#98A2B0',
+        papelBg: pc.bg, papelCor: pc.cor,
+        acessoCor: semAcesso ? AMBAR : '#5B6675',
+        acaoRot: u.papel === 'Pendente' ? 'Reenviar' : u.ativo ? 'Desativar' : 'Reativar',
+        acaoBg: u.ativo && u.papel !== 'Pendente' ? '#FDF1F3' : '#E4F1F0',
+        acaoCor: u.ativo && u.papel !== 'Pendente' ? ROSA : TEAL_ESC
+      };
+    });
+    const filtroUsuario = this.state.filtroUsuario;
     const busca = this.state.busca.trim().toLocaleLowerCase('pt-BR');
     const usuarios = usuariosTodos.filter(u => (filtroUsuario === 'Todos'
       || (filtroUsuario === 'Ativos' && u.ativo)
