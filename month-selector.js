@@ -82,7 +82,7 @@ function openMenu(doc, anchor){
       e.preventDefault();e.stopPropagation();
       localStorage.setItem('metasdd.competencia',p.key);
       closeMenu(doc);
-      window.location.reload();
+      window.dispatchEvent(new CustomEvent('metasdd:month-change',{detail:{key:p.key}}));
     });
     menu.appendChild(row);
   }

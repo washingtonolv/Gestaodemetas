@@ -8,6 +8,7 @@
 <body>
 <x-dc>
 <helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#DCE9E7;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#05918C}a:hover{color:#05716D}</style></helmet>
+<style id="dd-motion-base">[data-screen-label]{animation:dd-page-in .2s cubic-bezier(.2,.8,.2,1) both;transform-origin:top center}nav div{transition:background-color .18s ease,color .18s ease,transform .18s ease}nav div:active{transform:scale(.98)}[data-screen-label="Lançar vendas"] input{background:#fff!important;border-color:#D8E6E4!important;transition:border-color .16s ease,box-shadow .16s ease}[data-screen-label] input:focus{border-color:#05918C!important;box-shadow:0 0 0 3px rgba(5,145,140,.11)}[data-screen-label] input.dd-invalid{border-color:#CD4664!important;box-shadow:0 0 0 3px rgba(205,70,100,.11)!important}.dd-annual-bar{transform-origin:bottom;animation:dd-bar-grow .42s cubic-bezier(.2,.8,.2,1) both;transition:filter .16s ease,transform .16s ease}[data-dd-annual]:hover .dd-annual-bar,[data-dd-annual]:focus .dd-annual-bar{filter:saturate(1.2);transform:scaleX(1.12)}@keyframes dd-page-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@keyframes dd-bar-grow{from{transform:scaleY(.08);opacity:.35}to{transform:scaleY(1);opacity:1}}@media(prefers-reduced-motion:reduce){[data-screen-label],.dd-annual-bar{animation:none!important}nav div,.dd-annual-bar{transition:none!important}}</style>
 
 <template id="__bundler_thumbnail" data-bg-color="#05918C">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -416,7 +417,7 @@
     <div data-screen-label="Lojas" style="display:flex;flex-direction:column;gap:20px">
       <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
         <div style="font:500 12px/1.5 Manrope,sans-serif;color:#8D9997">{{ totalLojas }} lojas com meta lançada em {{ mesLabel }}</div>
-        <span onClick="{{ abrirFormLoja }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;background:#CD4664;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#B23A55"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar loja</span>
+        <span onClick="{{ abrirFormLoja }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar loja</span>
       </div>
 
       <sc-if value="{{ formLoja }}" hint-placeholder-val="{{ false }}">
@@ -544,7 +545,7 @@
             <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
               <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif">Rede</span>
               <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Manrope,sans-serif">Por loja</span>
-              <span onClick="{{ abrirFormVend }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:100px;background:#CD4664;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#B23A55"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar vendedora</span>
+              <span onClick="{{ abrirFormVend }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar vendedora</span>
             </div>
           </div>
 
@@ -1017,9 +1018,10 @@ class Component extends DCLogic {
 
     // --- Definir metas ---
     const metasProx = D.metasProx || {};
+    const metasAnterior = D.metasAnterior || {};
     const novasRaw = BASE.map(l => ({
-      nome: l.nome, cod: l.cod, ant: l.meta,
-      m1: metasProx[l.cod] !== undefined ? metasProx[l.cod] : Math.round(l.meta * 1.04 / 1000) * 1000
+      nome: l.nome, cod: l.cod, ant: metasAnterior[l.cod] || 0,
+      m1: metasProx[l.cod] !== undefined ? metasProx[l.cod] : l.meta
     }));
     const novasMetas = novasRaw.map(n => {
       const d = n.ant > 0 ? n.m1 / n.ant - 1 : null;
@@ -1171,6 +1173,7 @@ class Component extends DCLogic {
         { chave: 'meta', rot: 'Meta individual do mês', dica: 'Ex.: 38000' },
         { chave: 'venda', rot: 'Vendido no mês até agora', dica: 'Ex.: 12500' },
         { chave: 'ticket', rot: 'Ticket médio', dica: 'Ex.: 130' },
+        { chave: 'cpf', rot: 'CPF (opcional)', dica: 'Somente números' },
         { chave: 'admissao', rot: 'Data de admissão', dica: '01/06/2026' }
       ].map(c => ({
         ...c,

@@ -30,6 +30,22 @@ async function loadContext(){
 }
 
 function closeFloating(doc){doc.querySelectorAll('.dd-fluid-floating').forEach(e=>e.remove())}
+function installMotion(doc){
+ if(doc.getElementById('dd-motion-style'))return;
+ const style=doc.createElement('style');style.id='dd-motion-style';style.textContent=`
+ [data-screen-label]{animation:dd-page-in .2s cubic-bezier(.2,.8,.2,1) both;transform-origin:top center}
+ nav div{transition:background-color .18s ease,color .18s ease,transform .18s ease}
+ nav div:active{transform:scale(.98)}
+ [data-screen-label="Lançar vendas"] input{background:#fff!important;border-color:#D8E6E4!important;transition:border-color .16s ease,box-shadow .16s ease}
+ [data-screen-label] input:focus{border-color:#05918C!important;box-shadow:0 0 0 3px rgba(5,145,140,.11)}
+ [data-screen-label] input.dd-invalid{border-color:#CD4664!important;box-shadow:0 0 0 3px rgba(205,70,100,.11)!important}
+ .dd-annual-bar{transform-origin:bottom;animation:dd-bar-grow .42s cubic-bezier(.2,.8,.2,1) both;transition:filter .16s ease,transform .16s ease}
+ [data-dd-annual]:hover .dd-annual-bar,[data-dd-annual]:focus .dd-annual-bar{filter:saturate(1.2);transform:scaleX(1.12)}
+ @keyframes dd-page-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+ @keyframes dd-bar-grow{from{transform:scaleY(.08);opacity:.35}to{transform:scaleY(1);opacity:1}}
+ @media(prefers-reduced-motion:reduce){[data-screen-label],.dd-annual-bar{animation:none!important}nav div,.dd-annual-bar{transition:none!important}}
+ `;doc.head.appendChild(style);
+}
 function floating(doc,id,anchor,width=300){
  closeFloating(doc);
  const box=doc.createElement('section');box.id=id;box.className='dd-fluid-floating';box.setAttribute('role','dialog');
@@ -126,7 +142,7 @@ function patchCalendar(doc){
  const target=business?totalMeta/business:0,today=new Date().toLocaleDateString('en-CA');
  const cells=[...card.querySelectorAll('div')].filter(e=>/^\d{1,2}$/.test((e.textContent||'').trim())&&(e.style.height==='38px'||(e.getAttribute('style')||'').includes('height:38px')));
  cells.forEach(cell=>{const d=Number(cell.textContent.trim()),date=key+'-'+pad(d),v=daily.get(date)||0,sunday=new Date(a[0],a[1]-1,d).getDay()===0,future=date>today;cell.style.cursor='pointer';cell.title=money(v)+' em '+date.split('-').reverse().join('/');cell.dataset.calendarReady='1';if(sunday){cell.style.background='#F1F5F4';cell.style.color='#BFCBC9'}else if(!future&&v>0){const ratio=target?v/target:0;cell.style.background=ratio>=1?'#05918C':ratio>=.85?'#9FD8D3':'#F5C3CE';cell.style.color=ratio>=1?'#fff':'#16211F'}else{cell.style.background='#fff';cell.style.color='#A8B7B5'}cell.style.border=date===today?'1.5px solid #CD4664':'1.5px solid transparent';cell.onclick=e=>{e.stopPropagation();toast('Dia '+d+': '+money(v)+(target?' · meta '+money(target):''),v?'ok':'warn',3600)}});
- const arrows=[...card.querySelectorAll('span')].filter(e=>['‹','›'].includes((e.textContent||'').trim()));arrows.forEach(ar=>{if(ar.dataset.monthArrow)return;ar.dataset.monthArrow='1';ar.style.cursor='pointer';ar.setAttribute('role','button');ar.tabIndex=0;ar.onclick=e=>{e.preventDefault();e.stopPropagation();localStorage.setItem('metasdd.competencia',monthShift(key,ar.textContent.trim()==='‹'?-1:1));location.reload()}});
+ const arrows=[...card.querySelectorAll('span')].filter(e=>['‹','›'].includes((e.textContent||'').trim()));arrows.forEach(ar=>{if(ar.dataset.monthArrow)return;ar.dataset.monthArrow='1';ar.style.cursor='pointer';ar.setAttribute('role','button');ar.tabIndex=0;ar.onclick=e=>{e.preventDefault();e.stopPropagation();const nextKey=monthShift(key,ar.textContent.trim()==='‹'?-1:1);localStorage.setItem('metasdd.competencia',nextKey);window.dispatchEvent(new CustomEvent('metasdd:month-change',{detail:{key:nextKey}}))}});
  const sub=[...card.querySelectorAll('div')].find(e=>(e.textContent||'').includes('meta por dia útil'));if(sub)sub.textContent='Vendas reais do período · meta por dia útil '+money(target);
 }
 async function saveStore(doc){
@@ -137,11 +153,12 @@ async function saveStore(doc){
  const {data:loja,error}=await supabase.from('lojas').insert({nome:nome.toUpperCase(),codigo,ativa:true}).select('id').single();if(error)throw error;
  if(meta>0){const g=await supabase.from('metas').upsert({loja_id:loja.id,competencia:start(),valor_meta:meta,criado_por:profile.id},{onConflict:'loja_id,competencia'});if(g.error)throw g.error}
  if(real>0){const today=new Date().toLocaleDateString('en-CA'),date=today.slice(0,7)===selected()?today:end(),r=await supabase.from('resultados').upsert({loja_id:loja.id,data:date,valor_realizado:real,criado_por:profile.id},{onConflict:'loja_id,data'});if(r.error)throw r.error}
- toast('Loja cadastrada'+(ticket?' · ticket de referência '+money(ticket):'')+'. Atualizando…');setTimeout(()=>location.reload(),650);
+ toast('Loja cadastrada'+(ticket?' · ticket de referência '+money(ticket):'')+'. Atualizando…');window.dispatchEvent(new CustomEvent('metasdd:refresh',{detail:{page:'Lojas'}}));
 }
 function makeInteractive(doc){
  const labels=['Importar Microvix','Salvar lançamentos','Copiar de maio','Preencher com sugestão','Publicar metas de junho','Adicionar loja','Salvar loja','Adicionar vendedora','Salvar vendedora','Convidar','Exportar Excel','Exportar PDF','Rede','Por loja','Cobrar'];
- [...doc.querySelectorAll('div,span')].forEach(el=>{const t=(el.textContent||'').trim();if(labels.includes(t)||/^Copiar de /i.test(t)||/^Publicar metas de /i.test(t)||/^Fechar [A-ZÁÉÍÓÚÃÕÇ]+ \d{4}$/i.test(t)){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0;if(!el.dataset.keyReady){el.dataset.keyReady='1';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})}}});
+ [...doc.querySelectorAll('div,span')].forEach(el=>{const t=(el.textContent||'').trim();if(labels.includes(t)||/^Copiar de /i.test(t)||/^Publicar metas de /i.test(t)||/^Fechar [A-ZÁÉÍÓÚÃÕÇ]+ \d{4}$/i.test(t)){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0;if(/^\+?\s*Adicionar (loja|vendedora)$/i.test(t)){el.style.background='#05918C';el.style.color='#fff'}if(!el.dataset.keyReady){el.dataset.keyReady='1';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})}}});
+ for(const input of doc.querySelectorAll('[data-screen-label] input'))if(!input.dataset.validationReady){input.dataset.validationReady='1';input.addEventListener('input',()=>{input.classList.remove('dd-invalid');input.removeAttribute('aria-invalid')})}
  for(const label of ['Todas','No ritmo','Atenção','Crítico']){const chip=exact(doc,label),group=(chip?.parentElement?.textContent||'');if(chip&&['Todas','No ritmo','Atenção','Crítico'].every(x=>group.includes(x))){chip.style.cursor='pointer';chip.setAttribute('role','button');chip.tabIndex=0}}
  const help=doc.querySelector('[title="Ajuda"]'),bell=doc.querySelector('[title="Notificações"]');for(const el of [help,bell])if(el){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0}
 }
@@ -152,6 +169,13 @@ function patchRankingEmpty(doc){
  const name=[...card.querySelectorAll('div,span')].find(e=>(e.textContent||'').trim()==='Aline Ferreira');
  const note=[...card.querySelectorAll('div,span')].find(e=>(e.textContent||'').includes('Rodrigo Silva · 106%'));
  if(name)name.textContent='Nenhuma vendedora cadastrada';if(note)note.textContent='Use “Adicionar vendedora” para iniciar o ranking real deste período.';
+ const rankingTitle=[...screen.querySelectorAll('h2')].find(e=>(e.textContent||'').trim().startsWith('Ranking de vendedoras'));const rankingCard=rankingTitle?.parentElement?.parentElement;if(!rankingCard||rankingCard.querySelector('[data-dd-empty-ranking]'))return;
+ const header=[...rankingCard.children].find(e=>(e.textContent||'').includes('Vendedora')&&(e.textContent||'').includes('% da meta'));if(!header)return;
+ const empty=doc.createElement('div');empty.dataset.ddEmptyRanking='1';empty.style.cssText='margin-top:14px;padding:34px 22px;border:1px dashed #CFE0DD;border-radius:16px;background:#F8FBFA;text-align:center';
+ const emptyTitle=doc.createElement('strong');emptyTitle.textContent='O ranking começa com a primeira vendedora';emptyTitle.style.cssText='display:block;font:800 15px/1.3 Manrope,sans-serif;color:#0A5F5C';
+ const emptyText=doc.createElement('span');emptyText.textContent='Cadastre uma vendedora e associe a loja para acompanhar vendas, ticket e comissão.';emptyText.style.cssText='display:block;max-width:460px;margin:8px auto 16px;font:500 11.5px/1.55 Manrope,sans-serif;color:#667270';
+ const action=doc.createElement('button');action.type='button';action.textContent='Adicionar primeira vendedora';action.style.cssText='border:0;border-radius:11px;padding:10px 16px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer';action.onclick=e=>{e.preventDefault();e.stopPropagation();const add=[...screen.querySelectorAll('div,span')].find(x=>(x.textContent||'').trim().includes('Adicionar vendedora'));add?.click()};
+ empty.append(emptyTitle,emptyText,action);header.insertAdjacentElement('afterend',empty);
 }
 function patchAccess(doc){
  const title=exact(doc,'Quem tem acesso'),card=title?.parentElement?.parentElement,list=card?.children?.[1];if(!list||list.dataset.realAccess)return;
@@ -164,7 +188,7 @@ function patchCloseDescription(doc){
  const nextKey=monthShift(selected(),1),parts=nextKey.split('-').map(Number),cur=selected().split('-').map(Number),fmt=new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}),name=fmt.format(new Date(parts[0],parts[1]-1,1)),current=fmt.format(new Date(cur[0],cur[1]-1,1));
  desc.textContent='Congela os números de '+current+' e libera '+name+' para lançamento. Não dá para desfazer.';
 }
-function patch(doc){patchSearch(doc);makeInteractive(doc);patchCalendar(doc);patchRankingEmpty(doc);patchAccess(doc);patchCloseDescription(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
+function patch(doc){installMotion(doc);patchSearch(doc);makeInteractive(doc);patchCalendar(doc);patchRankingEmpty(doc);patchAccess(doc);patchCloseDescription(doc);if(activeFilter!=='Todas')applyStoreFilter(doc,activeFilter)}
 async function wire(){
  const ctx=await getSessionProfile();profile=ctx.profile;if(!profile)return;await loadContext();
  const doc=frame.contentDocument;if(!doc?.body)return;patch(doc);
