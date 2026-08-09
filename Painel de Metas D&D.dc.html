@@ -1022,11 +1022,11 @@ class Component extends DCLogic {
       m1: metasProx[l.cod] !== undefined ? metasProx[l.cod] : Math.round(l.meta * 1.04 / 1000) * 1000
     }));
     const novasMetas = novasRaw.map(n => {
-      const d = n.m1 / n.ant - 1;
+      const d = n.ant > 0 ? n.m1 / n.ant - 1 : null;
       return {
         nome: n.nome, cod: n.cod, m1: String(n.m1), m2: K(n.m1 * f2), m3: K(n.m1 * f3),
-        delta: (d >= 0 ? '+' : '') + NUM(d * 100, 1) + '%',
-        cor: d >= 0 ? TEAL : ROSA,
+        delta: d === null ? '—' : (d >= 0 ? '+' : '') + NUM(d * 100, 1) + '%',
+        cor: d === null ? '#8D9997' : d >= 0 ? TEAL : ROSA,
         digitar: e => {
           const v = this.soNumero(e.target.value);
           this.gravar(d2 => { d2.metasProx = { ...(d2.metasProx || {}), [n.cod]: v }; });
