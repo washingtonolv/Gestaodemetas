@@ -18,7 +18,7 @@ export async function getSessionProfile() {
 
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select('id,nome,email,role,ativo')
+    .select('id,nome,email,login,role,ativo')
     .eq('id', session.user.id)
     .single();
 
