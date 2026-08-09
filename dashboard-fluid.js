@@ -167,7 +167,7 @@ function renderCalendarChart(doc,key,snapshot,selectedDate=null){
  const title=exact(doc,'Vendas por dia'),card=title?.closest('div[style*="border-radius:20px"]')||title?.parentElement?.parentElement,svg=card?.querySelector('svg');if(!svg)return;
  const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),todayKey=new Date().toLocaleDateString('en-CA'),maxDay=key===todayKey.slice(0,7)?Math.max(1,Number(todayKey.slice(8,10))):days;
  const values=[];for(let d=1;d<=maxDay;d++)values.push(snapshot.daily.get(`${key}-${pad(d)}`)||0);
- const total=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=total/Math.max(replacementBusinessDays(key),1),max=Math.max(dailyGoal,...values,1);
+ const total=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=total/Math.max(businessDays(key),1),max=Math.max(dailyGoal,...values,1);
  const xAt=index=>index/Math.max(values.length-1,1)*900,yAt=value=>200-value/max*170;let path='';
  values.forEach((value,index)=>{const x=xAt(index),y0=yAt(value);if(!index)path+=`M${x.toFixed(1)} ${y0.toFixed(1)}`;else{const previousX=xAt(index-1),previousY=yAt(values[index-1]),center=(previousX+x)/2;path+=` C${center.toFixed(1)} ${previousY.toFixed(1)} ${center.toFixed(1)} ${y0.toFixed(1)} ${x.toFixed(1)} ${y0.toFixed(1)}`}});
  const paths=svg.querySelectorAll('path');if(paths[0])paths[0].setAttribute('d',`${path} L900 200 L0 200 Z`);if(paths[1])paths[1].setAttribute('d',path);
@@ -184,7 +184,7 @@ function renderCalendarChart(doc,key,snapshot,selectedDate=null){
  svg.setAttribute('role','img');svg.setAttribute('aria-label',selectedDate?`Vendas com destaque em ${selectedDate.split('-').reverse().join('/')}`:`Vendas por dia de ${monthLabelFluid(key)}`);
 }
 function renderCalendar(doc,key,snapshot){
- const card=replacementCalendarCard(doc);if(!card)return;card.dataset.ddCalendarCard='1';calendarKey=key;
+ const card=calendarCard(doc);if(!card)return;card.dataset.ddCalendarCard='1';calendarKey=key;
  const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),offset=new Date(y,m-1,1).getDay(),today=new Date().toLocaleDateString('en-CA'),totalMeta=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=totalMeta/Math.max(businessDays(key),1);
  const headerMonth=[...card.querySelectorAll('span')].find(el=>el.children.length===0&&/^[A-ZÁÉÍÓÚÃÕÇ]+\s+\d{4}$/.test((el.textContent||'').trim()));const headerText=monthLabelFluid(key);if(headerMonth&&headerMonth.textContent!==headerText)headerMonth.textContent=headerText;
  const grids=[...card.children].filter(el=>(el.style.display||'')==='grid'),grid=grids.find(el=>[...el.children].some(child=>(child.style.height||'')==='38px'))||grids.at(-1);if(!grid)return;
@@ -197,7 +197,7 @@ function renderCalendar(doc,key,snapshot){
   slot.style.opacity='1';slot.style.pointerEvents='auto';slot.style.cursor='pointer';slot.dataset.calendarDate=date;slot.dataset.calendarReady='1';slot.setAttribute('role','button');slot.setAttribute('tabindex','0');slot.setAttribute('aria-label',`${date.split('-').reverse().join('/')}: ${money(value)}`);
   if(sunday){slot.style.background='#F1F5F4';slot.style.color='#BFCBC9'}else if(!future&&value>0){slot.style.background=ratio>=1?'#05918C':ratio>=.85?'#9FD8D3':'#F5C3CE';slot.style.color=ratio>=1?'#fff':'#16211F'}else{slot.style.background='#fff';slot.style.color='#A8B7B5'}
   slot.style.border=date===today?'1.5px solid #CD4664':'1.5px solid transparent';slot.style.boxShadow=selectedDay?'0 0 0 3px rgba(5,145,140,.24),0 8px 18px rgba(20,60,55,.12)':'none';slot.title=`${money(value)} em ${date.split('-').reverse().join('/')}`;
-  const choose=e=>{e?.preventDefault?.();e?.stopPropagation?.();selectedCalendarDate=date;replacementRenderCalendar(doc,key,snapshot);toast(`Dia ${day}: ${money(value)} · destacado no gráfico`,value?'ok':'warn',3600)};
+  const choose=e=>{e?.preventDefault?.();e?.stopPropagation?.();selectedCalendarDate=date;renderCalendar(doc,key,snapshot);toast(`Dia ${day}: ${money(value)} · destacado no gráfico`,value?'ok':'warn',3600)};
   slot.onclick=choose;slot.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){choose(e)}};
  });
  const arrows=[...card.querySelectorAll('span')].filter(el=>['‹','›'].includes((el.textContent||'').trim()));arrows.forEach(arrow=>{const direction=arrow.textContent.trim()==='‹'?-1:1;arrow.dataset.monthArrow='1';arrow.style.cursor='pointer';arrow.style.transition='background-color .16s ease,transform .16s ease';arrow.setAttribute('role','button');arrow.setAttribute('tabindex','0');arrow.setAttribute('aria-label',direction<0?'Mês anterior no calendário':'Próximo mês no calendário');arrow.onclick=async e=>{e.preventDefault();e.stopPropagation();await switchCalendar(doc,monthShift(calendarKey,direction),direction)};arrow.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();arrow.click()}}});
