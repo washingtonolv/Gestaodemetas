@@ -10,7 +10,8 @@ const parseMoney=v=>{let s=String(v??'').trim().replace(/R\$/gi,'').replace(/\s/
 const toast=(text,kind='ok',ms=3200)=>{if(!status)return;status.textContent=text;status.dataset.kind=kind;status.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>status.classList.remove('on'),ms)};
 const exact=(doc,text)=>[...doc.querySelectorAll('div,span,h1,h2,h3')].find(e=>(e.textContent||'').trim()===text);
 const monthShift=(key,delta)=>{const a=key.split('-').map(Number),d=new Date(a[0],a[1]-1+delta,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)};
-let profile=null,stores=[],sellers=[],users=[],daily=new Map(),goals=new Map(),results=[],activeFilter='Todas',scheduled=false;
+const endFor=key=>{const[y,m]=key.split('-').map(Number);return`${key}-${pad(new Date(y,m,0).getDate())}`},monthLabelFluid=key=>{const[y,m]=key.split('-').map(Number);return new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}).format(new Date(y,m-1,1)).toLocaleUpperCase('pt-BR')};
+let profile=null,stores=[],sellers=[],users=[],daily=new Map(),goals=new Map(),results=[],activeFilter='Todas',scheduled=false,calendarKey=selected(),calendarCache=new Map(),selectedCalendarDate=null,calendarBusy=false;
 
 async function loadContext(){
  const a=start(),b=end();
@@ -27,23 +28,30 @@ async function loadContext(){
  goals=new Map((m.data||[]).map(x=>[x.loja_id,Number(x.valor_meta)||0]));
  users=!p.error&&(p.data||[]).length?p.data:[profile];results=r.data||[];daily=new Map();
  for(const x of results)daily.set(x.data,(daily.get(x.data)||0)+Number(x.valor_realizado||0));
+ calendarKey=selected();selectedCalendarDate=null;calendarCache.clear();calendarCache.set(calendarKey,{daily:new Map(daily),goals:new Map(goals)});
 }
 
 function closeFloating(doc){doc.querySelectorAll('.dd-fluid-floating').forEach(e=>e.remove())}
 function installMotion(doc){
  if(doc.getElementById('dd-motion-style'))return;
  const style=doc.createElement('style');style.id='dd-motion-style';style.textContent=`
- [data-screen-label]{animation:dd-page-in .2s cubic-bezier(.2,.8,.2,1) both;transform-origin:top center}
- nav div{transition:background-color .18s ease,color .18s ease,transform .18s ease}
- nav div:active{transform:scale(.98)}
+ html{scroll-behavior:smooth}
+ [data-screen-label]{animation:dd-page-in .34s cubic-bezier(.22,1,.36,1) both;transform-origin:top center;will-change:opacity,transform,filter}
+ nav div{transition:background-color .26s ease,color .26s ease,transform .2s ease,box-shadow .26s ease}
+ nav div:active{transform:scale(.985)}
  [data-screen-label="Lançar vendas"] input{background:#fff!important;border-color:#D8E6E4!important;transition:border-color .16s ease,box-shadow .16s ease}
  [data-screen-label] input:focus{border-color:#05918C!important;box-shadow:0 0 0 3px rgba(5,145,140,.11)}
  [data-screen-label] input.dd-invalid{border-color:#CD4664!important;box-shadow:0 0 0 3px rgba(205,70,100,.11)!important}
  .dd-annual-bar{transform-origin:bottom;animation:dd-bar-grow .42s cubic-bezier(.2,.8,.2,1) both;transition:filter .16s ease,transform .16s ease}
  [data-dd-annual]:hover .dd-annual-bar,[data-dd-annual]:focus .dd-annual-bar{filter:saturate(1.2);transform:scaleX(1.12)}
- @keyframes dd-page-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+ [data-dd-calendar-card]{transition:opacity .2s ease,transform .25s cubic-bezier(.22,1,.36,1)}
+ [data-calendar-date]{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .16s ease}
+ [data-calendar-date]:active{transform:scale(.94)}
+ [data-dd-day-marker] circle{animation:dd-marker-pulse .42s cubic-bezier(.22,1,.36,1) both;transform-origin:center;transform-box:fill-box}
+ @keyframes dd-page-in{from{opacity:.18;transform:translateY(10px) scale(.996);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
  @keyframes dd-bar-grow{from{transform:scaleY(.08);opacity:.35}to{transform:scaleY(1);opacity:1}}
- @media(prefers-reduced-motion:reduce){[data-screen-label],.dd-annual-bar{animation:none!important}nav div,.dd-annual-bar{transition:none!important}}
+ @keyframes dd-marker-pulse{from{transform:scale(.45);opacity:.3}to{transform:scale(1);opacity:1}}
+ @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}[data-screen-label],.dd-annual-bar,[data-dd-day-marker] circle{animation:none!important}nav div,.dd-annual-bar,[data-dd-calendar-card],[data-calendar-date]{transition:none!important}}
  `;doc.head.appendChild(style);
 }
 function floating(doc,id,anchor,width=300){
@@ -135,15 +143,77 @@ function chooseStore(doc,anchor){
  const box=floating(doc,'dd-store-ranking',anchor,270);
  stores.forEach(s=>box.appendChild(resultRow(doc,s.nome,'Filtrar ranking',()=>{const rows=sellerRows(doc);rows.forEach(x=>x.row.style.display=x.seller.loja===s.nome?'grid':'none');closeFloating(doc);toast('Ranking: '+s.nome)})));
 }
+function calendarCard(doc){
+ const title=exact(doc,'Calendário');
+ return title?.parentElement?.parentElement||title?.closest('div[style*="border-radius:20px"]')||null;
+}
+function businessDays(key){
+ const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate();let count=0;
+ for(let d=1;d<=days;d++)if(new Date(y,m-1,d).getDay()!==0)count++;
+ return count;
+}
+async function monthSnapshot(key){
+ if(calendarCache.has(key))return calendarCache.get(key);
+ const [g,r]=await Promise.all([
+  supabase.from('metas').select('loja_id,valor_meta').eq('competencia',`${key}-01`),
+  supabase.from('resultados').select('data,valor_realizado').gte('data',`${key}-01`).lte('data',endFor(key)).order('data')
+ ]);
+ const error=g.error||r.error;if(error)throw error;
+ const snapshot={goals:new Map((g.data||[]).map(x=>[x.loja_id,Number(x.valor_meta)||0])),daily:new Map()};
+ for(const x of r.data||[])snapshot.daily.set(x.data,(snapshot.daily.get(x.data)||0)+Number(x.valor_realizado||0));
+ calendarCache.set(key,snapshot);return snapshot;
+}
+function renderCalendarChart(doc,key,snapshot,selectedDate=null){
+ const title=exact(doc,'Vendas por dia'),card=title?.closest('div[style*="border-radius:20px"]')||title?.parentElement?.parentElement,svg=card?.querySelector('svg');if(!svg)return;
+ const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),todayKey=new Date().toLocaleDateString('en-CA'),maxDay=key===todayKey.slice(0,7)?Math.max(1,Number(todayKey.slice(8,10))):days;
+ const values=[];for(let d=1;d<=maxDay;d++)values.push(snapshot.daily.get(`${key}-${pad(d)}`)||0);
+ const total=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=total/Math.max(replacementBusinessDays(key),1),max=Math.max(dailyGoal,...values,1);
+ const xAt=index=>index/Math.max(values.length-1,1)*900,yAt=value=>200-value/max*170;let path='';
+ values.forEach((value,index)=>{const x=xAt(index),y0=yAt(value);if(!index)path+=`M${x.toFixed(1)} ${y0.toFixed(1)}`;else{const previousX=xAt(index-1),previousY=yAt(values[index-1]),center=(previousX+x)/2;path+=` C${center.toFixed(1)} ${previousY.toFixed(1)} ${center.toFixed(1)} ${y0.toFixed(1)} ${x.toFixed(1)} ${y0.toFixed(1)}`}});
+ const paths=svg.querySelectorAll('path');if(paths[0])paths[0].setAttribute('d',`${path} L900 200 L0 200 Z`);if(paths[1])paths[1].setAttribute('d',path);
+ const goalLine=[...svg.querySelectorAll('line')].find(line=>!line.hasAttribute('data-dd-day-line'));if(goalLine){const y0=yAt(dailyGoal).toFixed(1);goalLine.setAttribute('y1',y0);goalLine.setAttribute('y2',y0)}
+ const realized=[...card.querySelectorAll('span')].find(span=>span.dataset.ddChartReal==='1'||(span.textContent||'').trim().startsWith('realizado'));if(realized){realized.dataset.ddChartReal='1';const day=selectedDate?Number(selectedDate.slice(8,10)):null,value=day?values[day-1]||0:null,short=new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'short'}).format(new Date(`${selectedDate||key+'-01'}T12:00:00`)).replace('.','');const text=day?`${short} · ${money(value)}`:`realizado · ${monthLabelFluid(key)}`;if(realized.textContent!==text)realized.textContent=text}
+ const meta=[...card.querySelectorAll('span')].find(span=>(span.textContent||'').trim().startsWith('meta '));if(meta){const text=`meta ${money(dailyGoal)}`;if(meta.textContent!==text)meta.textContent=text}
+ const axis=svg.nextElementSibling,axisLabels=axis?[...axis.children]:[],marks=[1,Math.max(1,Math.round(maxDay*.25)),Math.max(1,Math.round(maxDay*.5)),Math.max(1,Math.round(maxDay*.75)),maxDay];axisLabels.slice(0,5).forEach((el,index)=>{const text=String(marks[index]);if(el.textContent!==text)el.textContent=text});
+ let marker=svg.querySelector('[data-dd-day-marker]');
+ if(selectedDate){
+  const day=Number(selectedDate.slice(8,10)),value=values[day-1]||0,x=xAt(Math.min(day-1,values.length-1)),y0=yAt(value),ns='http://www.w3.org/2000/svg';
+  if(!marker){marker=doc.createElementNS(ns,'g');marker.setAttribute('data-dd-day-marker','1');const line=doc.createElementNS(ns,'line');line.setAttribute('data-dd-day-line','1');line.setAttribute('stroke','#0A5F5C');line.setAttribute('stroke-width','1.5');line.setAttribute('stroke-dasharray','4 5');line.setAttribute('vector-effect','non-scaling-stroke');const dot=doc.createElementNS(ns,'circle');dot.setAttribute('r','7');dot.setAttribute('fill','#fff');dot.setAttribute('stroke','#05918C');dot.setAttribute('stroke-width','4');dot.setAttribute('vector-effect','non-scaling-stroke');const desc=doc.createElementNS(ns,'title');marker.append(line,dot,desc);svg.appendChild(marker)}
+  const line=marker.querySelector('line'),dot=marker.querySelector('circle'),desc=marker.querySelector('title');line.setAttribute('x1',x.toFixed(1));line.setAttribute('x2',x.toFixed(1));line.setAttribute('y1','18');line.setAttribute('y2','200');dot.setAttribute('cx',x.toFixed(1));dot.setAttribute('cy',y0.toFixed(1));desc.textContent=`${selectedDate.split('-').reverse().join('/')}: ${money(value)}`;
+ }else marker?.remove();
+ svg.setAttribute('role','img');svg.setAttribute('aria-label',selectedDate?`Vendas com destaque em ${selectedDate.split('-').reverse().join('/')}`:`Vendas por dia de ${monthLabelFluid(key)}`);
+}
+function renderCalendar(doc,key,snapshot){
+ const card=replacementCalendarCard(doc);if(!card)return;card.dataset.ddCalendarCard='1';calendarKey=key;
+ const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),offset=new Date(y,m-1,1).getDay(),today=new Date().toLocaleDateString('en-CA'),totalMeta=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=totalMeta/Math.max(businessDays(key),1);
+ const headerMonth=[...card.querySelectorAll('span')].find(el=>el.children.length===0&&/^[A-ZÁÉÍÓÚÃÕÇ]+\s+\d{4}$/.test((el.textContent||'').trim()));const headerText=monthLabelFluid(key);if(headerMonth&&headerMonth.textContent!==headerText)headerMonth.textContent=headerText;
+ const grids=[...card.children].filter(el=>(el.style.display||'')==='grid'),grid=grids.find(el=>[...el.children].some(child=>(child.style.height||'')==='38px'))||grids.at(-1);if(!grid)return;
+ const slots=[...grid.children];slots.forEach((slot,index)=>{
+  const day=index-offset+1;
+  slot.style.height='38px';slot.style.borderRadius='11px';slot.style.display='flex';slot.style.alignItems='center';slot.style.justifyContent='center';slot.style.font='700 12px/1 Manrope,sans-serif';slot.style.minWidth='0';
+  if(day<1||day>days){if(slot.textContent)slot.textContent='';slot.style.opacity='0';slot.style.pointerEvents='none';slot.onclick=null;slot.onkeydown=null;slot.removeAttribute('role');slot.removeAttribute('tabindex');slot.removeAttribute('aria-label');slot.removeAttribute('data-calendar-date');return}
+  const text=String(day);if((slot.textContent||'').trim()!==text)slot.textContent=text;
+  const date=`${key}-${pad(day)}`,value=snapshot.daily.get(date)||0,sunday=new Date(y,m-1,day).getDay()===0,future=date>today,ratio=dailyGoal?value/dailyGoal:0,selectedDay=date===selectedCalendarDate;
+  slot.style.opacity='1';slot.style.pointerEvents='auto';slot.style.cursor='pointer';slot.dataset.calendarDate=date;slot.dataset.calendarReady='1';slot.setAttribute('role','button');slot.setAttribute('tabindex','0');slot.setAttribute('aria-label',`${date.split('-').reverse().join('/')}: ${money(value)}`);
+  if(sunday){slot.style.background='#F1F5F4';slot.style.color='#BFCBC9'}else if(!future&&value>0){slot.style.background=ratio>=1?'#05918C':ratio>=.85?'#9FD8D3':'#F5C3CE';slot.style.color=ratio>=1?'#fff':'#16211F'}else{slot.style.background='#fff';slot.style.color='#A8B7B5'}
+  slot.style.border=date===today?'1.5px solid #CD4664':'1.5px solid transparent';slot.style.boxShadow=selectedDay?'0 0 0 3px rgba(5,145,140,.24),0 8px 18px rgba(20,60,55,.12)':'none';slot.title=`${money(value)} em ${date.split('-').reverse().join('/')}`;
+  const choose=e=>{e?.preventDefault?.();e?.stopPropagation?.();selectedCalendarDate=date;replacementRenderCalendar(doc,key,snapshot);toast(`Dia ${day}: ${money(value)} · destacado no gráfico`,value?'ok':'warn',3600)};
+  slot.onclick=choose;slot.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){choose(e)}};
+ });
+ const arrows=[...card.querySelectorAll('span')].filter(el=>['‹','›'].includes((el.textContent||'').trim()));arrows.forEach(arrow=>{const direction=arrow.textContent.trim()==='‹'?-1:1;arrow.dataset.monthArrow='1';arrow.style.cursor='pointer';arrow.style.transition='background-color .16s ease,transform .16s ease';arrow.setAttribute('role','button');arrow.setAttribute('tabindex','0');arrow.setAttribute('aria-label',direction<0?'Mês anterior no calendário':'Próximo mês no calendário');arrow.onclick=async e=>{e.preventDefault();e.stopPropagation();await switchCalendar(doc,monthShift(calendarKey,direction),direction)};arrow.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();arrow.click()}}});
+ renderCalendarChart(doc,key,snapshot,selectedCalendarDate);
+ const sub=[...card.querySelectorAll('div')].find(el=>(el.textContent||'').includes('meta por dia útil')||(el.dataset.ddCalendarSummary==='1'));if(sub){sub.dataset.ddCalendarSummary='1';const value=selectedCalendarDate?snapshot.daily.get(selectedCalendarDate)||0:null,text=selectedCalendarDate?`${selectedCalendarDate.split('-').reverse().join('/')} · ${money(value)} · destacado no gráfico`:`Vendas reais do período · meta por dia útil ${money(dailyGoal)}`;if(sub.textContent!==text)sub.textContent=text}
+}
+async function switchCalendar(doc,nextKey,direction){
+ if(calendarBusy)return;calendarBusy=true;const card=calendarCard(doc),win=doc.defaultView,scrollY=win.scrollY;
+ if(card){card.setAttribute('aria-busy','true');card.style.opacity='.72';card.style.transform=`translateX(${direction*5}px)`}
+ try{const snapshot=await monthSnapshot(nextKey);selectedCalendarDate=null;renderCalendar(doc,nextKey,snapshot);if(Math.abs(win.scrollY-scrollY)>1){const old=doc.documentElement.style.scrollBehavior;doc.documentElement.style.scrollBehavior='auto';win.scrollTo(0,scrollY);doc.documentElement.style.scrollBehavior=old}win.requestAnimationFrame(()=>{if(card){card.style.opacity='1';card.style.transform='none'}})}
+ catch(error){console.error(error);toast(error.message||String(error),'error',4500);if(card){card.style.opacity='1';card.style.transform='none'}}
+ finally{calendarBusy=false;card?.removeAttribute('aria-busy')}
+}
 function patchCalendar(doc){
- const title=exact(doc,'Calendário'),card=title?.parentElement?.parentElement||title?.closest('div[style*="border-radius:20px"]');if(!card)return;
- const key=selected(),a=key.split('-').map(Number),days=new Date(a[0],a[1],0).getDate(),totalMeta=[...goals.values()].reduce((x,y)=>x+y,0);
- let business=0;for(let d=1;d<=days;d++)if(new Date(a[0],a[1]-1,d).getDay()!==0)business++;
- const target=business?totalMeta/business:0,today=new Date().toLocaleDateString('en-CA');
- const cells=[...card.querySelectorAll('div')].filter(e=>/^\d{1,2}$/.test((e.textContent||'').trim())&&(e.style.height==='38px'||(e.getAttribute('style')||'').includes('height:38px')));
- cells.forEach(cell=>{const d=Number(cell.textContent.trim()),date=key+'-'+pad(d),v=daily.get(date)||0,sunday=new Date(a[0],a[1]-1,d).getDay()===0,future=date>today;cell.style.cursor='pointer';cell.title=money(v)+' em '+date.split('-').reverse().join('/');cell.dataset.calendarReady='1';if(sunday){cell.style.background='#F1F5F4';cell.style.color='#BFCBC9'}else if(!future&&v>0){const ratio=target?v/target:0;cell.style.background=ratio>=1?'#05918C':ratio>=.85?'#9FD8D3':'#F5C3CE';cell.style.color=ratio>=1?'#fff':'#16211F'}else{cell.style.background='#fff';cell.style.color='#A8B7B5'}cell.style.border=date===today?'1.5px solid #CD4664':'1.5px solid transparent';cell.onclick=e=>{e.stopPropagation();toast('Dia '+d+': '+money(v)+(target?' · meta '+money(target):''),v?'ok':'warn',3600)}});
- const arrows=[...card.querySelectorAll('span')].filter(e=>['‹','›'].includes((e.textContent||'').trim()));arrows.forEach(ar=>{if(ar.dataset.monthArrow)return;ar.dataset.monthArrow='1';ar.style.cursor='pointer';ar.setAttribute('role','button');ar.tabIndex=0;ar.onclick=e=>{e.preventDefault();e.stopPropagation();const nextKey=monthShift(key,ar.textContent.trim()==='‹'?-1:1);localStorage.setItem('metasdd.competencia',nextKey);window.dispatchEvent(new CustomEvent('metasdd:month-change',{detail:{key:nextKey}}))}});
- const sub=[...card.querySelectorAll('div')].find(e=>(e.textContent||'').includes('meta por dia útil'));if(sub)sub.textContent='Vendas reais do período · meta por dia útil '+money(target);
+ const key=calendarKey||selected(),snapshot=calendarCache.get(key)||{daily,goals};
+ renderCalendar(doc,key,snapshot);
 }
 async function saveStore(doc){
  if(profile?.role!=='administrador')throw new Error('Somente o Administrador pode cadastrar lojas.');
