@@ -33,7 +33,7 @@ function buildNav(){
 }
 async function openView(id,label){
  $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
- $('#pageTitle').textContent=label;$('#crumb').textContent=label;
+ $('#pageTitle').textContent=label;$('#crumb').textContent=label;if(location.hash!==`#${id}`)history.replaceState(null,'',`#${id}`);
  const fx=$('#fatal');fx.style.display='none';fx.textContent='';
  try{
    if(id==='lancar')await renderSales();
@@ -219,5 +219,5 @@ window.addEventListener('unhandledrejection',e=>{console.error(e.reason);fatal(`
 window.addEventListener('error',e=>{console.error(e.error);fatal(`Erro no painel: ${e.message||'falha desconhecida'}`);loading(false)});
 
 try{
- if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadGovernance();await loadStructure()}}
+ if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadGovernance();await loadStructure()}const requested=location.hash.slice(1),target=(navByRole[profile.role]||[]).find(([id])=>id===requested);if(target)await openView(target[0],target[1])}
 }catch(e){console.error(e);fatal(`Não foi possível carregar o dashboard: ${e.message||e}`)}finally{loading(false)}
