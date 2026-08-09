@@ -4,19 +4,76 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gestão de Metas D&D — Login</title>
 <style>
-:root{--p:#05918C;--a:#CD4664;--text:#183333;--muted:#6b7b7b}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#edf7f6,#fff);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}.card{width:min(440px,100%);background:#fff;border:1px solid #dfe9e8;border-radius:24px;padding:32px;box-shadow:0 24px 60px #0b4d4930}.brand{display:flex;gap:12px;align-items:center;margin-bottom:28px}.mark{width:46px;height:46px;border-radius:14px;background:var(--p);display:grid;place-items:center;color:white;font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}label{display:block;font-size:13px;font-weight:700;margin:16px 0 7px}input{width:100%;padding:14px 15px;border-radius:12px;border:1px solid #ccdada;font:inherit;outline:none}input:focus{border-color:var(--p);box-shadow:0 0 0 3px #05918c18}button{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:800;cursor:pointer}button:disabled{opacity:.6}.msg{min-height:22px;margin-top:14px;font-size:13px}.error{color:#b42318}.foot{margin-top:22px;font-size:12px;color:var(--muted);text-align:center}
+:root{--p:#05918C;--p-dark:#06716d;--a:#CD4664;--text:#183333;--muted:#6b7b7b;--line:#dfe9e8}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#edf7f6,#fff);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}.card{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 24px 60px #0b4d4930}.brand{display:flex;gap:12px;align-items:center;margin-bottom:28px}.mark{width:46px;height:46px;border-radius:14px;background:var(--p);display:grid;place-items:center;color:white;font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.access-label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}.login-modes{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;border-radius:14px;background:#f1f6f5}.mode-button{min-height:42px;border:0;border-radius:10px;background:transparent;color:var(--muted);font:700 13px/1 Inter,system-ui,sans-serif;cursor:pointer;transition:background .40s ease,color .40s ease,box-shadow .40s ease}.mode-button.active{background:#fff;color:var(--p-dark);box-shadow:0 4px 14px #173e3b14}.mode-button:focus-visible,.submit:focus-visible{outline:3px solid #05918c2c;outline-offset:2px}label{display:block;font-size:13px;font-weight:700;margin:17px 0 7px}input{width:100%;padding:14px 15px;border-radius:12px;border:1px solid #ccdada;font:inherit;outline:none;transition:border-color .40s ease,box-shadow .40s ease}input:focus{border-color:var(--p);box-shadow:0 0 0 3px #05918c18}.hint{min-height:17px;margin:6px 2px 0;color:var(--muted);font-size:11px}.submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:800;cursor:pointer;transition:background .40s ease,opacity .40s ease,transform .40s ease}.submit:hover:not(:disabled){background:var(--p-dark);transform:translateY(-1px)}.submit:disabled{opacity:.6}.msg{min-height:22px;margin-top:14px;font-size:13px}.error{color:#b42318}.foot{margin-top:22px;font-size:12px;color:var(--muted);text-align:center}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main class="card">
 <div class="brand"><div class="mark">D&D</div><div><h1>Gestão de Metas</h1><p>Acesso multiusuário</p></div></div>
-<form id="loginForm"><label for="email">E-mail</label><input id="email" type="email" autocomplete="username" required><label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" required><button id="btn" type="submit">Entrar</button><div id="msg" class="msg" aria-live="polite"></div></form>
+<div class="access-label">Acessar com</div>
+<div class="login-modes" role="group" aria-label="Forma de acesso">
+  <button class="mode-button active" type="button" data-mode="email" aria-pressed="true">E-mail</button>
+  <button class="mode-button" type="button" data-mode="login" aria-pressed="false">Login personalizado</button>
+</div>
+<form id="loginForm">
+  <label id="identifierLabel" for="identifier">E-mail</label>
+  <input id="identifier" type="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="seu@email.com" required>
+  <p id="identifierHint" class="hint">Use o e-mail cadastrado.</p>
+  <label for="password">Senha</label>
+  <input id="password" type="password" autocomplete="current-password" required>
+  <button id="btn" class="submit" type="submit">Entrar</button>
+  <div id="msg" class="msg" aria-live="polite"></div>
+</form>
 <div class="foot">Administrador • Gerente Comercial • Supervisor</div>
 </main>
 <script type="module">
 import {supabase,getSessionProfile} from './supabase-client.js';
-const form=document.querySelector('#loginForm'),msg=document.querySelector('#msg'),btn=document.querySelector('#btn');
+const form=document.querySelector('#loginForm'),msg=document.querySelector('#msg'),btn=document.querySelector('#btn'),identifier=document.querySelector('#identifier'),identifierLabel=document.querySelector('#identifierLabel'),identifierHint=document.querySelector('#identifierHint'),modeButtons=[...document.querySelectorAll('.mode-button')];
+let mode='email';
+
+function setMode(next){
+ mode=next;
+ modeButtons.forEach(button=>{const active=button.dataset.mode===mode;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});
+ const byEmail=mode==='email';
+ identifierLabel.textContent=byEmail?'E-mail':'Login personalizado';
+ identifier.type=byEmail?'email':'text';
+ identifier.placeholder=byEmail?'seu@email.com':'ex.: layane.andrade';
+ identifierHint.textContent=byEmail?'Use o e-mail cadastrado.':'Use o login definido no cadastro do usuário.';
+ identifier.value='';
+ msg.textContent='';
+ identifier.focus();
+}
+modeButtons.forEach(button=>button.addEventListener('click',()=>setMode(button.dataset.mode)));
+
 try{const {session,profile}=await getSessionProfile();if(session&&profile?.ativo&&profile.role!=='pendente')location.replace('./dashboard.html');}catch{}
-form.addEventListener('submit',async e=>{e.preventDefault();msg.textContent='';btn.disabled=true;btn.textContent='Entrando...';const email=document.querySelector('#email').value.trim(),password=document.querySelector('#password').value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){msg.className='msg error';msg.textContent='E-mail ou senha inválidos.';btn.disabled=false;btn.textContent='Entrar';return;}try{const {profile}=await getSessionProfile();if(!profile?.ativo||profile.role==='pendente'){await supabase.auth.signOut();msg.className='msg error';msg.textContent='Seu acesso ainda não foi liberado pelo Administrador.';btn.disabled=false;btn.textContent='Entrar';return;}location.replace('./dashboard.html');}catch{msg.className='msg error';msg.textContent='Não foi possível carregar seu perfil.';btn.disabled=false;btn.textContent='Entrar';}});
+
+form.addEventListener('submit',async e=>{
+ e.preventDefault();msg.textContent='';btn.disabled=true;btn.textContent='Entrando...';
+ const value=identifier.value.trim().toLowerCase(),password=document.querySelector('#password').value;
+ try{
+   if(mode==='email'){
+     const {error}=await supabase.auth.signInWithPassword({email:value,password});
+     if(error)throw error;
+   }else{
+     const {data,error}=await supabase.functions.invoke('login-personalizado',{body:{login:value,password}});
+     if(error||data?.error||!data?.access_token||!data?.refresh_token)throw error||new Error(data?.error||'Acesso inválido');
+     const {error:setSessionError}=await supabase.auth.setSession({access_token:data.access_token,refresh_token:data.refresh_token});
+     if(setSessionError)throw setSessionError;
+   }
+
+   const {profile}=await getSessionProfile();
+   if(!profile?.ativo||profile.role==='pendente'){
+     await supabase.auth.signOut();
+     msg.className='msg error';msg.textContent='Seu acesso ainda não foi liberado pelo Administrador.';
+     return;
+   }
+   location.replace('./dashboard.html');
+ }catch{
+   await supabase.auth.signOut({scope:'local'}).catch(()=>{});
+   msg.className='msg error';msg.textContent='E-mail, login ou senha inválidos.';
+ }finally{
+   btn.disabled=false;btn.textContent='Entrar';
+ }
+});
 </script>
 </body></html>
