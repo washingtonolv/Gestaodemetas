@@ -10,7 +10,7 @@ const parseMoney=v=>{let s=String(v??'').trim().replace(/R\$/gi,'').replace(/\s/
 const toast=(text,kind='ok',ms=3200)=>{if(!status)return;status.textContent=text;status.dataset.kind=kind;status.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>status.classList.remove('on'),ms)};
 const exact=(doc,text)=>[...doc.querySelectorAll('div,span,h1,h2,h3')].find(e=>(e.textContent||'').trim()===text);
 const monthShift=(key,delta)=>{const a=key.split('-').map(Number),d=new Date(a[0],a[1]-1+delta,1);return d.getFullYear()+'-'+pad(d.getMonth()+1)};
-const endFor=key=>{const[y,m]=key.split('-').map(Number);return`${key}-${pad(new Date(y,m,0).getDate())}`},monthLabelFluid=key=>{const[y,m]=key.split('-').map(Number);return new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}).format(new Date(y,m-1,1)).toLocaleUpperCase('pt-BR')};
+const endFor=key=>{const[y,m]=key.split('-').map(Number);return`${key}-${pad(new Date(y,m,0).getDate())}`},monthLabelFluid=key=>{const[y,m]=key.split('-').map(Number);return new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}).format(new Date(y,m-1,1)).replace(/\s+de\s+/i,' ').toLocaleUpperCase('pt-BR')};
 let profile=null,stores=[],sellers=[],users=[],daily=new Map(),goals=new Map(),results=[],activeFilter='Todas',scheduled=false,calendarKey=selected(),calendarCache=new Map(),selectedCalendarDate=null,calendarBusy=false;
 
 async function loadContext(){
@@ -186,7 +186,7 @@ function renderCalendarChart(doc,key,snapshot,selectedDate=null){
 function renderCalendar(doc,key,snapshot){
  const card=calendarCard(doc);if(!card)return;card.dataset.ddCalendarCard='1';calendarKey=key;
  const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),offset=new Date(y,m-1,1).getDay(),today=new Date().toLocaleDateString('en-CA'),totalMeta=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=totalMeta/Math.max(businessDays(key),1);
- const headerMonth=[...card.querySelectorAll('span')].find(el=>el.children.length===0&&/^[A-ZÁÉÍÓÚÃÕÇ]+\s+\d{4}$/.test((el.textContent||'').trim()));const headerText=monthLabelFluid(key);if(headerMonth&&headerMonth.textContent!==headerText)headerMonth.textContent=headerText;
+ const headerMonth=[...card.querySelectorAll('span')].find(el=>el.children.length===0&&(el.dataset.ddCalendarMonth==='1'||/^[A-ZÁÉÍÓÚÃÕÇ]+(?:\s+DE)?\s+\d{4}$/.test((el.textContent||'').trim())));const headerText=monthLabelFluid(key);if(headerMonth){headerMonth.dataset.ddCalendarMonth='1';if(headerMonth.textContent!==headerText)headerMonth.textContent=headerText}
  const grids=[...card.children].filter(el=>(el.style.display||'')==='grid'),grid=grids.find(el=>[...el.children].some(child=>(child.style.height||'')==='38px'))||grids.at(-1);if(!grid)return;
  const slots=[...grid.children];slots.forEach((slot,index)=>{
   const day=index-offset+1;
