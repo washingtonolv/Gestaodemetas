@@ -140,7 +140,7 @@ async function saveStore(doc){
  toast('Loja cadastrada'+(ticket?' · ticket de referência '+money(ticket):'')+'. Atualizando…');setTimeout(()=>location.reload(),650);
 }
 function makeInteractive(doc){
- const labels=['Importar Microvix','Salvar lançamentos','Copiar de maio','Preencher com sugestão','Publicar metas de junho','Adicionar loja','Salvar loja','Adicionar vendedora','Salvar vendedora','Convidar','Exportar Excel','Exportar PDF','Rede','Por loja'];
+ const labels=['Importar Microvix','Salvar lançamentos','Copiar de maio','Preencher com sugestão','Publicar metas de junho','Adicionar loja','Salvar loja','Adicionar vendedora','Salvar vendedora','Convidar','Exportar Excel','Exportar PDF','Rede','Por loja','Cobrar'];
  [...doc.querySelectorAll('div,span')].forEach(el=>{const t=(el.textContent||'').trim();if(labels.includes(t)||/^Copiar de /i.test(t)||/^Publicar metas de /i.test(t)||/^Fechar [A-ZÁÉÍÓÚÃÕÇ]+ \d{4}$/i.test(t)){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0;if(!el.dataset.keyReady){el.dataset.keyReady='1';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})}}});
  for(const label of ['Todas','No ritmo','Atenção','Crítico']){const chip=exact(doc,label),group=(chip?.parentElement?.textContent||'');if(chip&&['Todas','No ritmo','Atenção','Crítico'].every(x=>group.includes(x))){chip.style.cursor='pointer';chip.setAttribute('role','button');chip.tabIndex=0}}
  const help=doc.querySelector('[title="Ajuda"]'),bell=doc.querySelector('[title="Notificações"]');for(const el of [help,bell])if(el){el.style.cursor='pointer';el.setAttribute('role','button');el.tabIndex=0}
@@ -171,6 +171,7 @@ async function wire(){
  doc.addEventListener('click',async e=>{const el=e.target.closest('div,span,button'),t=(el?.textContent||'').trim();try{
    if(el?.closest('[title="Ajuda"]')){e.preventDefault();e.stopImmediatePropagation();showHelp(doc,el.closest('[title="Ajuda"]'));return}
    if(el?.closest('[title="Notificações"]')){e.preventDefault();e.stopImmediatePropagation();showNotifications(doc,el.closest('[title="Notificações"]'));return}
+   if(t==='Cobrar'){e.preventDefault();e.stopImmediatePropagation();const row=el.parentElement,store=row?.children?.[1]?.textContent?.trim()||'loja',msg='Olá! O lançamento de vendas de '+store+' ainda está pendente em '+new Date().toLocaleDateString('pt-BR')+'. Pode atualizar o painel D&D, por favor?';try{await doc.defaultView.navigator.clipboard.writeText(msg);toast('Lembrete de '+store+' copiado.')}catch{toast('Lembrete preparado para '+store+'.','warn')}return}
    const filterGroup=(el?.parentElement?.textContent||'');if(['Todas','No ritmo','Atenção','Crítico'].includes(t)&&['Todas','No ritmo','Atenção','Crítico'].every(x=>filterGroup.includes(x))){e.preventDefault();e.stopImmediatePropagation();applyStoreFilter(doc,t);return}
    if(t==='Rede'){e.preventDefault();e.stopImmediatePropagation();resetRanking(doc);return}
    if(t==='Por loja'){e.preventDefault();e.stopImmediatePropagation();chooseStore(doc,el);return}
