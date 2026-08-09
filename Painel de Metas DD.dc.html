@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}@font-face{font-family:'Inter';font-style:italic;font-weight:100 900;font-display:swap;src:url('./fonts/InterItalicVariableFont_opszwght.ttf') format('truetype')}</style><style>body{margin:0;background:#DCE9E7;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#05918C}a:hover{color:#05716D}</style></helmet>
+
+<template id="__bundler_thumbnail" data-bg-color="#05918C">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#05918C"></rect>
+    <g fill="#CD4664" stroke="#fff" stroke-width="14">
+      <circle cx="600" cy="300" r="90"></circle><circle cx="718" cy="386" r="90"></circle>
+      <circle cx="673" cy="524" r="90"></circle><circle cx="527" cy="524" r="90"></circle>
+      <circle cx="482" cy="386" r="90"></circle>
+    </g>
+    <circle cx="600" cy="430" r="56" fill="#fff"></circle>
+  </svg>
+</template>
+
+<div style="padding:clamp(12px,1.6vw,26px);background:#DCE9E7;min-height:100vh;box-sizing:border-box">
+<div style="display:grid;grid-template-columns:{{ shellCols }};align-items:stretch;background:#fff;border-radius:{{ shellRaio }};overflow:hidden;box-shadow:0 18px 50px rgba(20,60,55,.08);color:#16211F">
+
+  <aside style="display:flex;flex-direction:column;gap:{{ asideGap }};padding:{{ asidePad }};min-width:0;border-right:{{ asideBordaDir }};border-bottom:{{ asideBordaBaixo }}">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 8px">
+      <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 11.5px/1 Inter,sans-serif;color:#fff">D&amp;D<svg width="17" height="17" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#fff" stroke-width="1.6"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
+      <div style="font:800 17px/1 Inter,sans-serif;letter-spacing:-.02em">Metas D&amp;D</div>
+    </div>
+
+    <nav style="display:flex;flex-direction:{{ navDir }};gap:{{ navGap }};overflow-x:{{ navOverflow }};padding-bottom:2px">
+      <sc-for list="{{ navItens }}" as="n" hint-placeholder-count="7">
+        <div onClick="{{ n.ir }}" style="display:flex;align-items:center;gap:11px;padding:{{ navPad }};border-radius:14px;cursor:pointer;white-space:nowrap;flex:none;background:{{ n.bg }};color:{{ n.cor }};font:{{ n.fonte }}" style-hover="background:{{ n.bgHover }}">
+          <img src="{{ n.iconUrl }}" alt="" aria-hidden="true" style="width:18px;height:18px;display:block;flex:none;filter:{{ n.iconFiltro }}">{{ n.rot }}
+        </div>
+      </sc-for>
+    </nav>
+
+    <sc-if value="{{ ehDesktop }}" hint-placeholder-val="{{ true }}">
+    <div style="margin-top:auto;background:#E7F4F2;border-radius:20px;padding:22px 20px">
+      <div style="font:800 15.5px/1.3 Inter,sans-serif;color:#0A5F5C">Feche o dia até as 22h</div>
+      <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#4E6663;margin:9px 0 15px">Lance as vendas de hoje para o painel abrir certo amanhã em todas as lojas.</div>
+      <div onClick="{{ irLancar }}" style="padding:11px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;text-align:center;cursor:pointer">Lançar vendas</div>
+    </div>
+    </sc-if>
+  </aside>
+
+  <main style="padding:clamp(18px,2.2vw,30px) clamp(16px,2.4vw,34px) 26px;display:flex;flex-direction:column;gap:20px;min-width:0;background:#fff">
+    <header style="display:flex;flex-wrap:wrap;gap:16px;align-items:{{ headerAlinha }};justify-content:space-between">
+      <div style="min-width:0">
+        <h1 style="margin:0;font:800 clamp(21px,2.4vw,27px)/1.1 Inter,sans-serif;letter-spacing:-.025em">{{ tituloPagina }}</h1>
+        <div style="font:500 12px/1.4 Inter,sans-serif;color:#8D9997;margin-top:6px">Início <span style="color:#C3CECC">/</span> <span style="color:#05918C">{{ tituloPagina }}</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:10px;padding:11px 18px;border-radius:100px;background:#F4F8F7;min-width:210px">
+          <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/search-lg.svg" alt="" aria-hidden="true" style="width:16px;height:16px;opacity:.58;flex:none">
+          <span style="font:500 12.5px/1 Inter,sans-serif;color:#93A09E">Buscar loja, vendedora…</span>
+        </div>
+        </sc-if>
+        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Inter,sans-serif;color:#0A5F5C">{{ mesLabel }} <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/chevron-down.svg" alt="" aria-hidden="true" style="width:15px;height:15px;opacity:.72"></div>
+        <div title="Ajuda" style="width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/help-circle.svg" alt="" aria-hidden="true" style="width:19px;height:19px"></div>
+        <div title="Notificações" style="position:relative;width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/bell-01.svg" alt="" aria-hidden="true" style="width:19px;height:19px"><span style="position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #E7F4F2;display:block"></span></div>
+        <div style="display:flex;align-items:center;gap:11px">
+          <div style="width:42px;height:42px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:800 13px/1 Inter,sans-serif;color:#CD4664;flex:none">LA</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
+          <div><div style="font:700 13.5px/1.2 Inter,sans-serif">Layane Andrade</div><div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997">Supervisora</div></div>
+          </sc-if>
+        </div>
+      </div>
+    </header>
+
+    <sc-if value="{{ ehPainel }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Painel do mês" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minCartao }},1fr));gap:16px;align-items:stretch">
+        <div style="display:grid;grid-template-columns:{{ heroCols }};gap:16px;min-width:0">
+          <div style="background:#D8EFEA;border-radius:20px;padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;min-height:216px">
+            <div style="width:52px;height:52px;border-radius:16px;background:#0A5F5C;display:flex;align-items:center;justify-content:center"><span style="width:18px;height:18px;border-radius:5px;border:2.4px solid #fff;display:block"></span></div>
+            <div>
+              <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+                <span style="font:800 38px/1 Inter,sans-serif;letter-spacing:-.03em;color:#0A5F5C">{{ totPctTxt }}</span>
+                <span style="padding:5px 9px;border-radius:100px;background:#fff;font:700 11px/1 Inter,sans-serif;color:{{ ritmoCor }}">{{ ritmoDelta }}</span>
+              </div>
+              <div style="font:500 12.5px/1.5 Inter,sans-serif;color:#4E6663;margin-top:9px">da Meta 1 da rede<br>ritmo esperado hoje {{ paceTxt }}</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+            <div style="flex:1;background:#F6FAF9;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;min-width:0;flex-wrap:{{ kpiWrap }}">
+              <div style="width:44px;height:44px;border-radius:14px;background:#E7F4F2;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:15px;height:15px;border-radius:50%;border:2.3px solid #05918C;display:block"></span></div>
+              <div style="min-width:120px;flex:1">
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#8D9997">Vendido até hoje</div>
+                <div style="font:800 21px/1.2 Inter,sans-serif;margin-top:6px;letter-spacing:-.02em;white-space:nowrap">{{ totRealTxt }}</div>
+              </div>
+              <span style="padding:5px 9px;border-radius:100px;background:#E7F4F2;font:700 10.5px/1 Inter,sans-serif;color:#0A5F5C;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasTrab }}/{{ diasMes }} dias</span>
+            </div>
+            <div style="flex:1;background:#F6FAF9;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;min-width:0;flex-wrap:{{ kpiWrap }}">
+              <div style="width:44px;height:44px;border-radius:14px;background:#FDF1F3;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:15px;height:15px;border-radius:50% 50% 50% 3px;border:2.3px solid #CD4664;display:block"></span></div>
+              <div style="min-width:120px;flex:1">
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#8D9997">Falta para a Meta 1</div>
+                <div style="font:800 21px/1.2 Inter,sans-serif;margin-top:6px;letter-spacing:-.02em;color:#CD4664;white-space:nowrap">{{ totFaltaTxt }}</div>
+              </div>
+              <span style="padding:5px 9px;border-radius:100px;background:#FDF1F3;font:700 10.5px/1 Inter,sans-serif;color:#CD4664;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasFaltam }} dias</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:20px 22px;min-width:0;display:flex;flex-direction:column">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Vendas por dia</h2>
+            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Inter,sans-serif;color:#8D9997">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;border-radius:2px;background:#05918C;display:block"></span>realizado</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:0;border-top:2px dashed #CD4664;display:block"></span>meta {{ metaDiaTxt }}</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 900 210" preserveAspectRatio="none" style="width:100%;height:{{ graficoAltura }};display:block;flex:1">
+            <defs><linearGradient id="gDia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05918C" stop-opacity=".22"></stop><stop offset="1" stop-color="#05918C" stop-opacity="0"></stop></linearGradient></defs>
+            <path d="{{ areaPath }}" fill="url(#gDia)"></path>
+            <path d="{{ linhaPath }}" fill="none" stroke="#05918C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+            <line x1="0" x2="900" y1="{{ metaY }}" y2="{{ metaY }}" stroke="#CD4664" stroke-width="2" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"></line>
+          </svg>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;font:500 10.5px/1 'JetBrains Mono',monospace;color:#A8B7B5">
+            <sc-for list="{{ eixoDias }}" as="e" hint-placeholder-count="5"><span>{{ e.dia }}</span></sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minColuna }},1fr));gap:20px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Escada de metas da rede</h2>
+              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;font:600 11px/1 Inter,sans-serif;color:#5A6664">Comissão por faixa</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
+              <sc-for list="{{ anelMetas }}" as="m" hint-placeholder-count="3">
+                <div style="background:{{ m.bg }};border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0">
+                  <div style="font:700 11.5px/1 Inter,sans-serif;color:{{ m.cor }};align-self:flex-start">{{ m.rot }}</div>
+                  <div style="position:relative">
+                    <svg width="92" height="92" viewBox="0 0 92 92">
+                      <circle cx="46" cy="46" r="38" fill="none" stroke="#fff" stroke-width="10"></circle>
+                      <circle cx="46" cy="46" r="38" fill="none" stroke="{{ m.cor }}" stroke-width="10" stroke-linecap="round" stroke-dasharray="{{ m.dash }}" transform="rotate(-90 46 46)"></circle>
+                    </svg>
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                      <div style="font:800 15px/1 Inter,sans-serif;color:{{ m.cor }}">{{ m.pctTxt }}</div>
+                      <div style="font:500 9.5px/1.4 Inter,sans-serif;color:#8D9997">{{ m.comissao }}</div>
+                    </div>
+                  </div>
+                  <div style="font:600 11.5px/1.4 Inter,sans-serif;color:#5A6664;text-align:center">{{ m.valorTxt }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Lojas</h2>
+              <div style="display:flex;gap:7px;flex-wrap:wrap">
+                <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif">Todas</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">No ritmo</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Atenção</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Crítico</span>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:{{ colsLoja }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+              <div>Loja</div><div>% da Meta 1</div>
+              <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vendido</div></sc-if>
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vender/dia</div></sc-if>
+              <div style="text-align:right">Situação</div>
+            </div>
+            <sc-for list="{{ lojas }}" as="l" hint-placeholder-count="9">
+              <div style="display:grid;grid-template-columns:{{ colsLoja }};gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #F6F9F8">
+                <div style="display:flex;align-items:center;gap:11px;min-width:0">
+                  <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+                    <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
+                  </sc-if>
+                  <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                  <div style="flex:1;height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ l.corT }};width:{{ l.pctW }}"></div></div>
+                  <span style="font:700 11.5px/1 'JetBrains Mono',monospace;width:46px;text-align:right;color:{{ l.corT }}">{{ l.pctTxt }}</span>
+                </div>
+                <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ l.realTxt }}</div></sc-if>
+                <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:700 12px/1 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div></sc-if>
+                <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeT }};color:{{ l.corT }}">{{ l.situacao }}</span></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Calendário</h2>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:#5A6664">‹</span>
+                <span style="font:700 12.5px/1 Inter,sans-serif;color:#5A6664">{{ mesLabel }}</span>
+                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:#5A6664">›</span>
+              </div>
+            </div>
+            <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:16px">{{ hojeLabel }} · meta por dia útil {{ metaDiaTxt }}</div>
+            <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:8px">
+              <sc-for list="{{ semanaCabec }}" as="c" hint-placeholder-count="7">
+                <div style="text-align:center;font:700 10px/1 Inter,sans-serif;color:#A8B7B5">{{ c.s }}</div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">
+              <sc-for list="{{ calVazios }}" as="v" hint-placeholder-count="5">
+                <div style="height:38px"></div>
+              </sc-for>
+              <sc-for list="{{ calDias }}" as="d" hint-placeholder-count="31">
+                <div style="height:38px;border-radius:11px;background:{{ d.bgT }};border:1.5px solid {{ d.bordaT }};display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:{{ d.txtT }};min-width:0">{{ d.num }}</div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid #F1F5F4">
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#0A5F5C;display:block"></span>bateu o dia</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#9FD8D3;display:block"></span>perto</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F5C3CE;display:block"></span>abaixo</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F1F5F4;display:block"></span>fechado</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Situação das lojas</h2>
+              <span onClick="{{ irLojas }}" style="font:600 11px/1 Inter,sans-serif;color:#05918C;cursor:pointer">Ver todas</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;flex:none">
+                <svg width="118" height="118" viewBox="0 0 152 152">
+                  <circle cx="76" cy="76" r="64" fill="none" stroke="#F1F5F4" stroke-width="19"></circle>
+                  <sc-for list="{{ donut }}" as="s" hint-placeholder-count="3">
+                    <circle cx="76" cy="76" r="64" fill="none" stroke="{{ s.cor }}" stroke-width="19" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.off }}" transform="rotate(-90 76 76)"></circle>
+                  </sc-for>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font:800 21px/1 Inter,sans-serif">{{ totalLojas }}</div>
+                  <div style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997">lojas</div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:13px;flex:1;min-width:130px">
+                <sc-for list="{{ donut }}" as="s" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <span style="width:9px;height:9px;border-radius:3px;background:{{ s.cor }};display:block;flex:none"></span>
+                    <span style="font:500 12.5px/1 Inter,sans-serif;flex:1">{{ s.rot }}</span>
+                    <span style="font:700 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ s.n }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+            <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Para olhar hoje</h2>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
+                <div style="display:flex;gap:12px;padding:14px 15px;border-radius:15px;background:{{ a.bgT }}">
+                  <span style="width:9px;height:9px;border-radius:50%;background:{{ a.corT }};display:block;flex:none;margin-top:4px"></span>
+                  <div style="min-width:0">
+                    <div style="font:700 12.5px/1.3 Inter,sans-serif;color:#16211F">{{ a.titulo }}</div>
+                    <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#5A6664;margin-top:5px">{{ a.texto }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehLancar }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Lançar vendas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
+      <div style="grid-column:{{ colunasDuplas }};min-width:0;display:flex;flex-direction:column;gap:20px">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Vendas de quinta, 21 de maio</h2>
+            <div style="display:flex;gap:8px">
+              <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664">Importar Microvix</span>
+              <span onClick="{{ salvarLancamentos }}" style="padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#05716D">Salvar lançamentos</span>
+            </div>
+          </div>
+          <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">{{ nLancadas }} de {{ totalLojas }} lojas já lançaram · meta do dia por loja calculada sobre a Meta 1</div>
+          <div style="display:grid;grid-template-columns:{{ colsLanc }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+            <div>Loja</div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta do dia</div></sc-if>
+            <div style="text-align:right">Venda de hoje</div>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Atend.</div></sc-if>
+            <div style="text-align:right">Status</div>
+          </div>
+          <sc-for list="{{ lancamentos }}" as="l" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:{{ colsLanc }};gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #F6F9F8">
+              <div style="display:flex;align-items:center;gap:11px;min-width:0">
+                <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+                  <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
+                </sc-if>
+                <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+              </div>
+              <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ l.metaDiaTxt }}</div></sc-if>
+              <div style="text-align:right;min-width:0"><input type="text" inputMode="numeric" placeholder="0" value="{{ l.valorTexto }}" onChange="{{ l.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid {{ l.campoBorda }};background:{{ l.campoBg }};font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ l.campoCor }};text-align:right;outline:none"></div>
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ l.atend }}</div></sc-if>
+              <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeBg }};color:{{ l.badgeCor }}">{{ l.status }}</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#D8EFEA;border-radius:20px;padding:24px 26px">
+          <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Total lançado hoje</div>
+          <div style="font:800 32px/1.1 Inter,sans-serif;letter-spacing:-.03em;color:#0A5F5C;margin:12px 0 8px">{{ totalHojeTxt }}</div>
+          <div style="font:500 12px/1.6 Inter,sans-serif;color:#4E6663">Meta do dia da rede {{ metaDiaTxt }} · {{ pctDiaTxt }} atingido</div>
+          <div style="height:10px;border-radius:6px;background:#fff;overflow:hidden;margin-top:14px"><div style="height:100%;border-radius:6px;background:#0A5F5C;width:{{ pctDiaW }}"></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 8px;font:700 15.5px/1 Inter,sans-serif">Faltam lançar</h2>
+          <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#8D9997;margin-bottom:16px">Cobrar as gerentes antes das 22h.</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ pendentes }}" as="p" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:14px;background:#FDF1F3">
+                <span style="width:30px;height:30px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#CD4664;flex:none">{{ p.cod }}</span>
+                <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0">{{ p.nome }}</span>
+                <span style="font:700 11px/1 Inter,sans-serif;color:#CD4664">Cobrar</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Últimos lançamentos</h2>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ historicoLanc }}" as="h" hint-placeholder-count="4">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:8px;height:8px;border-radius:50%;background:#05918C;display:block;flex:none;margin-top:5px"></span>
+                <div style="min-width:0;flex:1">
+                  <div style="font:700 12px/1.3 Inter,sans-serif">{{ h.nome }} · {{ h.valorTxt }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997">{{ h.quando }} por {{ h.quem }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehMetas }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Definir metas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
+      <div style="grid-column:{{ colunasDuplas }};background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Metas de junho 2026</h2>
+          <div style="display:flex;gap:8px">
+            <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664">Copiar de maio</span>
+            <span style="padding:9px 15px;border-radius:100px;background:#E7F4F2;font:700 11.5px/1 Inter,sans-serif;color:#0A5F5C">Preencher com sugestão</span>
+          </div>
+        </div>
+        <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">Digite só a Meta 1. Meta 2 e Meta 3 saem dos fatores {{ fator2Txt }} e {{ fator3Txt }}.</div>
+        <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+          <div>Loja</div><div style="text-align:right">Meta 1</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta 2</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta 3</div></sc-if>
+          <div style="text-align:right">vs maio</div>
+        </div>
+        <sc-for list="{{ novasMetas }}" as="n" hint-placeholder-count="9">
+          <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid #F6F9F8">
+            <div style="display:flex;align-items:center;gap:11px;min-width:0">
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
+                <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ n.cod }}</span>
+              </sc-if>
+              <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.nome }}</span>
+            </div>
+            <div style="text-align:right;min-width:0"><input type="text" inputMode="decimal" value="{{ n.m1 }}" onFocus="{{ n.iniciarEdicao }}" onChange="{{ n.digitar }}" onBlur="{{ n.finalizarEdicao }}" aria-label="Meta 1 em reais" autocomplete="off" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;text-align:right;outline:none"></div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ n.m2 }}</div></sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ n.m3 }}</div></sc-if>
+            <div style="text-align:right;white-space:nowrap;font:700 11.5px/1 'JetBrains Mono',monospace;color:{{ n.cor }}">{{ n.delta }}</div>
+          </div>
+        </sc-for>
+        <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;padding:16px 0 0">
+          <div style="font:800 12.5px/1 Inter,sans-serif">TOTAL</div>
+          <div style="text-align:right;font:800 12.5px/1 'JetBrains Mono',monospace">{{ novoTot1 }}</div>
+          <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#8D9997">{{ novoTot2 }}</div></sc-if>
+          <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#8D9997">{{ novoTot3 }}</div></sc-if>
+          <div style="text-align:right;font:800 11.5px/1 'JetBrains Mono',monospace;color:#05918C">{{ novoDelta }}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px"><h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Fatores e dias</h2><span data-governance-status style="padding:6px 9px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 9.5px/1 Inter,sans-serif;white-space:nowrap">Edição liberada</span></div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 2 = Meta 1 ×</div>
+              <input data-goal-factor="fator_meta2" type="text" inputMode="decimal" value="{{ fator2Txt }}" onChange="{{ alterarFator2 }}" aria-label="Fator da Meta 2" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
+            </div>
+            <div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 3 = Meta 1 ×</div>
+              <input data-goal-factor="fator_meta3" type="text" inputMode="decimal" value="{{ fator3Txt }}" onChange="{{ alterarFator3 }}" aria-label="Fator da Meta 3" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
+            </div>
+            <div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Dias úteis de junho</div>
+              <input data-goal-days type="text" inputMode="numeric" value="{{ diasUteisConfig }}" onChange="{{ alterarDiasUteis }}" aria-label="Dias úteis da competência" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
+            </div>
+            <div data-governance-actions style="display:flex;flex-wrap:wrap;gap:8px;padding-top:2px">
+              <button data-governance-save type="button" style="flex:1;min-width:160px;padding:11px 13px;border:0;border-radius:11px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif;cursor:pointer">Salvar fatores e dias</button>
+              <button data-governance-lock type="button" style="display:none;flex:1;min-width:150px;padding:11px 13px;border:1.5px solid #F0CCD5;border-radius:11px;background:#FFF5F7;color:#B33755;font:700 11px/1 Inter,sans-serif;cursor:pointer">Bloquear edição</button>
+            </div>
+            <div data-governance-hint style="font:500 10.5px/1.5 Inter,sans-serif;color:#6F7A89">As alterações valem somente para esta competência.</div>
+          </div>
+        </div>
+        <div style="background:#E7F4F2;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Inter,sans-serif;color:#0A5F5C">Como a sugestão é calculada</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#4E6663">Média das vendas dos 3 últimos meses da loja + 6% de crescimento, arredondada para o milhar. Você ajusta o que quiser antes de publicar.</div>
+        </div>
+        <div style="padding:14px;border-radius:14px;background:#05918C;color:#fff;font:700 13px/1 Inter,sans-serif;text-align:center">Publicar metas de junho</div>
+        <div style="font:500 11px/1.5 Inter,sans-serif;color:#A8B7B5;text-align:center">As lojas veem a meta nova no dia 1º.</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehLojas }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Lojas" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+        <div style="font:500 12px/1.5 Inter,sans-serif;color:#8D9997">{{ totalLojas }} lojas com meta lançada em {{ mesLabel }}</div>
+        <span onClick="{{ abrirFormLoja }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Inter,sans-serif">+</span>Adicionar loja</span>
+      </div>
+
+      <sc-if value="{{ formLoja }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1.5px solid #D8E6E4;background:#F9FCFB;border-radius:20px;padding:22px 24px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div>
+            <h3 style="margin:0;font:700 14.5px/1 Inter,sans-serif">Nova loja</h3>
+            <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">Meta 2 e Meta 3 são calculadas pelos fatores da rede ({{ fator2Txt }} e {{ fator3Txt }}).</div>
+          </div>
+          <span onClick="{{ fecharFormLoja }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+          <sc-for list="{{ camposLoja }}" as="c" hint-placeholder-count="5">
+            <div style="min-width:0">
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+              <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:18px;padding-top:18px;border-top:1px solid #E9F1EF">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Gerente responsável</div>
+            <span onClick="{{ abrirFormGerente }}" style="display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 11px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 13px/1 Inter,sans-serif">+</span>Novo gerente</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ gerentes }}" as="g" hint-placeholder-count="4">
+              <div onClick="{{ g.escolher }}" style="display:flex;align-items:center;gap:9px;padding:9px 14px 9px 9px;border-radius:100px;border:1.5px solid {{ g.borda }};background:{{ g.bg }};color:{{ g.cor }};font:600 12px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap">
+                <span style="width:26px;height:26px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ g.ini }}</span>{{ g.nome }}
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ formGerente }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;border:1.5px solid #D8E6E4;background:#fff;border-radius:16px;padding:20px 22px">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <div>
+                <h4 style="margin:0;font:700 13.5px/1 Inter,sans-serif">Novo gerente</h4>
+                <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:5px">Ela recebe um convite por e-mail e passa a lançar as vendas desta loja.</div>
+              </div>
+              <span onClick="{{ fecharFormGerente }}" style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+              <sc-for list="{{ camposGerente }}" as="c" hint-placeholder-count="4">
+                <div style="min-width:0">
+                  <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
+              <span onClick="{{ fecharFormGerente }}" style="padding:10px 16px;border-radius:11px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+              <span onClick="{{ salvarGerente }}" style="padding:10px 16px;border-radius:11px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer">Convidar gerente</span>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+          <span onClick="{{ fecharFormLoja }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+          <span onClick="{{ salvarLoja }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;cursor:pointer">Salvar loja</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:16px">
+        <sc-for list="{{ resumoLojas }}" as="r" hint-placeholder-count="4">
+          <div style="background:{{ r.bg }};border-radius:20px;padding:20px 22px">
+            <div style="font:500 11.5px/1 Inter,sans-serif;color:#5A6664">{{ r.rot }}</div>
+            <div style="font:800 26px/1.2 Inter,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ r.cor }}">{{ r.valor }}</div>
+            <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">{{ r.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minLojaCard }},1fr));gap:16px">
+        <sc-for list="{{ lojas }}" as="l" hint-placeholder-count="9">
+          <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="width:42px;height:42px;border-radius:13px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
+              <div style="min-width:0;flex:1">
+                <div style="font:700 13.5px/1.2 Inter,sans-serif">{{ l.nome }}</div>
+                <div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997;margin-top:4px">Meta 1 · {{ l.metaBRL }}</div>
+              </div>
+              <span style="padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;background:{{ l.badgeT }};color:{{ l.corT }};flex:none">{{ l.situacao }}</span>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font:700 11.5px/1 'JetBrains Mono',monospace;margin-bottom:7px"><span style="color:#5A6664">{{ l.realTxt }}</span><span style="color:{{ l.corT }}">{{ l.pctTxt }}</span></div>
+              <div style="height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ l.corT }};width:{{ l.pctW }}"></div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #F1F5F4">
+              <div><div style="font:500 10.5px/1 Inter,sans-serif;color:#A8B7B5">Vender/dia</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div></div>
+              <div style="text-align:right"><div style="font:500 10.5px/1 Inter,sans-serif;color:#A8B7B5">Ticket médio</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.ticket }}</div></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehRanking }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Ranking" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
+      <div style="grid-column:{{ colunasDuplas }};display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+          <sc-for list="{{ podio }}" as="p" hint-placeholder-count="3">
+            <div style="background:{{ p.bg }};border-radius:20px;padding:22px 24px;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font:800 12px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.pos }}</span>
+                <span style="padding:5px 10px;border-radius:100px;background:#fff;font:700 10.5px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.nivel }}</span>
+              </div>
+              <div style="width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font:800 15px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.ini }}</div>
+              <div>
+                <div style="font:800 15px/1.2 Inter,sans-serif">{{ p.nome }}</div>
+                <div style="font:500 11px/1.5 Inter,sans-serif;color:#5A6664;margin-top:5px">{{ p.loja }}</div>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font:800 22px/1 'JetBrains Mono',monospace;color:{{ p.cor }}">{{ p.pctTxt }}</span>
+                <span style="font:500 11px/1 Inter,sans-serif;color:#5A6664">{{ p.vendaTxt }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Ranking de vendedoras · {{ mesLabel }}</h2>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+              <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif">Rede</span>
+              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Por loja</span>
+              <span onClick="{{ abrirFormVend }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Inter,sans-serif">+</span>Adicionar vendedora</span>
+            </div>
+          </div>
+
+          <sc-if value="{{ formVend }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1.5px solid #D8E6E4;background:#F9FCFB;border-radius:18px;padding:22px 24px;margin-bottom:18px">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
+              <div>
+                <h3 style="margin:0;font:700 14.5px/1 Inter,sans-serif">Nova vendedora</h3>
+                <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">Ela entra no ranking já no próximo lançamento de vendas.</div>
+              </div>
+              <span onClick="{{ fecharFormVend }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+              <sc-for list="{{ camposVend }}" as="c" hint-placeholder-count="6">
+                <div style="min-width:0">
+                  <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+              <span onClick="{{ fecharFormVend }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+              <span onClick="{{ salvarVendedora }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;cursor:pointer">Salvar vendedora</span>
+            </div>
+          </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:{{ colsRank }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+            <div>#</div><div>Vendedora</div><div>% da meta</div>
+            <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vendido</div></sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Ticket</div></sc-if>
+            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Faixa</div></sc-if>
+          </div>
+          <sc-for list="{{ ranking }}" as="v" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:{{ colsRank }};gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #F6F9F8">
+              <div style="font:700 12px/1 'JetBrains Mono',monospace;color:#A8B7B5">{{ v.pos }}</div>
+              <div style="display:flex;align-items:center;gap:11px;min-width:0">
+                <span style="width:32px;height:32px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10.5px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ v.ini }}</span>
+                <div style="min-width:0"><div style="font:700 12.5px/1.2 Inter,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.nome }}</div><div style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ v.loja }}</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                <div style="flex:1;height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ v.cor }};width:{{ v.pctW }}"></div></div>
+                <span style="font:700 11.5px/1 'JetBrains Mono',monospace;width:46px;text-align:right;color:{{ v.cor }}">{{ v.pctTxt }}</span>
+              </div>
+              <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ v.vendaTxt }}</div></sc-if>
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ v.ticket }}</div></sc-if>
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;background:{{ v.badge }};color:{{ v.cor }}">{{ v.nivel }}</span></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Faixas de comissão</h2>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ faixas }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:14px;background:{{ f.bg }}">
+                <span style="font:700 12px/1 Inter,sans-serif;color:{{ f.cor }};flex:1">{{ f.rot }}</span>
+                <span style="font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ f.cor }}">{{ f.pct }}</span>
+                <span style="font:500 11px/1 Inter,sans-serif;color:#8D9997">{{ f.qtd }} vend.</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#D8EFEA;border-radius:20px;padding:24px 26px">
+          <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Destaque do mês</div>
+          <div style="font:800 22px/1.2 Inter,sans-serif;color:#0A5F5C;margin:12px 0 8px">Aline Ferreira</div>
+          <div style="font:500 12px/1.6 Inter,sans-serif;color:#4E6663">Rodrigo Silva · 106% da meta individual com 8 dias pela frente. Ticket médio 22% acima da média da rede.</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehAno }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Ano 2026" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:16px">
+        <sc-for list="{{ kpisAno }}" as="k" hint-placeholder-count="4">
+          <div style="background:{{ k.bg }};border-radius:20px;padding:20px 22px">
+            <div style="font:500 11.5px/1 Inter,sans-serif;color:#5A6664">{{ k.rot }}</div>
+            <div style="font:800 26px/1.2 Inter,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ k.cor }}">{{ k.valor }}</div>
+            <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">{{ k.sub }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minColuna }},1fr));gap:20px;align-items:start">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:20px">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Meta × realizado por mês</h2>
+            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Inter,sans-serif;color:#8D9997">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#E1EBE9;display:block"></span>meta</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#05918C;display:block"></span>realizado</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px;height:210px">
+            <sc-for list="{{ meses }}" as="m" hint-placeholder-count="12">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0">
+                <div style="display:flex;align-items:flex-end;gap:3px;height:160px">
+                  <div style="width:11px;border-radius:4px 4px 0 0;background:#E1EBE9;height:{{ m.hMeta }}"></div>
+                  <div style="width:11px;border-radius:4px 4px 0 0;background:{{ m.cor }};height:{{ m.hReal }}"></div>
+                </div>
+                <div style="font:600 10px/1 Inter,sans-serif;color:#8D9997">{{ m.nome }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Fechamento mês a mês</h2>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+            <div>Mês</div><div style="text-align:right">Meta 1</div><div style="text-align:right">Realizado</div><div style="text-align:right">%</div>
+          </div>
+          <sc-for list="{{ tabelaAno }}" as="t" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #F6F9F8">
+              <div style="font:700 12.5px/1 Inter,sans-serif">{{ t.mes }}</div>
+              <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ t.metaTxt }}</div>
+              <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ t.realTxt }}</div>
+              <div style="text-align:right;white-space:nowrap;font:700 12px/1 'JetBrains Mono',monospace;color:{{ t.cor }}">{{ t.pctTxt }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ ehConfig }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Configurações" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 6px;font:700 15.5px/1 Inter,sans-serif">Regras de meta</h2>
+          <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">Valem para toda a rede, salvo exceção por loja.</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ configCampos }}" as="c" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.3 Inter,sans-serif">{{ c.rot }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ c.desc }}</div>
+                </div>
+                <span style="padding:10px 14px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;flex:none">{{ c.valor }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 18px;font:700 15.5px/1 Inter,sans-serif">Notificações</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.3 Inter,sans-serif">{{ t.rot }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ t.desc }}</div>
+                </div>
+                <div onClick="{{ t.alternar }}" style="width:46px;height:26px;border-radius:100px;background:{{ t.trilho }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.pos }};cursor:pointer;flex:none">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#fff;display:block"></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Quem tem acesso</h2>
+            <span style="padding:8px 14px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Inter,sans-serif;color:#0A5F5C">Convidar</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ usuarios }}" as="u" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="width:36px;height:36px;border-radius:50%;background:{{ u.bg }};display:flex;align-items:center;justify-content:center;font:700 11.5px/1 Inter,sans-serif;color:{{ u.cor }};flex:none">{{ u.ini }}</span>
+                <div style="flex:1;min-width:0">
+                  <div style="font:700 12.5px/1.2 Inter,sans-serif">{{ u.nome }}</div>
+                  <div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ u.escopo }}</div>
+                </div>
+                <span style="padding:6px 11px;border-radius:100px;background:#F4F8F7;font:600 10.5px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ u.papel }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 10px;font:700 15.5px/1 Inter,sans-serif">Dados salvos</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#5A6664;margin-bottom:16px">Lançamentos, metas e cadastros ficam gravados neste aparelho/navegador — continuam aqui quando você fechar e voltar. Para várias pessoas verem os mesmos números ao mesmo tempo é preciso um banco de dados.</div>
+          <sc-if value="{{ temSalvo }}" hint-placeholder-val="{{ false }}">
+            <div style="display:inline-block;padding:7px 12px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Inter,sans-serif;color:#0A5F5C;margin-bottom:14px">Última gravação às {{ salvoEm }}</div>
+          </sc-if>
+          <div onClick="{{ limparDados }}" style="padding:11px;border-radius:12px;background:#F4F8F7;font:700 12px/1 Inter,sans-serif;color:#5A6664;text-align:center;cursor:pointer">Restaurar dados de exemplo</div>
+        </div>
+
+        <div style="background:#FDF1F3;border-radius:20px;padding:22px 24px">
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Inter,sans-serif;color:#CD4664">Encerrar o mês</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#5A6664;margin-bottom:16px">Congela os números de {{ mesLabel }} e libera junho para lançamento. Não dá para desfazer.</div>
+          <div style="padding:12px;border-radius:12px;background:#CD4664;color:#fff;font:700 12px/1 Inter,sans-serif;text-align:center">Fechar {{ mesLabel }}</div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid #F1F5F4;font:500 11.5px/1 Inter,sans-serif;color:#A8B7B5">
+      <span>D&amp;D Cosméticos · dados de {{ mesLabel }}</span>
+      <span>Projeção do mês <b style="color:#5A6664">{{ projTxt }}</b> · fecha em <b style="color:#05918C">{{ projPctTxt }}</b></span>
+    </footer>
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;mes&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;MAIO 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasUteis&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:26,&quot;min&quot;:20,&quot;max&quot;:27,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;diasTrabalhados&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:18,&quot;min&quot;:1,&quot;max&quot;:26,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Período&quot;},&quot;fatorMeta2&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.12,&quot;min&quot;:1,&quot;max&quot;:1.6,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;},&quot;fatorMeta3&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;default&quot;:1.3,&quot;min&quot;:1,&quot;max&quot;:2,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Metas&quot;}}">
+const BRL = n => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const K = n => Math.round(n).toLocaleString('pt-BR');
+const PCT = n => (n * 100).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+const NUM = (n, d) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+const TEAL = '#05918C', TEAL_ESC = '#0A5F5C', ROSA = '#CD4664', ROSA_CLARO = '#E890A2';
+
+const LOJAS = [
+  { nome: 'RODO 3', cod: '1017', meta: 269314, real: 171648.07, ticket: 138.4 },
+  { nome: 'TIJUCA 3', cod: '157', meta: 235633, real: 146808.19, ticket: 129.7 },
+  { nome: 'ITABORAÍ 2', cod: '257', meta: 233744, real: 149548.50, ticket: 121.2 },
+  { nome: 'RIO BRANCO', cod: '363', meta: 220000, real: 135115.64, ticket: 144.9 },
+  { nome: 'COPA 2', cod: '165', meta: 200000, real: 113166.98, ticket: 152.3 },
+  { nome: 'RODRIGO SILVA', cod: '997', meta: 180000, real: 139354.01, ticket: 133.8 },
+  { nome: 'CONCEIÇÃO', cod: '109', meta: 169598, real: 102588.12, ticket: 118.6 },
+  { nome: 'CENTER IV', cod: '117', meta: 167300, real: 95764.39, ticket: 126.1 },
+  { nome: 'SÃO JOSÉ', cod: '236', meta: 152846, real: 91900.81, ticket: 115.4 }
+];
+
+const MESES = [
+  { nome: 'JAN', meta: 1222921, real: 1035086.67 },
+  { nome: 'FEV', meta: 1241284, real: 791620.54 },
+  { nome: 'MAR', meta: 1285691, real: 1504070.63 },
+  { nome: 'ABR', meta: 1363444, real: 1268293.56 },
+  { nome: 'MAI', meta: 1828435, real: 1145894.71 }
+];
+
+const UUI_ICON_BASE = 'https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons';
+const PAGINAS = [
+  { id: 'painel', rot: 'Painel do mês', icon: 'home-line' },
+  { id: 'lancar', rot: 'Lançar vendas', icon: 'currency-dollar-circle' },
+  { id: 'metas', rot: 'Definir metas', icon: 'target-04' },
+  { id: 'lojas', rot: 'Lojas', icon: 'building-07' },
+  { id: 'ranking', rot: 'Ranking', icon: 'trophy-01' },
+  { id: 'ano', rot: 'Ano 2026', icon: 'bar-chart-11' },
+  { id: 'config', rot: 'Configurações', icon: 'settings-01' }
+];
+
+const VENDEDORAS = [
+  { nome: 'Aline Ferreira', loja: 'Rodrigo Silva', pct: 1.06, venda: 41280, ticket: 168.2 },
+  { nome: 'Bruna Cardoso', loja: 'Rodo 3', pct: 0.94, venda: 38940, ticket: 151.4 },
+  { nome: 'Camila Nunes', loja: 'Tijuca 3', pct: 0.88, venda: 35110, ticket: 142.9 },
+  { nome: 'Daniela Prado', loja: 'Itaboraí 2', pct: 0.82, venda: 33480, ticket: 128.6 },
+  { nome: 'Elaine Souza', loja: 'Rio Branco', pct: 0.77, venda: 30250, ticket: 139.1 },
+  { nome: 'Fabiana Lima', loja: 'Copa 2', pct: 0.69, venda: 27310, ticket: 156.0 },
+  { nome: 'Gisele Amorim', loja: 'Conceição', pct: 0.61, venda: 24870, ticket: 117.3 },
+  { nome: 'Helena Dias', loja: 'Center IV', pct: 0.54, venda: 21460, ticket: 124.8 }
+];
+
+class Component extends DCLogic {
+  state = { pagina: 'painel', dados: null, salvoEm: null, rascunho: {}, metaEditando: null, rascunhosMeta: {}, formVend: false, formLoja: false, formGerente: false, gerente: 'Márcia Bastos', notif: { meta: true, atraso: true, resumo: false, ranking: true }, w: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+    try {
+      const cru = localStorage.getItem('metasdd.v1');
+      if (cru) this.setState({ dados: JSON.parse(cru) });
+    } catch (e) { }
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  dados() {
+    return this.state.dados || {
+      lojas: LOJAS.map(l => ({ ...l })),
+      vendedoras: VENDEDORAS.map(v => ({ ...v })),
+      gerentes: ['Márcia Bastos', 'Patrícia Reis', 'Simone Alves', 'Renata Coelho'],
+      vendasHoje: {},
+      metasProx: {},
+      mesFechado: false
+    };
+  }
+
+  gravar(mut, estadoExtra) {
+    const d = JSON.parse(JSON.stringify(this.dados()));
+    mut(d);
+    try { localStorage.setItem('metasdd.v1', JSON.stringify(d)); } catch (e) { }
+    this.setState({ dados: d, salvoEm: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), ...(estadoExtra || {}) });
+  }
+
+  limparTudo() {
+    try { localStorage.removeItem('metasdd.v1'); } catch (e) { }
+    this.setState({ dados: null, salvoEm: null });
+  }
+
+  soNumero(t) { return Number(String(t).replace(/\D/g, '')) || 0; }
+  soDinheiro(t) {
+    let s = String(t ?? '').trim().replace(/R\$/gi, '').replace(/\s/g, '').replace(/[^0-9,.-]/g, '');
+    if (!s) return 0;
+    if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+    else {
+      const pontos = (s.match(/\./g) || []).length;
+      if (pontos > 1 || (pontos === 1 && !/^\d+\.\d{1,2}$/.test(s))) s = s.replace(/\./g, '');
+    }
+    return Number(s) || 0;
+  }
+  soDecimal(t) { return Number(String(t ?? '').trim().replace(',', '.').replace(/[^0-9.-]/g, '')) || 0; }
+
+  renderVals() {
+    const pagina = this.state.pagina;
+    const w = this.state.w;
+    const ehMobile = w < 760, ehTablet = w >= 760 && w < 1180, ehDesktop = w >= 1180;
+    const compacto = w < 980;
+    const persistidos = this.dados();
+    const diasMes = Number(persistidos.diasUteis || this.props.diasUteis || 26);
+    const diasTrab = Math.min(Number(persistidos.diasTrabalhados || this.props.diasTrabalhados || 18), diasMes);
+    const diasFaltam = Math.max(diasMes - diasTrab, 0);
+    const f2 = Number(persistidos.fatorMeta2 || this.props.fatorMeta2 || 1.12);
+    const f3 = Number(persistidos.fatorMeta3 || this.props.fatorMeta3 || 1.30);
+    const pacePadrao = diasMes ? diasTrab / diasMes : 0;
+    const mesLabel = persistidos.mesLabel || this.props.mes || 'MAIO 2026';
+
+    const navItens = PAGINAS.map(p => {
+      const ativo = p.id === pagina;
+      return {
+        id: p.id, rot: p.rot,
+        iconUrl: `${UUI_ICON_BASE}/${p.icon}.svg`,
+        iconFiltro: ativo ? 'brightness(0) invert(1)' : 'none',
+        ir: () => this.setState({ pagina: p.id }),
+        bg: ativo ? TEAL : 'transparent',
+        bgHover: ativo ? TEAL : '#F4F8F7',
+        cor: ativo ? '#fff' : '#5A6664',
+        fonte: ativo ? '700 13.5px/1 Inter,sans-serif' : '500 13.5px/1 Inter,sans-serif',
+        pontoBg: ativo ? '#fff' : 'transparent',
+        pontoBorda: ativo ? '#fff' : '#B7C4C2'
+      };
+    });
+
+    const D = persistidos;
+    const BASE = D.lojas;
+    const vendasHoje = D.vendasHoje || {};
+    const extra = cod => Object.keys(vendasHoje).includes(cod) ? vendasHoje[cod] : null;
+    const lojas = BASE.map(l0 => {
+      const add = extra(l0.cod);
+      const l = { ...l0, real: l0.real + (add ? add.valor : 0) };
+      return l;
+    }).map(l => {
+      const temMeta = Number(l.meta) > 0;
+      const pct = temMeta ? l.real / l.meta : 0;
+      const falta = temMeta ? Math.max(l.meta - l.real, 0) : 0;
+      const diasLoja = Math.max(Number(l.diasUteis || diasMes), 1);
+      const trabalhadosLoja = Math.min(Number(l.diasTrabalhados ?? diasTrab), diasLoja);
+      const faltamLoja = Math.max(diasLoja - trabalhadosLoja, 0);
+      const paceLoja = diasLoja ? trabalhadosLoja / diasLoja : pacePadrao;
+      const noRitmo = temMeta && pct >= paceLoja - 0.02;
+      const atencao = temMeta && pct >= paceLoja - 0.09;
+      return {
+        ...l, pct, temMeta,
+        corT: !temMeta ? '#8D9997' : noRitmo ? TEAL : atencao ? ROSA_CLARO : ROSA,
+        badgeT: !temMeta ? '#F1F5F4' : noRitmo ? '#E7F4F2' : atencao ? '#FCF0F3' : '#FDE9ED',
+        pctTxt: temMeta ? PCT(pct) : '—', pctW: temMeta ? Math.min(pct * 100, 100).toFixed(1) + '%' : '0%',
+        realTxt: K(l.real), metaTxt: temMeta ? K(l.meta) : '—', metaBRL: temMeta ? BRL(l.meta) : 'Sem meta',
+        ticket: 'R$ ' + NUM(l.ticket, 2),
+        diasUteis: diasLoja, diasTrabalhados: trabalhadosLoja, diasFaltam: faltamLoja, pace: paceLoja,
+        porDiaTxt: temMeta && faltamLoja ? K(falta / faltamLoja) : '—',
+        situacao: !temMeta ? 'Sem meta' : noRitmo ? 'No ritmo' : atencao ? 'Atenção' : 'Crítico'
+      };
+    }).sort((a, b) => (b.temMeta ? b.pct : -1) - (a.temMeta ? a.pct : -1));
+
+    const totMeta = BASE.reduce((s, l) => s + l.meta, 0);
+    const totReal = BASE.reduce((s, l) => s + l.real + (extra(l.cod) ? extra(l.cod).valor : 0), 0);
+    const totPct = totReal / totMeta;
+    const proj = BASE.reduce((s, l) => {
+      const real = l.real + (extra(l.cod) ? extra(l.cod).valor : 0);
+      const du = Math.max(Number(l.diasUteis || diasMes), 1);
+      const dt = Math.max(Number(l.diasTrabalhados ?? diasTrab), 1);
+      return s + real / dt * du;
+    }, 0);
+    const metaDia = BASE.reduce((s, l) => s + Number(l.meta || 0) / Math.max(Number(l.diasUteis || diasMes), 1), 0);
+    const esperadoHoje = BASE.reduce((s, l) => s + Number(l.meta || 0) * (Math.min(Number(l.diasTrabalhados ?? diasTrab), Math.max(Number(l.diasUteis || diasMes), 1)) / Math.max(Number(l.diasUteis || diasMes), 1)), 0);
+    const pace = totMeta ? esperadoHoje / totMeta : pacePadrao;
+    const porDiaRede = lojas.reduce((s, l) => s + (l.temMeta && l.diasFaltam ? Math.max(l.meta - l.real, 0) / l.diasFaltam : 0), 0);
+
+    // calendário e gráfico baseados nos lançamentos reais do período
+    const competencia = D.competencia || '2026-05';
+    const [calAno, calMes] = competencia.split('-').map(Number);
+    const primeiroDiaSemana = new Date(calAno, calMes - 1, 1).getDay();
+    const totalDias = new Date(calAno, calMes, 0).getDate();
+    const hojeIso = new Date().toLocaleDateString('en-CA');
+    const historicoDiario = D.historicoDiario || {};
+    const ultimoComVenda = Math.max(0, ...Object.keys(historicoDiario).filter(k => k.startsWith(competencia + '-')).map(k => Number(k.slice(8, 10))));
+    const diaAtual = competencia === hojeIso.slice(0, 7) ? Number(hojeIso.slice(8, 10)) : competencia < hojeIso.slice(0, 7) ? totalDias : 0;
+    const hoje = Math.max(diaAtual, ultimoComVenda);
+    const calDias = [];
+    for (let d = 1; d <= totalDias; d++) {
+      const dataKey = competencia + '-' + String(d).padStart(2, '0');
+      const fechadoRede = Number((D.calendarioRede || {})[dataKey] || 0) === 0;
+      const passado = d <= hoje;
+      const venda = Number(historicoDiario[dataKey] || 0);
+      const metaData = Number((D.metasDiariasRede || {})[dataKey] || metaDia);
+      const razao = metaData ? venda / metaData : 0;
+      let bgT = '#fff', txtT = '#A8B7B5';
+      if (fechadoRede) { bgT = '#F1F5F4'; txtT = '#BFCBC9'; }
+      else if (passado) {
+        bgT = razao >= 1 ? TEAL_ESC : razao >= 0.85 ? '#9FD8D3' : '#F5C3CE';
+        txtT = razao >= 1 ? '#fff' : '#16211F';
+      }
+      calDias.push({ num: String(d), realizado: passado && !fechadoRede, venda, bgT, txtT, bordaT: dataKey === hojeIso ? ROSA : 'transparent' });
+    }
+    const calVazios = [];
+    for (let i = 0; i < primeiroDiaSemana; i++) calVazios.push({ i: String(i) });
+    const semanaCabec = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((s, i) => ({ s, i: String(i) }));
+
+    let serie = calDias.filter(d => d.realizado).map((d, i) => ({ i, v: d.venda / 1000, dia: d.num }));
+    if (!serie.length) serie = [{ i: 0, v: 0, dia: '1' }];
+    const maxV = Math.max(...serie.map(p => p.v), metaDia / 1000, 1);
+    const px = i => (i / (serie.length - 1 || 1)) * 900;
+    const py = v => 200 - (v / maxV) * 170;
+    let linhaPath = '';
+    serie.forEach((p, i) => {
+      const x = px(i), y = py(p.v);
+      if (!i) linhaPath += `M${x.toFixed(1)} ${y.toFixed(1)}`;
+      else {
+        const xa = px(i - 1), ya = py(serie[i - 1].v), cx = (xa + x) / 2;
+        linhaPath += ` C${cx.toFixed(1)} ${ya.toFixed(1)} ${cx.toFixed(1)} ${y.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      }
+    });
+    const dataReferencia = competencia + '-' + String(Math.max(hoje, 1)).padStart(2, '0');
+    const hojeLabelDinamico = new Date(dataReferencia + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const nRitmo = lojas.filter(l => l.situacao === 'No ritmo').length;
+    const nAtencao = lojas.filter(l => l.situacao === 'Atenção').length;
+    const nCritico = lojas.filter(l => l.situacao === 'Crítico').length;
+    let acc = 0;
+    const donut = [
+      { n: nRitmo, cor: TEAL, rot: 'No ritmo' },
+      { n: nAtencao, cor: ROSA_CLARO, rot: 'Atenção' },
+      { n: nCritico, cor: ROSA, rot: 'Crítico' }
+    ].map(seg => {
+      const frac = seg.n / lojas.length;
+      const o = { ...seg, n: String(seg.n), dash: (frac * 402).toFixed(0) + ' 402', off: (-acc * 402).toFixed(0) };
+      acc += frac;
+      return o;
+    });
+
+    const anelMetas = [
+      { rot: 'META 1', valor: totMeta, comissao: '0,8%', cor: TEAL_ESC, bg: '#E7F4F2' },
+      { rot: 'META 2', valor: totMeta * f2, comissao: '1,0%', cor: TEAL, bg: '#F4FAF9' },
+      { rot: 'META 3', valor: totMeta * f3, comissao: '1,2%', cor: ROSA, bg: '#FDF1F3' }
+    ].map(m => ({ ...m, pctTxt: PCT(totReal / m.valor), valorTxt: BRL(m.valor), dash: (Math.min(totReal / m.valor, 1) * 239).toFixed(0) + ' 239' }));
+
+    const comMetaOrdenadas = lojas.filter(l => l.temMeta).slice().sort((a, b) => a.pct - b.pct);
+    const semMeta = lojas.filter(l => !l.temMeta);
+    const alertas = [];
+    if (comMetaOrdenadas[0]) alertas.push({ titulo: comMetaOrdenadas[0].nome + ' precisa de atenção', texto: comMetaOrdenadas[0].pctTxt + ' da Meta 1. Faltam ' + comMetaOrdenadas[0].porDiaTxt + ' por dia útil para alcançar a meta.', corT: ROSA, bgT: '#FDF1F3' });
+    if (comMetaOrdenadas[1]) alertas.push({ titulo: comMetaOrdenadas[1].nome + ' é a segunda mais distante', texto: comMetaOrdenadas[1].pctTxt + ' realizado no período; acompanhe o ritmo diário com a gerente da loja.', corT: ROSA_CLARO, bgT: '#FCF6F7' });
+    if (semMeta.length) alertas.push({ titulo: semMeta.length + ' loja(s) sem meta lançada', texto: semMeta.slice(0, 3).map(l => l.nome).join(', ') + (semMeta.length > 3 ? '…' : '') + '. Publique a Meta 1 para entrar nos cálculos da rede.', corT: TEAL, bgT: '#F1F8F7' });
+
+    // --- Lançar vendas ---
+    const rasc = this.state.rascunho || {};
+    const lancamentos = BASE.map(l => {
+      const salvo = vendasHoje[l.cod];
+      const metaDiaLoja = l.meta / Math.max(Number(l.diasUteis || diasMes), 1);
+      const texto = rasc[l.cod] !== undefined ? rasc[l.cod] : (salvo ? String(Math.round(salvo.valor)) : '');
+      const valor = this.soNumero(texto);
+      return {
+        cod: l.cod, nome: l.nome,
+        metaDiaTxt: K(metaDiaLoja),
+        valorTexto: texto,
+        digitar: e => {
+          const v = e.target.value;
+          this.setState(s => ({ rascunho: { ...s.rascunho, [l.cod]: v } }));
+        },
+        atend: salvo ? String(Math.round(salvo.valor / l.ticket)) : '—',
+        campoBg: salvo ? '#F0F8F7' : '#FDF1F3',
+        campoBorda: salvo ? '#9FD8D3' : '#F5C3CE',
+        campoCor: salvo ? '#0A5F5C' : ROSA,
+        status: salvo ? 'Lançado' : 'Pendente',
+        badgeBg: salvo ? '#E7F4F2' : '#FDE9ED',
+        badgeCor: salvo ? TEAL : ROSA,
+        venda: salvo ? salvo.valor : valor
+      };
+    });
+    const totalHoje = BASE.reduce((s, l) => s + (vendasHoje[l.cod] ? vendasHoje[l.cod].valor : 0), 0);
+    const pendentes = lancamentos.filter(l => l.status === 'Pendente').map(l => ({ cod: l.cod, nome: l.nome }));
+    const historicoLanc = Object.keys(vendasHoje)
+      .map(cod => ({ cod, ...vendasHoje[cod] }))
+      .sort((a, b) => b.em - a.em)
+      .slice(0, 6)
+      .map(h => ({
+        nome: (BASE.find(l => l.cod === h.cod) || {}).nome || h.cod,
+        valorTxt: BRL(h.valor),
+        quando: new Date(h.em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }),
+        quem: 'Layane (supervisão)'
+      }));
+
+    // --- Definir metas ---
+    const metasProx = D.metasProx || {};
+    const metasAnterior = D.metasAnterior || {};
+    const novasRaw = BASE.map(l => ({
+      nome: l.nome, cod: l.cod, ant: metasAnterior[l.cod] || 0,
+      m1: metasProx[l.cod] !== undefined ? metasProx[l.cod] : l.meta
+    }));
+    const rascunhosMeta = this.state.rascunhosMeta || {};
+    const novasMetas = novasRaw.map(n => {
+      const d = n.ant > 0 ? n.m1 / n.ant - 1 : null;
+      const emEdicao = this.state.metaEditando === n.cod;
+      return {
+        nome: n.nome, cod: n.cod, m1: emEdicao ? (rascunhosMeta[n.cod] ?? '') : BRL(n.m1), m2: BRL(n.m1 * f2), m3: BRL(n.m1 * f3),
+        delta: d === null ? '—' : (d >= 0 ? '+' : '') + NUM(d * 100, 1) + '%',
+        cor: d === null ? '#8D9997' : d >= 0 ? TEAL : ROSA,
+        iniciarEdicao: e => {
+          const texto = e.target.value;
+          try { e.target.select(); } catch (erro) { }
+          this.setState({ metaEditando: n.cod, rascunhosMeta: { ...rascunhosMeta, [n.cod]: texto } });
+        },
+        digitar: e => {
+          const texto = e.target.value;
+          const v = this.soDinheiro(texto);
+          const estadoExtra = this.state.metaEditando === n.cod
+            ? { metaEditando: n.cod, rascunhosMeta: { ...(this.state.rascunhosMeta || {}), [n.cod]: texto } }
+            : null;
+          this.gravar(d2 => { d2.metasProx = { ...(d2.metasProx || {}), [n.cod]: v }; }, estadoExtra);
+        },
+        finalizarEdicao: e => {
+          const v = this.soDinheiro(e.target.value);
+          const proximosRascunhos = { ...(this.state.rascunhosMeta || {}) };
+          delete proximosRascunhos[n.cod];
+          this.gravar(d2 => { d2.metasProx = { ...(d2.metasProx || {}), [n.cod]: v }; }, { metaEditando: null, rascunhosMeta: proximosRascunhos });
+        }
+      };
+    });
+    const novoT1 = novasRaw.reduce((s, n) => s + n.m1, 0);
+    const antT = novasRaw.reduce((s, n) => s + n.ant, 0);
+
+    // --- Ranking ---
+    const nivelDe = p => p >= 1 ? '3ª meta' : p >= 0.9 ? '2ª meta' : p >= 0.75 ? '1ª meta' : 'sem meta';
+    const VEND = (D.vendedoras || []).slice().sort((a, b) => b.pct - a.pct);
+    const ranking = VEND.map((v, i) => ({
+      pos: String(i + 1), nome: v.nome, loja: v.loja,
+      ini: v.nome.split(' ').map(p => p[0]).join(''),
+      pctTxt: PCT(v.pct), pctW: Math.min(v.pct * 100, 100).toFixed(0) + '%',
+      vendaTxt: K(v.venda), ticket: 'R$ ' + NUM(v.ticket, 2),
+      nivel: nivelDe(v.pct),
+      cor: v.pct >= 1 ? TEAL : v.pct >= 0.85 ? TEAL : v.pct >= 0.75 ? ROSA_CLARO : ROSA,
+      badge: v.pct >= 0.85 ? '#E7F4F2' : v.pct >= 0.75 ? '#FCF0F3' : '#FDE9ED'
+    }));
+    const podio = ranking.slice(0, 3).map((v, i) => ({
+      pos: ['1º LUGAR', '2º LUGAR', '3º LUGAR'][i],
+      nome: v.nome, loja: v.loja, ini: v.ini, pctTxt: v.pctTxt, vendaTxt: BRL(VEND[i].venda),
+      nivel: v.nivel,
+      cor: [TEAL_ESC, TEAL, ROSA][i],
+      bg: ['#D8EFEA', '#E7F4F2', '#FDF1F3'][i]
+    }));
+    const faixas = [
+      { rot: '3ª meta', pct: '1,2%', qtd: String(VEND.filter(v => v.pct >= 1).length), cor: TEAL_ESC, bg: '#D8EFEA' },
+      { rot: '2ª meta', pct: '1,0%', qtd: String(VEND.filter(v => v.pct >= 0.9 && v.pct < 1).length), cor: TEAL, bg: '#E7F4F2' },
+      { rot: '1ª meta', pct: '0,8%', qtd: String(VEND.filter(v => v.pct >= 0.75 && v.pct < 0.9).length), cor: ROSA_CLARO, bg: '#FCF0F3' },
+      { rot: 'Sem meta', pct: '—', qtd: String(VEND.filter(v => v.pct < 0.75).length), cor: ROSA, bg: '#FDE9ED' }
+    ];
+
+    // --- Ano ---
+    const maxMes = Math.max(...MESES.map(m => Math.max(m.meta, m.real)));
+    const meses = MESES.map(m => ({
+      nome: m.nome,
+      hMeta: Math.round(m.meta / maxMes * 160) + 'px',
+      hReal: Math.round(m.real / maxMes * 160) + 'px',
+      cor: m.real >= m.meta ? TEAL : m.real / m.meta > 0.9 ? ROSA_CLARO : ROSA
+    }));
+    const tabelaAno = MESES.map(m => ({
+      mes: { JAN: 'Janeiro', FEV: 'Fevereiro', MAR: 'Março', ABR: 'Abril', MAI: 'Maio' }[m.nome],
+      metaTxt: K(m.meta), realTxt: K(m.real), pctTxt: PCT(m.real / m.meta),
+      cor: m.real >= m.meta ? TEAL : m.real / m.meta > 0.9 ? ROSA_CLARO : ROSA
+    }));
+    const anoMeta = MESES.reduce((s, m) => s + m.meta, 0);
+    const anoReal = MESES.reduce((s, m) => s + m.real, 0);
+    const mesesBatidos = MESES.filter(m => m.real >= m.meta).length;
+    const kpisAno = [
+      { rot: 'Meta acumulada', valor: BRL(anoMeta), sub: '5 meses lançados', cor: '#16211F', bg: '#F6FAF9' },
+      { rot: 'Realizado', valor: BRL(anoReal), sub: PCT(anoReal / anoMeta) + ' da meta', cor: TEAL_ESC, bg: '#D8EFEA' },
+      { rot: 'Meses batidos', valor: mesesBatidos + ' de 5', sub: 'março foi o melhor', cor: TEAL, bg: '#E7F4F2' },
+      { rot: 'Gap do ano', valor: BRL(anoMeta - anoReal), sub: 'a recuperar até dezembro', cor: ROSA, bg: '#FDF1F3' }
+    ];
+
+    // --- Lojas (resumo) ---
+    const resumoLojas = [
+      { rot: 'Lojas ativas', valor: String(lojas.length), sub: semMeta.length + ' sem meta lançada', cor: '#16211F', bg: '#F6FAF9' },
+      { rot: 'No ritmo', valor: String(nRitmo), sub: 'acima do esperado hoje', cor: TEAL_ESC, bg: '#D8EFEA' },
+      { rot: 'Atenção', valor: String(nAtencao), sub: 'até 9 pontos atrás', cor: ROSA_CLARO, bg: '#FCF0F3' },
+      { rot: 'Crítico', valor: String(nCritico), sub: 'precisam de plano', cor: ROSA, bg: '#FDE9ED' }
+    ];
+
+    // --- Configurações ---
+    const configCampos = [
+      { rot: 'Fator da Meta 2', desc: 'Multiplicador sobre a Meta 1', valor: NUM(f2, 2) },
+      { rot: 'Fator da Meta 3', desc: 'Multiplicador sobre a Meta 1', valor: NUM(f3, 2) },
+      { rot: 'Crescimento sugerido', desc: 'Sobre a média dos últimos 3 meses', valor: NUM(((D.regrasMeta || {}).crescimento_sugestao || 1.06) * 100 - 100, 1) + '%' },
+      { rot: 'Arredondamento', desc: 'Aplicado à sugestão automática', valor: BRL((D.regrasMeta || {}).arredondamento_meta || 1000) }
+    ];
+    const notifDefs = [
+      { id: 'meta', rot: 'Loja bateu a meta do dia', desc: 'Aviso na hora para a supervisão' },
+      { id: 'atraso', rot: 'Lançamento atrasado', desc: 'Cobrança automática às 21h' },
+      { id: 'resumo', rot: 'Resumo diário por e-mail', desc: 'Enviado às 8h com o dia anterior' },
+      { id: 'ranking', rot: 'Ranking semanal', desc: 'Toda segunda para as gerentes' }
+    ];
+    const toggles = notifDefs.map(n => {
+      const on = this.state.notif[n.id];
+      return {
+        rot: n.rot, desc: n.desc,
+        trilho: on ? TEAL : '#DDE6E4',
+        pos: on ? 'flex-end' : 'flex-start',
+        alternar: () => this.setState(s => ({ notif: { ...s.notif, [n.id]: !s.notif[n.id] } }))
+      };
+    });
+    const usuarios = [
+      { nome: 'Layane Andrade', escopo: 'Todas as lojas', papel: 'Supervisora', ini: 'LA', bg: '#FDF1F3', cor: ROSA },
+      { nome: 'Márcia Bastos', escopo: 'Rodo 3', papel: 'Gerente', ini: 'MB', bg: '#E7F4F2', cor: TEAL },
+      { nome: 'Patrícia Reis', escopo: 'Tijuca 3', papel: 'Gerente', ini: 'PR', bg: '#E7F4F2', cor: TEAL },
+      { nome: 'Simone Alves', escopo: 'Rodrigo Silva · Conceição', papel: 'Gerente', ini: 'SA', bg: '#E7F4F2', cor: TEAL }
+    ];
+
+    const delta = totPct - pace;
+    const titulos = { painel: 'Painel do mês', lancar: 'Lançar vendas', metas: 'Definir metas', lojas: 'Lojas', ranking: 'Ranking', ano: 'Ano 2026', config: 'Configurações' };
+
+    const colsLoja = ehMobile ? 'minmax(0,1.5fr) minmax(0,1.2fr) minmax(0,.85fr)' : compacto ? 'minmax(0,2.1fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.85fr)' : 'minmax(0,1.5fr) minmax(0,1.6fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,.85fr)';
+    const colsLanc = ehMobile ? 'minmax(0,1.4fr) minmax(110px,1fr) minmax(0,.9fr)' : compacto ? 'minmax(0,1.4fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.9fr)' : 'minmax(0,1.5fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.8fr) minmax(0,.9fr)';
+    const colsMetas = ehMobile ? 'minmax(0,1fr) minmax(144px,1.2fr) minmax(0,.55fr)' : compacto ? 'minmax(0,1.2fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,.7fr)' : 'minmax(0,1.3fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.75fr)';
+    const colsRank = ehMobile ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.1fr)' : compacto ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.4fr) minmax(0,1fr)' : 'minmax(0,.4fr) minmax(0,1.7fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.9fr) minmax(0,.9fr)';
+
+    return {
+      navItens, mesLabel,
+      ehMobile, ehTablet, ehDesktop, compacto,
+      naoMobile: !ehMobile, naoCompacto: !compacto,
+      colsLoja, colsLanc, colsMetas, colsRank,
+      shellCols: ehDesktop ? 'minmax(0,252px) minmax(0,1fr)' : 'minmax(0,1fr)',
+      shellRaio: ehMobile ? '18px' : '26px',
+      asideBorda: ehDesktop ? '0 1px 0 0 #EFF4F3' : '0 1px 0 0 transparent, 0 1px 0 0 #EFF4F3',
+      asideBordaBaixo: ehDesktop ? 'none' : '1px solid #EFF4F3',
+      asideBordaDir: ehDesktop ? '1px solid #EFF4F3' : 'none',
+      asidePad: ehDesktop ? '28px 20px' : '18px 16px',
+      asideGap: ehDesktop ? '26px' : '14px',
+      navDir: ehDesktop ? 'column' : 'row',
+      navOverflow: ehDesktop ? 'visible' : 'auto',
+      navGap: ehDesktop ? '4px' : '7px',
+      navPad: ehDesktop ? '13px 16px' : '11px 15px',
+      navWrap: ehDesktop ? 'nowrap' : 'nowrap',
+      headerAlinha: ehMobile ? 'flex-start' : 'center',
+      colunasDuplas: ehDesktop ? 'span 2' : 'span 1',
+      graficoAltura: ehMobile ? '120px' : '150px',
+      minKpi: ehMobile ? '150px' : '200px',
+      minCartao: ehMobile ? '100%' : '380px',
+      kpiWrap: compacto ? 'wrap' : 'nowrap',
+      kpiBadgeMargem: compacto ? 'auto' : '0',
+      minColuna: compacto ? '100%' : '430px',
+      minLojaCard: ehMobile ? '100%' : '260px',
+      minPagina: compacto ? '100%' : '330px',
+      heroCols: compacto ? 'minmax(0,1fr)' : 'minmax(0,1.05fr) minmax(0,1fr)',
+      tituloPagina: titulos[pagina],
+      ehPainel: pagina === 'painel', ehLancar: pagina === 'lancar', ehMetas: pagina === 'metas',
+      ehLojas: pagina === 'lojas', ehRanking: pagina === 'ranking', ehAno: pagina === 'ano', ehConfig: pagina === 'config',
+      formVend: this.state.formVend,
+      naoFormVend: !this.state.formVend,
+      abrirFormVend: () => this.setState({ formVend: true }),
+      fecharFormVend: () => this.setState({ formVend: false }),
+      camposVend: [
+        { chave: 'nome', rot: 'Nome completo', dica: 'Ex.: Juliana Martins' },
+        { chave: 'loja', rot: 'Loja', dica: 'Ex.: Rodo 3' },
+        { chave: 'meta', rot: 'Meta individual do mês', dica: 'Ex.: 38000' },
+        { chave: 'venda', rot: 'Vendido no mês até agora', dica: 'Ex.: 12500' },
+        { chave: 'ticket', rot: 'Ticket médio', dica: 'Ex.: 130' },
+        { chave: 'cpf', rot: 'CPF (opcional)', dica: 'Somente números' },
+        { chave: 'admissao', rot: 'Data de admissão', dica: '01/06/2026' }
+      ].map(c => ({
+        ...c,
+        valor: (this.state.rascunhoVend || {})[c.chave] || '',
+        digitar: e => { const v = e.target.value; this.setState(s => ({ rascunhoVend: { ...(s.rascunhoVend || {}), [c.chave]: v } })); }
+      })),
+      salvarVendedora: () => {
+        const r = this.state.rascunhoVend || {};
+        if (!r.nome) return this.setState({ formVend: false });
+        const meta = this.soNumero(r.meta) || 30000;
+        const venda = this.soNumero(r.venda);
+        this.gravar(d2 => {
+          d2.vendedoras = [...d2.vendedoras, {
+            nome: r.nome, loja: r.loja || 'Sem loja',
+            pct: meta ? venda / meta : 0, venda, ticket: this.soNumero(r.ticket) || 130
+          }];
+        });
+        this.setState({ formVend: false, rascunhoVend: {} });
+      },
+      formLoja: this.state.formLoja,
+      abrirFormLoja: () => this.setState({ formLoja: true }),
+      fecharFormLoja: () => this.setState({ formLoja: false }),
+      camposLoja: [
+        { chave: 'nome', rot: 'Nome da loja', dica: 'Ex.: Niterói Centro' },
+        { chave: 'cod', rot: 'Código Microvix', dica: 'Ex.: 412' },
+        { chave: 'meta', rot: 'Meta 1 do mês', dica: 'Ex.: 180000' },
+        { chave: 'real', rot: 'Vendido no mês até agora', dica: 'Ex.: 0' },
+        { chave: 'ticket', rot: 'Ticket médio esperado', dica: 'Ex.: 130' }
+      ].map(c => ({
+        ...c,
+        valor: (this.state.rascunhoLoja || {})[c.chave] || '',
+        digitar: e => { const v = e.target.value; this.setState(s => ({ rascunhoLoja: { ...(s.rascunhoLoja || {}), [c.chave]: v } })); }
+      })),
+      salvarLoja: () => {
+        const r = this.state.rascunhoLoja || {};
+        if (!r.nome) return this.setState({ formLoja: false });
+        this.gravar(d2 => {
+          d2.lojas = [...d2.lojas, {
+            nome: r.nome.toUpperCase(), cod: r.cod || '000',
+            meta: this.soNumero(r.meta) || 150000,
+            real: this.soNumero(r.real),
+            ticket: this.soNumero(r.ticket) || 130,
+            gerente: this.state.gerente
+          }];
+        });
+        this.setState({ formLoja: false, rascunhoLoja: {} });
+      },
+      gerentes: (D.gerentes || []).map(g => ({
+        nome: g, ini: g.split(' ').map(p => p[0]).join(''),
+        bg: this.state.gerente === g ? '#05918C' : '#fff',
+        cor: this.state.gerente === g ? '#fff' : '#5A6664',
+        borda: this.state.gerente === g ? '#05918C' : '#D8E6E4',
+        escolher: () => this.setState({ gerente: g })
+      })),
+      formGerente: this.state.formGerente,
+      abrirFormGerente: () => this.setState({ formGerente: true }),
+      fecharFormGerente: () => this.setState({ formGerente: false }),
+      camposGerente: [
+        { chave: 'nome', rot: 'Nome completo', dica: 'Ex.: Renata Coelho' },
+        { chave: 'email', rot: 'E-mail de acesso', dica: 'nome@ddcosmeticos.com.br' },
+        { chave: 'cel', rot: 'Celular', dica: '(21) 90000-0000' },
+        { chave: 'permissao', rot: 'Permissão', dica: 'Gerente de loja' }
+      ].map(c => ({
+        ...c,
+        valor: (this.state.rascunhoGer || {})[c.chave] || '',
+        digitar: e => { const v = e.target.value; this.setState(s => ({ rascunhoGer: { ...(s.rascunhoGer || {}), [c.chave]: v } })); }
+      })),
+      salvarGerente: () => {
+        const r = this.state.rascunhoGer || {};
+        if (!r.nome) return this.setState({ formGerente: false });
+        this.gravar(d2 => { d2.gerentes = [...(d2.gerentes || []), r.nome]; });
+        this.setState({ formGerente: false, rascunhoGer: {}, gerente: r.nome });
+      },
+      salvarLancamentos: () => {
+        const rr = this.state.rascunho || {};
+        this.gravar(d2 => {
+          d2.vendasHoje = { ...(d2.vendasHoje || {}) };
+          Object.keys(rr).forEach(cod => {
+            const v = this.soNumero(rr[cod]);
+            if (v > 0) d2.vendasHoje[cod] = { valor: v, em: Date.now() };
+          });
+        });
+        this.setState({ rascunho: {} });
+      },
+      limparDados: () => this.limparTudo(),
+      salvoEm: this.state.salvoEm,
+      temSalvo: !!this.state.salvoEm,
+      irLancar: () => this.setState({ pagina: 'lancar' }),
+      irLojas: () => this.setState({ pagina: 'lojas' }),
+      diasMes, diasTrab, diasFaltam, lojas, calDias, calVazios, semanaCabec, donut, anelMetas, alertas,
+      lancamentos, pendentes, historicoLanc, novasMetas, ranking, podio, faixas, meses, tabelaAno, kpisAno,
+      resumoLojas, configCampos, toggles, usuarios,
+      nLancadas: String(lancamentos.filter(l => l.status === 'Lançado').length),
+      totalHojeTxt: BRL(totalHoje),
+      pctDiaTxt: PCT(totalHoje / metaDia),
+      pctDiaW: Math.min(totalHoje / metaDia * 100, 100).toFixed(1) + '%',
+      fator2Txt: NUM(f2, 2), fator3Txt: NUM(f3, 2), diasUteisConfig: String(diasMes),
+      alterarFator2: e => { const v = this.soDecimal(e.target.value); if (v > 0) this.gravar(d2 => { d2.fatorMeta2 = v; }); },
+      alterarFator3: e => { const v = this.soDecimal(e.target.value); if (v > 0) this.gravar(d2 => { d2.fatorMeta3 = v; }); },
+      alterarDiasUteis: e => { const v = this.soNumero(e.target.value); if (v > 0) this.gravar(d2 => { d2.diasUteis = v; }); },
+      novoTot1: BRL(novoT1), novoTot2: BRL(novoT1 * f2), novoTot3: BRL(novoT1 * f3),
+      novoDelta: (novoT1 >= antT ? '+' : '') + NUM((novoT1 / antT - 1) * 100, 1) + '%',
+      totalLojas: String(lojas.length),
+      hojeLabel: hojeLabelDinamico.charAt(0).toUpperCase() + hojeLabelDinamico.slice(1),
+      metaDiaTxt: BRL(metaDia),
+      eixoDias: [0, .25, .5, .75, 1].map((f, i) => {
+        const p = serie[Math.min(Math.round(f * (serie.length - 1)), serie.length - 1)];
+        return { i: String(i), dia: p ? p.dia : '' };
+      }),
+      linhaPath, areaPath: linhaPath + ' L900 200 L0 200 Z', metaY: py(metaDia / 1000).toFixed(1),
+      totMetaTxt: BRL(totMeta), totRealTxt: BRL(totReal), totPctTxt: PCT(totPct),
+      totFaltaTxt: BRL(totMeta - totReal),
+      totPorDiaTxt: porDiaRede ? BRL(porDiaRede) : '—',
+      paceTxt: PCT(pace),
+      ritmoDelta: (delta >= 0 ? '+' : '') + NUM(delta * 100, 1) + ' pts',
+      ritmoCor: delta >= 0 ? TEAL : ROSA,
+      totPctW: (totPct * 100).toFixed(1) + '%',
+      projTxt: BRL(proj), projPctTxt: PCT(proj / totMeta)
+    };
+  }
+}
+</script>
+</body>
+</html>
