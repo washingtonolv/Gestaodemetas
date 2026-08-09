@@ -21,8 +21,8 @@ let profile=null, stores=[], goals=new Map(), results=new Map(), performance=[],
 
 const navByRole={
  administrador:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026'],['usuarios','Governança'],['estrutura','Estrutura comercial'],['config','Configurações']],
- supervisor:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026']],
- gerente_comercial:[['painel','Painel do mês'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026']]
+ supervisor:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026'],['config','Configurações']],
+ gerente_comercial:[['painel','Painel do mês'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026'],['config','Configurações']]
 };
 function buildNav(){
  const list=navByRole[profile.role]||navByRole.gerente_comercial;
@@ -32,6 +32,7 @@ function buildNav(){
  $$('[data-go]').forEach(b=>{const target=b.dataset.go;if(!allowed.has(target)){const tip=b.closest('.tip');if(tip)tip.style.display='none';return}b.onclick=()=>openView(target,'Lançar vendas')});
 }
 async function openView(id,label){
+ if(id==='config'){location.href='./dashboard.html?open=config';return}
  $$('.view').forEach(v=>v.classList.toggle('active',v.id===id));$$('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
  $('#pageTitle').textContent=label;$('#crumb').textContent=label;if(location.hash!==`#${id}`)history.replaceState(null,'',`#${id}`);
  const fx=$('#fatal');fx.style.display='none';fx.textContent='';
@@ -221,3 +222,4 @@ window.addEventListener('error',e=>{console.error(e.error);fatal(`Erro no painel
 try{
  if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadGovernance();await loadStructure()}const requested=location.hash.slice(1),target=(navByRole[profile.role]||[]).find(([id])=>id===requested);if(target)await openView(target[0],target[1])}
 }catch(e){console.error(e);fatal(`Não foi possível carregar o dashboard: ${e.message||e}`)}finally{loading(false)}
+
