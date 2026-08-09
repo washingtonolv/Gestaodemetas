@@ -165,16 +165,16 @@ async function monthSnapshot(key){
 }
 function renderCalendarChart(doc,key,snapshot,selectedDate=null){
  const title=exact(doc,'Vendas por dia'),card=title?.closest('div[style*="border-radius:20px"]')||title?.parentElement?.parentElement,svg=card?.querySelector('svg');if(!svg)return;
- const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),todayKey=new Date().toLocaleDateString('en-CA'),maxDay=key===todayKey.slice(0,7)?Math.max(1,Number(todayKey.slice(8,10))):days;
- const values=[];for(let d=1;d<=maxDay;d++)values.push(snapshot.daily.get(`${key}-${pad(d)}`)||0);
+ const [y,m]=key.split('-').map(Number),days=new Date(y,m,0).getDate(),todayKey=new Date().toLocaleDateString('en-CA'),visibleDay=key===todayKey.slice(0,7)?Math.max(1,Number(todayKey.slice(8,10))):days;
+ const values=[];for(let d=1;d<=days;d++)values.push(snapshot.daily.get(`${key}-${pad(d)}`)||0);const visibleValues=values.slice(0,visibleDay);
  const total=[...snapshot.goals.values()].reduce((sum,value)=>sum+Number(value||0),0),dailyGoal=total/Math.max(businessDays(key),1),max=Math.max(dailyGoal,...values,1);
- const xAt=index=>index/Math.max(values.length-1,1)*900,yAt=value=>200-value/max*170;let path='';
- values.forEach((value,index)=>{const x=xAt(index),y0=yAt(value);if(!index)path+=`M${x.toFixed(1)} ${y0.toFixed(1)}`;else{const previousX=xAt(index-1),previousY=yAt(values[index-1]),center=(previousX+x)/2;path+=` C${center.toFixed(1)} ${previousY.toFixed(1)} ${center.toFixed(1)} ${y0.toFixed(1)} ${x.toFixed(1)} ${y0.toFixed(1)}`}});
+ const xAt=index=>index/Math.max(days-1,1)*900,yAt=value=>200-value/max*170;let path='';
+ visibleValues.forEach((value,index)=>{const x=xAt(index),y0=yAt(value);if(!index)path+=`M${x.toFixed(1)} ${y0.toFixed(1)}`;else{const previousX=xAt(index-1),previousY=yAt(visibleValues[index-1]),center=(previousX+x)/2;path+=` C${center.toFixed(1)} ${previousY.toFixed(1)} ${center.toFixed(1)} ${y0.toFixed(1)} ${x.toFixed(1)} ${y0.toFixed(1)}`}});
  const paths=svg.querySelectorAll('path');if(paths[0])paths[0].setAttribute('d',`${path} L900 200 L0 200 Z`);if(paths[1])paths[1].setAttribute('d',path);
  const goalLine=[...svg.querySelectorAll('line')].find(line=>!line.hasAttribute('data-dd-day-line'));if(goalLine){const y0=yAt(dailyGoal).toFixed(1);goalLine.setAttribute('y1',y0);goalLine.setAttribute('y2',y0)}
  const realized=[...card.querySelectorAll('span')].find(span=>span.dataset.ddChartReal==='1'||(span.textContent||'').trim().startsWith('realizado'));if(realized){realized.dataset.ddChartReal='1';const day=selectedDate?Number(selectedDate.slice(8,10)):null,value=day?values[day-1]||0:null,short=new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'short'}).format(new Date(`${selectedDate||key+'-01'}T12:00:00`)).replace('.','');const text=day?`${short} · ${money(value)}`:`realizado · ${monthLabelFluid(key)}`;if(realized.textContent!==text)realized.textContent=text}
  const meta=[...card.querySelectorAll('span')].find(span=>(span.textContent||'').trim().startsWith('meta '));if(meta){const text=`meta ${money(dailyGoal)}`;if(meta.textContent!==text)meta.textContent=text}
- const axis=svg.nextElementSibling,axisLabels=axis?[...axis.children]:[],marks=[1,Math.max(1,Math.round(maxDay*.25)),Math.max(1,Math.round(maxDay*.5)),Math.max(1,Math.round(maxDay*.75)),maxDay];axisLabels.slice(0,5).forEach((el,index)=>{const text=String(marks[index]);if(el.textContent!==text)el.textContent=text});
+ const axis=svg.nextElementSibling,axisLabels=axis?[...axis.children]:[],marks=[1,Math.max(1,Math.round(days*.25)),Math.max(1,Math.round(days*.5)),Math.max(1,Math.round(days*.75)),days];axisLabels.slice(0,5).forEach((el,index)=>{const text=String(marks[index]);if(el.textContent!==text)el.textContent=text});
  let marker=svg.querySelector('[data-dd-day-marker]');
  if(selectedDate){
   const day=Number(selectedDate.slice(8,10)),value=values[day-1]||0,x=xAt(Math.min(day-1,values.length-1)),y0=yAt(value),ns='http://www.w3.org/2000/svg';
