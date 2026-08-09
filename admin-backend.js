@@ -12,14 +12,17 @@ const roleText=r=>r==='supervisor'?'Supervisora':r==='gerente_comercial'?'Gerent
 const br=n=>Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:3});
 const csvCell=v=>`"${String(v??'').replaceAll('"','""')}"`;
 
-let profile=null,session=null,selected='',dataCache=null,refreshTimer=null,toastTimer=null;
+let profile=null,session=null,selected='',dataCache=null,refreshTimer=null,toastTimer=null,navLockedUntil=0;
+const DIALOG_MS=400,dialogTimers=new WeakMap();
 const DEFAULT_RULES={dias_semana_uteis:[1,2,3,4,5,6],fator_meta2:1.12,fator_meta3:1.30,crescimento_sugestao:1.06,arredondamento_meta:1000};
 
 function toast(message,error=false){clearTimeout(toastTimer);toastEl.textContent=message;toastEl.className=`toast show${error?' error':''}`;toastTimer=setTimeout(()=>toastEl.className='toast',4200)}
 function setBusy(button,on,label){if(!button)return;button.disabled=on;if(on){button.dataset.label=button.textContent;button.textContent=label||'Salvando…'}else button.textContent=button.dataset.label||button.textContent}
-function closeDialog(id){const d=$(`#${id}`);if(d?.open)d.close();const msg=d?.querySelector('.message');if(msg)msg.textContent=''}
+function setDialogTimer(dialog,callback){clearTimeout(dialogTimers.get(dialog));const timer=setTimeout(()=>{dialogTimers.delete(dialog);callback()},DIALOG_MS);dialogTimers.set(dialog,timer)}
+function showDialog(id,focusSelector){const d=$(`#${id}`);if(!d||d.open||d.dataset.transitioning==='true')return;d.dataset.transitioning='true';d.classList.remove('is-closing');d.showModal();requestAnimationFrame(()=>d.classList.add('is-open'));setDialogTimer(d,()=>{delete d.dataset.transitioning;if(focusSelector)$(focusSelector)?.focus()})}
+function closeDialog(id){const d=$(`#${id}`);if(!d?.open||d.classList.contains('is-closing'))return;d.dataset.transitioning='true';d.classList.remove('is-open');d.classList.add('is-closing');setDialogTimer(d,()=>{d.close();d.classList.remove('is-closing');delete d.dataset.transitioning;const msg=d.querySelector('.message');if(msg)msg.textContent=''})}
 document.addEventListener('click',e=>{const id=e.target.closest('[data-close]')?.dataset.close;if(id)closeDialog(id)});
-document.addEventListener('cancel',e=>{if(e.target.matches('dialog'))closeDialog(e.target.id)},true);
+document.addEventListener('cancel',e=>{if(e.target.matches('dialog')){e.preventDefault();closeDialog(e.target.id)}},true);
 
 async function resolveMonth(){
  const saved=localStorage.getItem('metasdd.admin.competencia')||localStorage.getItem('metasdd.competencia');
@@ -106,20 +109,23 @@ function storeByElement(el){const text=el?.textContent||'';return dataCache?.raw
 function ancestorWithData(el,kind){let node=el;for(let i=0;i<7&&node;i++,node=node.parentElement){const found=kind==='user'?userByElement(node):storeByElement(node);if(found)return{node,item:found}}return null}
 
 function openUser(user=null){
- $('#userForm').reset();$('#userId').value=user?.id||'';$('#userDialogTitle').textContent=user?'Gerenciar acesso':'Cadastrar usuário';$('#userDialogSubtitle').textContent=user?user.email:'Crie o acesso e defina a responsabilidade da pessoa.';$('#userName').value=user?.nome||'';$('#userEmail').value=user?.email||'';$('#userEmail').disabled=!!user;$('#userLogin').value=user?.login||'';$('#userRole').value=user?.role||'supervisor';$('#userActive').checked=user?!!user.ativo:true;$('#passwordField').style.display=user?'none':'block';$('#userPassword').required=!user;$('#activeField').style.display=user?'flex':'none';$('#userSubmit').textContent=user?'Salvar alterações':'Cadastrar usuário';const self=user?.id===profile.id;$('#userRole').disabled=self;$('#userActive').disabled=self;$('#userDialog').showModal();setTimeout(()=>$('#userName').focus(),60)
+ $('#userForm').reset();$('#userId').value=user?.id||'';$('#userDialogTitle').textContent=user?'Gerenciar acesso':'Cadastrar usuário';$('#userDialogSubtitle').textContent=user?user.email:'Crie o acesso e defina a responsabilidade da pessoa.';$('#userName').value=user?.nome||'';$('#userEmail').value=user?.email||'';$('#userEmail').disabled=!!user;$('#userLogin').value=user?.login||'';$('#userRole').value=user?.role||'supervisor';$('#userActive').checked=user?!!user.ativo:true;$('#passwordField').style.display=user?'none':'block';$('#userPassword').required=!user;$('#activeField').style.display=user?'flex':'none';$('#userSubmit').textContent=user?'Salvar alterações':'Cadastrar usuário';const self=user?.id===profile.id;$('#userRole').disabled=self;$('#userActive').disabled=self;showDialog('userDialog','#userName')
 }
 
 function openStore(store=null){
- $('#storeForm').reset();$('#storeId').value=store?.id||'';$('#storeDialogTitle').textContent=store?'Editar loja':'Cadastrar loja';$('#storeName').value=store?.nome||'';$('#storeCode').value=store?.codigo||'';$('#storeBranch').value=store?.ramo||'Franquias';$('#storeLocation').value=store?.localizacao||'';$('#storeActive').checked=store?!!store.ativa:true;$('#storeActiveField').style.display=store?'flex':'none';$('#storeSupervisor').innerHTML='<option value="">Sem supervisor por enquanto</option>'+dataCache.supervisores.map(s=>`<option value="${s.id}">${esc(s.nome)} · ${esc(s.escopo)}</option>`).join('');const link=dataCache.links.find(x=>x.loja_id===store?.id);$('#storeSupervisor').value=link?.supervisor_id||'';$('#storeSubmit').textContent=store?'Salvar loja':'Cadastrar e vincular';$('#storeDialog').showModal();setTimeout(()=>$('#storeName').focus(),60)
+ $('#storeForm').reset();$('#storeId').value=store?.id||'';$('#storeDialogTitle').textContent=store?'Editar loja':'Cadastrar loja';$('#storeName').value=store?.nome||'';$('#storeCode').value=store?.codigo||'';$('#storeBranch').value=store?.ramo||'Franquias';$('#storeLocation').value=store?.localizacao||'';$('#storeActive').checked=store?!!store.ativa:true;$('#storeActiveField').style.display=store?'flex':'none';$('#storeSupervisor').innerHTML='<option value="">Sem supervisor por enquanto</option>'+dataCache.supervisores.map(s=>`<option value="${s.id}">${esc(s.nome)} · ${esc(s.escopo)}</option>`).join('');const link=dataCache.links.find(x=>x.loja_id===store?.id);$('#storeSupervisor').value=link?.supervisor_id||'';$('#storeSubmit').textContent=store?'Salvar loja':'Cadastrar e vincular';showDialog('storeDialog','#storeName')
 }
 
-function openRules(){const r=dataCache.rulesRaw;$('#factor2').value=br(r.fator_meta2);$('#factor3').value=br(r.fator_meta3);$('#growth').value=br(r.crescimento_sugestao);$('#rounding').value=String(r.arredondamento_meta);const labels=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];$('#weekdays').innerHTML=labels.map((label,i)=>`<label class="weekday"><input type="checkbox" value="${i+1}" ${r.dias_semana_uteis.includes(i+1)?'checked':''}>${label}</label>`).join('');$('#rulesDialog').showModal()}
-function openSeller(store=null){$('#sellerForm').reset();$('#sellerStore').innerHTML=dataCache.rawStores.filter(s=>s.ativa).map(s=>`<option value="${s.id}">${esc(s.codigo?s.codigo+' — ':'')}${esc(s.nome)}</option>`).join('');if(store?.id)$('#sellerStore').value=store.id;$('#sellerDialog').showModal();setTimeout(()=>$('#sellerName').focus(),60)}
+function openMonth(){if(!selected)return;$('#monthInput').value=selected;showDialog('monthDialog','#monthInput')}
+function openRules(){const r=dataCache.rulesRaw;$('#factor2').value=br(r.fator_meta2);$('#factor3').value=br(r.fator_meta3);$('#growth').value=br(r.crescimento_sugestao);$('#rounding').value=String(r.arredondamento_meta);const labels=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];$('#weekdays').innerHTML=labels.map((label,i)=>`<label class="weekday"><input type="checkbox" value="${i+1}" ${r.dias_semana_uteis.includes(i+1)?'checked':''}>${label}</label>`).join('');showDialog('rulesDialog','#factor2')}
+function openSeller(store=null){$('#sellerForm').reset();$('#sellerStore').innerHTML=dataCache.rawStores.filter(s=>s.ativa).map(s=>`<option value="${s.id}">${esc(s.codigo?s.codigo+' — ':'')}${esc(s.nome)}</option>`).join('');if(store?.id)$('#sellerStore').value=store.id;showDialog('sellerDialog','#sellerName')}
 
 function textChain(target){const chain=[];let node=target;for(let i=0;i<5&&node;i++,node=node.parentElement){const t=(node.textContent||'').replace(/\s+/g,' ').trim();if(t&&!chain.includes(t))chain.push(t)}return chain}
 
 async function handleFrameClick(event){
  const target=event.target,chain=textChain(target),exact=x=>chain.includes(x),starts=x=>chain.find(t=>t.startsWith(x));let handled=true;
+ const navTarget=target.closest?.('[data-admin-nav]');
+ if(navTarget){const now=performance.now();if(now<navLockedUntil){event.preventDefault();event.stopImmediatePropagation();return}navLockedUntil=now+DIALOG_MS}
  const pageMap={'Visão geral':'inicio','Lojas':'lojas','Desempenho':'desempenho','Usuários':'usuarios','Estrutura':'estrutura','Competências':'competencias','Auditoria':'auditoria','Preferências':'config'};
  for(const[label,id]of Object.entries(pageMap))if(chain.some(t=>t===label||t.startsWith(label+' '))){sessionStorage.setItem('metasdd.admin.pagina',id);break}
  try{
@@ -144,8 +150,8 @@ async function handleFrameClick(event){
   else if(exact('Vincular')||exact('Vincular →')){const found=ancestorWithData(target,'store');openStore(found?.item||null)}
   else if(exact('Desvincular'))await unlinkManager(target);
   else if(exact('×')){const chip=target.parentElement,store=chip&&chip.children.length<=2?storeByElement(chip):null;if(store)openStore(store);else handled=false}
-  else if(starts(monthLabel(selected))){$('#monthInput').value=selected;$('#monthDialog').showModal()}
-  else if(chain.some(t=>t.includes('Regras gerais'))&&chain.some(t=>t.includes('Fator padrão da Meta 2')))openRules();
+  else if(target.closest?.('[data-admin-action="month"]')||starts(monthLabel(selected)))openMonth();
+  else if(target.closest?.('[data-admin-action="rules"]')||chain.some(t=>t.includes('Regras gerais'))&&chain.some(t=>t.includes('Fator padrão da Meta 2')))openRules();
   else handled=false;
  }catch(error){console.error(error);toast(error.message||String(error),true)}
  if(handled){event.preventDefault();event.stopImmediatePropagation()}
@@ -183,7 +189,7 @@ $('#rulesForm').onsubmit=async event=>{
 };
 
 frame.addEventListener('load',()=>{
- loading.classList.add('hide');frame.classList.add('ready');const doc=frame.contentDocument;if(!doc)return;doc.addEventListener('click',handleFrameClick,true);doc.addEventListener('click',event=>{const nav=['Visão geral','Lojas','Desempenho','Usuários','Estrutura','Competências','Auditoria','Preferências'];const text=(event.target.closest('div')?.textContent||'').trim();const map={'Visão geral':'inicio','Lojas':'lojas','Desempenho':'desempenho','Usuários':'usuarios','Estrutura':'estrutura','Competências':'competencias','Auditoria':'auditoria','Preferências':'config'};if(nav.includes(text))sessionStorage.setItem('metasdd.admin.pagina',map[text])},true)
+ loading.classList.add('hide');frame.classList.add('ready');const doc=frame.contentDocument;if(!doc)return;doc.addEventListener('click',handleFrameClick,true);doc.addEventListener('keydown',event=>{if(!['Enter',' '].includes(event.key))return;const control=event.target.closest?.('[data-admin-action],[data-admin-nav]');if(!control)return;event.preventDefault();control.click()},true);doc.addEventListener('click',event=>{const nav=['Visão geral','Lojas','Desempenho','Usuários','Estrutura','Competências','Auditoria','Preferências'];const text=(event.target.closest('div')?.textContent||'').trim();const map={'Visão geral':'inicio','Lojas':'lojas','Desempenho':'desempenho','Usuários':'usuarios','Estrutura':'estrutura','Competências':'competencias','Auditoria':'auditoria','Preferências':'config'};if(nav.includes(text))sessionStorage.setItem('metasdd.admin.pagina',map[text])},true)
 });
 
 function realtime(){const schedule=()=>{clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>reload(sessionStorage.getItem('metasdd.admin.pagina')||'inicio').catch(error=>toast(error.message||String(error),true)),800)};return supabase.channel(`admin-dd-${profile.id}`).on('postgres_changes',{event:'*',schema:'public',table:'lojas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'metas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'resultados'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'competencias'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'supervisor_lojas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'configuracoes_meta'},schedule).subscribe()}
