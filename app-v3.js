@@ -17,10 +17,10 @@ function showMsg(sel,error,ok){const el=$(sel);if(!el)return;el.className=`msg $
 function fatal(msg){const el=$('#fatal');el.style.display='block';el.textContent=msg}
 function loading(on){$('#loading').style.display=on?'grid':'none'}
 
-let profile=null, stores=[], goals=new Map(), results=new Map(), performance=[], competence=monthStart();
+let profile=null, stores=[], goals=new Map(), results=new Map(), performance=[], competence=monthStart(), managedUsers=[], governanceAudit=[], editingUserId=null;
 
 const navByRole={
- administrador:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026'],['usuarios','Usuários'],['estrutura','Estrutura comercial'],['config','Configurações']],
+ administrador:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026'],['usuarios','Governança'],['estrutura','Estrutura comercial'],['config','Configurações']],
  supervisor:[['painel','Painel do mês'],['lancar','Lançar vendas'],['metas','Definir metas'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026']],
  gerente_comercial:[['painel','Painel do mês'],['lojas','Lojas'],['ranking','Ranking'],['ano','Ano 2026']]
 };
@@ -39,7 +39,7 @@ async function openView(id,label){
    if(id==='lancar')await renderSales();
    if(id==='metas')await renderGoals();
    if(id==='ano')await renderYear();
-   if(id==='usuarios')await loadUsers();
+   if(id==='usuarios')await loadGovernance();
    if(id==='estrutura')await loadStructure();
  }catch(e){fatal(`Erro em ${label}: ${e.message||e}`)}
 }
@@ -135,9 +135,53 @@ async function renderYear(){
  $('#yearCards').innerHTML=used.length?used.map(([k,x])=>`<div class="yearcard"><b>${monthLabel(k+'-01')}</b><strong style="color:${x.meta&&x.real>=x.meta?'#05918C':'#CD4664'}">${x.meta?pct(x.real/x.meta):'—'}</strong><div style="font-size:10.5px;color:#5A6664;margin-top:6px">${money(x.real)} / ${money(x.meta)}</div></div>`).join(''):'<div class="empty">Sem dados no ano.</div>'
 }
 async function loadUsers(){
- if(profile.role!=='administrador')return;const {data,error}=await timeout(supabase.from('profiles').select('id,nome,email,login,role,ativo').order('nome'));if(error)throw error;
- $('#usersList').innerHTML=(data||[]).map(u=>`<div class="userrow"><div class="useravatar">${initials(u.nome)}</div><div class="usermeta"><b>${esc(u.nome)}</b><span>${esc(u.email)} · @${esc(u.login)}</span></div><span class="badge">${esc(roleLabel(u.role))}</span></div>`).join('')||'<div class="empty">Nenhum usuário.</div>'
+ if(profile.role!=='administrador')return;
+ const {data,error}=await timeout(supabase.from('profiles').select('id,nome,email,login,role,ativo,created_at,updated_at').order('nome'));
+ if(error)throw error;managedUsers=data||[];renderUsers()
 }
+function renderUsers(){
+ const query=($('#userSearch')?.value||'').trim().toLocaleLowerCase('pt-BR'),filter=$('#userStatusFilter')?.value||'todos';
+ const visible=managedUsers.filter(u=>{
+   const matches=!query||[u.nome,u.email,u.login,roleLabel(u.role)].some(v=>String(v||'').toLocaleLowerCase('pt-BR').includes(query));
+   const status=filter==='todos'||(filter==='ativos'&&u.ativo)||(filter==='inativos'&&!u.ativo)||(filter==='administradores'&&u.role==='administrador');
+   return matches&&status
+ });
+ $('#govTotal').textContent=String(managedUsers.length);
+ $('#govActive').textContent=String(managedUsers.filter(u=>u.ativo).length);
+ $('#govAdmins').textContent=String(managedUsers.filter(u=>u.ativo&&u.role==='administrador').length);
+ $('#govInactive').textContent=String(managedUsers.filter(u=>!u.ativo).length);
+ $('#usersList').innerHTML=visible.length?visible.map(u=>`<div class="gov-user"><div class="useravatar">${initials(u.nome)}</div><div class="usermeta"><b>${esc(u.nome)}</b><span>${esc(u.email)} · @${esc(u.login)}</span></div><div class="gov-tags"><span class="access-role">${esc(roleLabel(u.role))}</span><span class="access-state ${u.ativo?'':'off'}">${u.ativo?'Ativo':'Inativo'}</span>${u.id===profile.id?'<span class="you-badge">Você</span>':''}</div><button class="iconbtn" type="button" data-edit-user="${u.id}" aria-label="Gerenciar ${esc(u.nome)}" title="Gerenciar acesso"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/edit-03.svg" alt=""></button></div>`).join(''):'<div class="empty">Nenhum usuário encontrado.</div>';
+ $('[data-edit-user]').forEach(button=>button.onclick=()=>openUserEditor(button.dataset.editUser))
+}
+function auditDescription(row){
+ const d=row.detalhes||{};
+ if(row.acao==='usuario_criado')return `Criado como ${roleLabel(d.role||'pendente')} · @${d.login||'—'}`;
+ if(row.acao==='usuario_atualizado'){
+   const before=d.antes||{},after=d.depois||{},changes=[];
+   if(before.nome!==after.nome)changes.push('nome');
+   if(before.login!==after.login)changes.push('login');
+   if(before.role!==after.role)changes.push(`perfil: ${roleLabel(before.role)} → ${roleLabel(after.role)}`);
+   if(before.ativo!==after.ativo)changes.push(after.ativo?'acesso ativado':'acesso desativado');
+   return changes.length?changes.join(' · '):'Dados revisados'
+ }
+ return String(row.acao||'Ação administrativa').replaceAll('_',' ')
+}
+async function loadAudit(){
+ if(profile.role!=='administrador')return;
+ const {data,error}=await timeout(supabase.from('audit_log').select('id,user_id,acao,entidade,entidade_id,detalhes,created_at').eq('entidade','profiles').order('created_at',{ascending:false}).limit(12));
+ if(error)throw error;governanceAudit=data||[];
+ const names=new Map(managedUsers.map(u=>[u.id,u.nome]));
+ $('#auditList').innerHTML=governanceAudit.length?governanceAudit.map(row=>`<div class="audit-row"><div class="audit-icon"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/shield-tick.svg" alt=""></div><div class="audit-meta"><b>${esc(row.acao==='usuario_criado'?'Usuário cadastrado':'Acesso atualizado')}</b><span>${esc(auditDescription(row))} · por ${esc(names.get(row.user_id)||'Administrador')}</span></div><div class="audit-time">${new Date(row.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})}<br>${new Date(row.created_at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></div>`).join(''):'<div class="empty">As próximas alterações administrativas aparecerão aqui.</div>'
+}
+async function loadGovernance(){await loadUsers();await loadAudit()}
+function openUserEditor(id){
+ const user=managedUsers.find(u=>u.id===id);if(!user)return;editingUserId=id;
+ $('#editUserEmail').textContent=user.email;$('#editNome').value=user.nome||'';$('#editLogin').value=user.login||'';$('#editRole').value=user.role;$('#editAtivo').checked=!!user.ativo;$('#editUserMsg').textContent='';
+ const self=user.id===profile.id;$('#editRole').disabled=self;$('#editAtivo').disabled=self;$('#editSelfNote').classList.toggle('on',self);
+ $('#userDialog').showModal();setTimeout(()=>$('#editNome').focus(),50)
+}
+function closeUserEditor(){editingUserId=null;$('#userDialog').close();$('#editUserMsg').textContent=''}
+
 async function loadStructure(){
  if(profile.role!=='administrador')return;
  const [u,s,gs,sl]=await timeout(Promise.all([supabase.from('profiles').select('id,nome,role,ativo').eq('ativo',true).order('nome'),supabase.from('lojas').select('id,codigo,nome').eq('ativa',true).order('nome'),supabase.from('gerente_supervisores').select('gerente_id,supervisor_id'),supabase.from('supervisor_lojas').select('supervisor_id,loja_id')]));const er=u.error||s.error||gs.error||sl.error;if(er)throw er;
@@ -154,7 +198,19 @@ $('#goalMonth').onchange=()=>renderGoals().catch(e=>fatal(e.message||e));
 $('#publishGoals').onclick=()=>publishGoals().catch(e=>showMsg('#goalMsg',e,''));
 $('#factor2').oninput=updateGoalCalcs;$('#factor3').oninput=updateGoalCalcs;
 
-$('#userForm').onsubmit=async e=>{e.preventDefault();const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),login:$('#uLogin').value.trim().toLowerCase(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const fail=error||data?.error;showMsg('#userMsg',fail?new Error(error?.message||data?.error):null,'Usuário cadastrado com sucesso.');if(!fail){e.target.reset();await loadUsers();await loadStructure()}};
+$('#userSearch').oninput=renderUsers;
+$('#userStatusFilter').onchange=renderUsers;
+$('#editClose').onclick=closeUserEditor;$('#editCancel').onclick=closeUserEditor;
+$('#userDialog').addEventListener('click',e=>{if(e.target===$('#userDialog'))closeUserEditor()});
+$('#editUserForm').onsubmit=async e=>{
+ e.preventDefault();const button=$('#editSubmit');button.disabled=true;button.textContent='Salvando...';
+ const current=managedUsers.find(u=>u.id===editingUserId),payload={user_id:editingUserId,nome:$('#editNome').value.trim(),login:$('#editLogin').value.trim().toLowerCase(),role:current?.id===profile.id?'administrador':$('#editRole').value,ativo:current?.id===profile.id?true:$('#editAtivo').checked};
+ const {data,error}=await supabase.functions.invoke('admin-update-user',{body:payload});const fail=error||data?.error;
+ showMsg('#editUserMsg',fail?new Error(data?.error||error?.message):null,'Alterações salvas e registradas.');
+ if(!fail){if(editingUserId===profile.id){profile={...profile,...data.user};$('#who').textContent=profile.nome||profile.email;$('#avatar').textContent=initials(profile.nome)}await loadGovernance();setTimeout(closeUserEditor,650)}
+ button.disabled=false;button.textContent='Salvar alterações'
+};
+$('#userForm').onsubmit=async e=>{e.preventDefault();const button=e.submitter||e.target.querySelector('button[type="submit"]');button.disabled=true;button.textContent='Cadastrando...';const payload={nome:$('#uNome').value.trim(),email:$('#uEmail').value.trim(),login:$('#uLogin').value.trim().toLowerCase(),password:$('#uSenha').value,role:$('#uRole').value};const {data,error}=await supabase.functions.invoke('admin-create-user',{body:payload});const fail=error||data?.error;showMsg('#userMsg',fail?new Error(data?.error||error?.message):null,'Usuário cadastrado e registrado na auditoria.');if(!fail){e.target.reset();await loadGovernance();await loadStructure()}button.disabled=false;button.textContent='Cadastrar usuário'};
 $('#storeForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('lojas').insert({codigo:$('#storeCode').value.trim()||null,nome:$('#storeName').value.trim()});showMsg('#structureMsg',error,'Loja cadastrada.');if(!error){e.target.reset();await loadBase();await loadStructure()}};
 $('#gsForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('gerente_supervisores').upsert({gerente_id:$('#managerSelect').value,supervisor_id:$('#supervisorSelect').value},{onConflict:'gerente_id,supervisor_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
 $('#slForm').onsubmit=async e=>{e.preventDefault();const {error}=await supabase.from('supervisor_lojas').upsert({supervisor_id:$('#supervisorStoreSelect').value,loja_id:$('#storeSelect').value},{onConflict:'supervisor_id,loja_id',ignoreDuplicates:true});showMsg('#structureMsg',error,'Vínculo salvo.');if(!error)await loadStructure()};
@@ -163,5 +219,5 @@ window.addEventListener('unhandledrejection',e=>{console.error(e.reason);fatal(`
 window.addEventListener('error',e=>{console.error(e.error);fatal(`Erro no painel: ${e.message||'falha desconhecida'}`);loading(false)});
 
 try{
- if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadUsers();await loadStructure()}}
+ if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadGovernance();await loadStructure()}}
 }catch(e){console.error(e);fatal(`Não foi possível carregar o dashboard: ${e.message||e}`)}finally{loading(false)}

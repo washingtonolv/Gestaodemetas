@@ -1,25 +1,33 @@
 import { createClient } from "npm:@supabase/supabase-js@2.110.9";
 
-const cors = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+const allowedOrigins = new Set([
+  "https://washingtonolv.github.io",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+]);
+const corsHeaders = (req: Request) => {
+  const origin = req.headers.get("Origin") || "";
+  return {
+    "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : "https://washingtonolv.github.io",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
+  };
 };
-const json = (body: unknown, status = 200) =>
+const json = (req: Request, body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { ...cors, "Content-Type": "application/json" },
+    headers: { ...corsHeaders(req), "Content-Type": "application/json", "Cache-Control": "no-store" },
   });
 
-Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
-  if (req.method !== "POST") return json({ error: "Método não permitido" }, 405);
+Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(req) });
+  if (req.method !== "POST") return json(req, { error: "Método não permitido" }, 405);
 
-  let createdUserId = "";
   try {
-    const authHeader = req.headers.get("Authorization") || "";
-    const token = authHeader.replace(/^Bearer\s+/i, "");
-    if (!token) return json({ error: "Sessão ausente" }, 401);
+    const token = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+    if (!token) return json(req, { error: "Sessão ausente" }, 401);
 
     const url = Deno.env.get("SUPABASE_URL")!;
     const serviceRole = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -28,7 +36,7 @@ Deno.serve(async (req) => {
     });
 
     const { data: userData, error: userError } = await admin.auth.getUser(token);
-    if (userError || !userData.user) return json({ error: "Sessão inválida" }, 401);
+    if (userError || !userData.user) return json(req, { error: "Sessão inválida" }, 401);
 
     const { data: actor, error: actorError } = await admin
       .from("profiles")
@@ -37,7 +45,7 @@ Deno.serve(async (req) => {
       .single();
 
     if (actorError || !actor?.ativo || actor.role !== "administrador") {
-      return json({ error: "Apenas administradores podem cadastrar usuários" }, 403);
+      return json(req, { error: "Apenas administradores podem cadastrar usuários" }, 403);
     }
 
     const body = await req.json();
@@ -49,14 +57,14 @@ Deno.serve(async (req) => {
     const allowed = new Set(["administrador", "gerente_comercial", "supervisor"]);
 
     if (
-      !nome ||
+      nome.length < 2 ||
       !email ||
       password.length < 8 ||
       !allowed.has(role) ||
       !/^[a-z0-9][a-z0-9._-]{2,29}$/.test(login)
     ) {
-      return json({
-        error: "Dados inválidos. O login deve ter de 3 a 30 caracteres e usar letras, números, ponto, hífen ou sublinhado.",
+      return json(req, {
+        error: "Revise os dados. A senha precisa ter pelo menos 8 caracteres e o login deve usar de 3 a 30 letras, números, ponto, hífen ou sublinhado.",
       }, 400);
     }
 
@@ -67,7 +75,7 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (loginCheckError) throw loginCheckError;
-    if (existingLogin) return json({ error: "Este login personalizado já está em uso." }, 409);
+    if (existingLogin) return json(req, { error: "Este login personalizado já está em uso." }, 409);
 
     const { data: created, error: createError } = await admin.auth.admin.createUser({
       email,
@@ -75,29 +83,33 @@ Deno.serve(async (req) => {
       email_confirm: true,
       user_metadata: { nome, login },
     });
+
     if (createError || !created.user) {
       throw createError || new Error("Falha ao criar usuário");
     }
-    createdUserId = created.user.id;
 
     const { data: profile, error: profileError } = await admin
       .from("profiles")
       .update({ nome, email, login, role, ativo: true })
       .eq("id", created.user.id)
-      .select("id,nome,email,login,role,ativo")
+      .select("id,nome,email,login,role,ativo,created_at,updated_at")
       .single();
 
     if (profileError) {
       await admin.auth.admin.deleteUser(created.user.id);
-      createdUserId = "";
       throw profileError;
     }
 
-    return json({ user: profile }, 201);
+    const { error: auditError } = await admin.from("audit_log").insert({
+      user_id: userData.user.id,
+      acao: "usuario_criado",
+      entidade: "profiles",
+      entidade_id: created.user.id,
+      detalhes: { nome, login, role, ativo: true },
+    });
+
+    return json(req, { user: profile, audit_warning: auditError?.message || null }, 201);
   } catch (error) {
-    return json({
-      error: error instanceof Error ? error.message : "Erro interno",
-      user_id: createdUserId || undefined,
-    }, 400);
+    return json(req, { error: error instanceof Error ? error.message : "Erro interno" }, 400);
   }
 });
