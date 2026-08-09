@@ -48,7 +48,7 @@ async function loadSession(){
  let ctx;
  try{ctx=await timeout(getSessionProfile())}catch(e){console.error(e);location.replace('./login.html');return false}
  if(!ctx.session||!ctx.profile?.ativo||ctx.profile.role==='pendente'){location.replace('./login.html');return false}
- profile=ctx.profile;$('#avatar').textContent=initials(profile.nome);$('#who').textContent=profile.nome||profile.email;$('#role').textContent=roleLabel(profile.role);
+ profile=ctx.profile;if(profile.role==='administrador'){const page=location.hash==='#usuarios'?'#usuarios':location.hash==='#estrutura'?'#estrutura':'';location.replace(`./admin.html${page}`);return false}$('#avatar').textContent=initials(profile.nome);$('#who').textContent=profile.nome||profile.email;$('#role').textContent=roleLabel(profile.role);
  $('#sessionInfo').innerHTML=`<div class="userrow"><div class="useravatar">${initials(profile.nome)}</div><div class="usermeta"><b>${esc(profile.nome)}</b><span>${esc(profile.email)}</span></div><span class="badge">${esc(roleLabel(profile.role))}</span></div>`;
  return true
 }
@@ -222,4 +222,3 @@ window.addEventListener('error',e=>{console.error(e.error);fatal(`Erro no painel
 try{
  if(await loadSession()){buildNav();competence=monthStart();$('#salesDate').value=localDate();$('#goalMonth').value=addMonths(competence,1).slice(0,7);await loadBase();if(profile.role==='administrador'){await loadGovernance();await loadStructure()}const requested=location.hash.slice(1),target=(navByRole[profile.role]||[]).find(([id])=>id===requested);if(target)await openView(target[0],target[1])}
 }catch(e){console.error(e);fatal(`Não foi possível carregar o dashboard: ${e.message||e}`)}finally{loading(false)}
-
