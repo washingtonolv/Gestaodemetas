@@ -36,7 +36,7 @@ function installMotion(doc){
  if(doc.getElementById('dd-motion-style'))return;
  const style=doc.createElement('style');style.id='dd-motion-style';style.textContent=`
  html{scroll-behavior:smooth}
- [data-screen-label]{animation:dd-page-in .34s cubic-bezier(.22,1,.36,1) both;transform-origin:top center;will-change:opacity,transform,filter}
+ [data-screen-label]{animation:dd-page-in .40s cubic-bezier(.22,1,.36,1) both;transform-origin:top center;will-change:opacity,transform,filter}
  nav div{transition:background-color .26s ease,color .26s ease,transform .2s ease,box-shadow .26s ease}
  nav div:active{transform:scale(.985)}
  [data-screen-label="Lançar vendas"] input{background:#fff!important;border-color:#D8E6E4!important;transition:border-color .16s ease,box-shadow .16s ease}
