@@ -103,6 +103,13 @@ function renderRules(){
 }
 function renderCalendar(){
  const select=document.querySelector('#ddStoreSelect');
+ if(!selectedStore){
+  select.innerHTML='<option value="">Nenhuma loja vinculada</option>';
+  document.querySelector('#ddCalendar').innerHTML='<div class="ddcfg-note" style="grid-column:1/-1">Seu perfil ainda não possui lojas vinculadas.</div>';
+  document.querySelector('#ddStoreDays').textContent='—';
+  document.querySelector('#ddDayInfo').innerHTML='';
+  return;
+ }
  select.innerHTML=stores.map(s=>`<option value="${s.id}" ${s.id===selectedStore?'selected':''}>${esc(s.codigo||'')} · ${esc(s.nome)}</option>`).join('');
  const cal=document.querySelector('#ddCalendar'),[y,m]=month.split('-').map(Number),last=new Date(y,m,0).getDate(),offset=new Date(y,m-1,1).getDay();
  let html=['D','S','T','Q','Q','S','S'].map(x=>`<div class="ddcfg-dow">${x}</div>`).join('');
@@ -154,7 +161,7 @@ async function saveRules(){
 async function saveDay(){
  try{
   const reason=(document.querySelector('#ddReason')?.value||'').trim()||(baseOpen(selectedDate)?'Feriado ou fechamento local':'Abertura excepcional');
-  const row={loja_id:selectedStore,data:selectedDate,tipo:baseOpen(selectedDate)?'fechado':'aberto',descricao:reason,origem:'manual',criado_por:profile.id,atualizado_por:profile.id,atualizado_em:new Date().toISOString()};
+  const row={loja_id:selectedStore,data:selectedDate,tipo:baseOpen(selectedDate)?'fechado':'aberto',descricao:reason,origem:'manual',atualizado_por:profile.id,atualizado_em:new Date().toISOString()};
   const r=await supabase.from('calendario_loja_excecoes').upsert(row,{onConflict:'loja_id,data'});if(r.error)throw r.error;
   await loadExceptions();renderCalendar();renderSummary();window.dispatchEvent(new CustomEvent('metasdd:refresh',{detail:{page:'Configurações'}}));
  }catch(e){msg(e.message||String(e),true)}
