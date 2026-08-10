@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Metas D&D</title>
+<script>document.documentElement.dataset.theme=localStorage.getItem('metasdd.theme')==='dark'?'dark':'light'</script>
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}
 @font-face{font-family:'Inter';font-style:italic;font-weight:100 900;font-display:swap;src:url('./fonts/InterItalicVariableFont_opszwght.ttf') format('truetype')}
@@ -20,6 +21,8 @@ html,body{margin:0;width:100%;height:100%;background:#DCE9E7;overflow:hidden;fon
 .profile-info{background:#f4f8f7;border-radius:16px;padding:5px 15px}.profile-row{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid #e8efed;font-size:11px}.profile-row:last-child{border-bottom:0}.profile-row span{color:#99a5a3}.profile-row b{text-align:right;font-size:11px}
 .profile-actions{display:grid;gap:8px;margin-top:20px}.profile-btn{border:0;border-radius:12px;padding:12px 14px;background:#f3f7f6;color:#667270;font-weight:700;font-size:11px;cursor:pointer}.profile-btn.logout{background:#fdf0f3;color:#d34c69}.profile-btn img,.profile-photo-action img{width:16px;height:16px;vertical-align:-3px;margin-right:7px}.profile-photo-action img{margin-right:0;width:14px;height:14px}.profile-edit{display:none;margin-top:14px;padding:14px;background:#f4f8f7;border-radius:14px}.profile-edit.open{display:block}.profile-edit label{display:block;font-size:10px;color:#7f8c8a;margin-bottom:6px}.profile-edit input{width:100%;box-sizing:border-box;border:1px solid #d9e6e4;border-radius:10px;padding:10px;background:#fff;outline:none}.profile-edit-actions{display:flex;gap:8px;margin-top:9px}.profile-edit-actions button{flex:1;border:0;border-radius:9px;padding:9px;font-weight:700;cursor:pointer}.profile-save{background:#07958f;color:#fff}.profile-cancel{background:#e7eeed;color:#677371}.profile-msg{min-height:15px;margin-top:8px;text-align:center;font-size:10px;color:#b42318}
 @media(max-width:520px){.profile-overlay{align-items:flex-end;padding:0}.profile-modal{width:100%;max-height:92vh;border-radius:26px 26px 0 0}.profile-body{padding:20px 22px}.profile-photo{width:116px;height:116px}}
+
+html[data-theme] body,html[data-theme] .import-modal,html[data-theme] .profile-modal,html[data-theme] .loading,html[data-theme] .status{transition:background-color .40s ease,color .40s ease,border-color .40s ease}html[data-theme="dark"],html[data-theme="dark"] body{background:#0D1716;color-scheme:dark}html[data-theme="dark"] #panel{background:#0D1716}html[data-theme="dark"] .loading{background:#0D1716;color:#74DDD5}html[data-theme="dark"] .loading.soft,html[data-theme="dark"] .status,html[data-theme="dark"] .import-modal,html[data-theme="dark"] .profile-modal{background:#14211F;color:#EDF5F3;border-color:#29413D}html[data-theme="dark"] .import-head p,html[data-theme="dark"] .profile-crumb,html[data-theme="dark"] .profile-subtitle,html[data-theme="dark"] .profile-row span{color:#91A6A1}html[data-theme="dark"] .import-close,html[data-theme="dark"] .import-secondary,html[data-theme="dark"] .profile-close,html[data-theme="dark"] .profile-btn,html[data-theme="dark"] .profile-info,html[data-theme="dark"] .profile-edit{background:#192825;color:#B7C9C5}html[data-theme="dark"] .import-textarea,html[data-theme="dark"] .profile-edit input{background:#101C1A;color:#EDF5F3;border-color:#35534E;color-scheme:dark}html[data-theme="dark"] .import-table{color:#C6D4D1}html[data-theme="dark"] .import-table th,html[data-theme="dark"] .import-table td,html[data-theme="dark"] .profile-row{border-color:#29413D}html[data-theme="dark"] .import-preview{background:#192825}html[data-theme="dark"] .profile-btn.logout{background:#382129;color:#F29AB0}
 
 </style>
 </head>
@@ -122,5 +125,6 @@ try{
 <script type="module" src="./dashboard-relatorios.js?v=20260809-interacoes7"></script>
 <script type="module" src="./dashboard-configuracoes.js?v=20260809-calendario1"></script>
 <script type="module" src="./dashboard-fluid.js?v=20260809-interacoes7"></script>
+<script type="module" src="./dashboard-theme.js?v=20260810-dark1"></script>
 </body>
 </html>
