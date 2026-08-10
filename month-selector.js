@@ -66,7 +66,7 @@ function openMenu(doc, anchor){
   Object.assign(menu.style,{
     position:'fixed',zIndex:'999999',background:'#fff',border:'1px solid #E2ECEA',borderRadius:'16px',
     boxShadow:'0 18px 45px rgba(20,60,55,.18)',padding:'8px',minWidth:'220px',maxHeight:'320px',overflowY:'auto',
-    fontFamily:'Manrope,system-ui,sans-serif',opacity:'0',transform:'translateY(-6px) scale(.985)',
+    fontFamily:'Inter,system-ui,sans-serif',opacity:'0',transform:'translateY(-6px) scale(.985)',
     transformOrigin:'top center',transition:'opacity .17s ease,transform .22s cubic-bezier(.22,1,.36,1)'
   });
   const r = anchor.getBoundingClientRect();
@@ -85,8 +85,8 @@ function openMenu(doc, anchor){
     });
     const leftBox = doc.createElement('span');
     leftBox.style.display='flex';leftBox.style.flexDirection='column';leftBox.style.gap='3px';
-    const name = doc.createElement('strong'); name.textContent=monthLabel(p.key); name.style.font='700 12px/1.2 Manrope,sans-serif';
-    const sub = doc.createElement('small'); sub.textContent=statusText(p); sub.style.font='500 10px/1.2 Manrope,sans-serif'; sub.style.color='#8D9997';
+    const name = doc.createElement('strong'); name.textContent=monthLabel(p.key); name.style.font='700 12px/1.2 Inter,sans-serif';
+    const sub = doc.createElement('small'); sub.textContent=statusText(p); sub.style.font='500 10px/1.2 Inter,sans-serif'; sub.style.color='#8D9997';
     leftBox.append(name,sub);
     const mark = doc.createElement('span'); mark.textContent=active?'✓':'›'; mark.style.color=active?'#05918C':'#A8B7B5'; mark.style.fontWeight='800';
     row.append(leftBox,mark);

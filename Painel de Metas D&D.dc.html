@@ -7,7 +7,9 @@
 </head>
 <body>
 <x-dc>
-<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#DCE9E7;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#05918C}a:hover{color:#05716D}</style></helmet>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}
+@font-face{font-family:'Inter';font-style:italic;font-weight:100 900;font-display:swap;src:url('./fonts/InterItalicVariableFont_opszwght.ttf') format('truetype')}body{margin:0;background:#DCE9E7;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#05918C}a:hover{color:#05716D}</style></helmet>
 
 <template id="__bundler_thumbnail" data-bg-color="#05918C">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -26,8 +28,8 @@
 
   <aside style="display:flex;flex-direction:column;gap:{{ asideGap }};padding:{{ asidePad }};min-width:0;border-right:{{ asideBordaDir }};border-bottom:{{ asideBordaBaixo }}">
     <div style="display:flex;align-items:center;gap:11px;padding:0 8px">
-      <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 11.5px/1 Manrope,sans-serif;color:#fff">D&amp;D<svg width="17" height="17" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#fff" stroke-width="1.6"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
-      <div style="font:800 17px/1 Manrope,sans-serif;letter-spacing:-.02em">Metas D&amp;D</div>
+      <div style="position:relative;width:34px;height:34px;border-radius:11px;background:#05918C;display:flex;align-items:center;justify-content:center;font:800 11.5px/1 Inter,sans-serif;color:#fff">D&amp;D<svg width="17" height="17" viewBox="0 0 24 24" style="position:absolute;top:-6px;right:-6px"><g fill="#CD4664" stroke="#fff" stroke-width="1.6"><circle cx="12" cy="6.5" r="4.2"></circle><circle cx="17.5" cy="10.5" r="4.2"></circle><circle cx="15.4" cy="17" r="4.2"></circle><circle cx="8.6" cy="17" r="4.2"></circle><circle cx="6.5" cy="10.5" r="4.2"></circle></g><circle cx="12" cy="12.5" r="2.6" fill="#fff"></circle></svg></div>
+      <div style="font:800 17px/1 Inter,sans-serif;letter-spacing:-.02em">Metas D&amp;D</div>
     </div>
 
     <nav style="display:flex;flex-direction:{{ navDir }};gap:{{ navGap }};overflow-x:{{ navOverflow }};padding-bottom:2px">
@@ -40,9 +42,9 @@
 
     <sc-if value="{{ ehDesktop }}" hint-placeholder-val="{{ true }}">
     <div style="margin-top:auto;background:#E7F4F2;border-radius:20px;padding:22px 20px">
-      <div style="font:800 15.5px/1.3 Manrope,sans-serif;color:#0A5F5C">Feche o dia até as 22h</div>
-      <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#4E6663;margin:9px 0 15px">Lance as vendas de hoje para o painel abrir certo amanhã em todas as lojas.</div>
-      <div onClick="{{ irLancar }}" style="padding:11px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Manrope,sans-serif;text-align:center;cursor:pointer">Lançar vendas</div>
+      <div style="font:800 15.5px/1.3 Inter,sans-serif;color:#0A5F5C">Feche o dia até as 22h</div>
+      <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#4E6663;margin:9px 0 15px">Lance as vendas de hoje para o painel abrir certo amanhã em todas as lojas.</div>
+      <div onClick="{{ irLancar }}" style="padding:11px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;text-align:center;cursor:pointer">Lançar vendas</div>
     </div>
     </sc-if>
   </aside>
@@ -50,23 +52,23 @@
   <main style="padding:clamp(18px,2.2vw,30px) clamp(16px,2.4vw,34px) 26px;display:flex;flex-direction:column;gap:20px;min-width:0;background:#fff">
     <header style="display:flex;flex-wrap:wrap;gap:16px;align-items:{{ headerAlinha }};justify-content:space-between">
       <div style="min-width:0">
-        <h1 style="margin:0;font:800 clamp(21px,2.4vw,27px)/1.1 Manrope,sans-serif;letter-spacing:-.025em">{{ tituloPagina }}</h1>
-        <div style="font:500 12px/1.4 Manrope,sans-serif;color:#8D9997;margin-top:6px">Início <span style="color:#C3CECC">/</span> <span style="color:#05918C">{{ tituloPagina }}</span></div>
+        <h1 style="margin:0;font:800 clamp(21px,2.4vw,27px)/1.1 Inter,sans-serif;letter-spacing:-.025em">{{ tituloPagina }}</h1>
+        <div style="font:500 12px/1.4 Inter,sans-serif;color:#8D9997;margin-top:6px">Início <span style="color:#C3CECC">/</span> <span style="color:#05918C">{{ tituloPagina }}</span></div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
         <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;align-items:center;gap:10px;padding:11px 18px;border-radius:100px;background:#F4F8F7;min-width:210px">
           <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/search-lg.svg" alt="" aria-hidden="true" style="width:16px;height:16px;opacity:.58;flex:none">
-          <span style="font:500 12.5px/1 Manrope,sans-serif;color:#93A09E">Buscar loja, vendedora…</span>
+          <span style="font:500 12.5px/1 Inter,sans-serif;color:#93A09E">Buscar loja, vendedora…</span>
         </div>
         </sc-if>
-        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Manrope,sans-serif;color:#0A5F5C">{{ mesLabel }} <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/chevron-down.svg" alt="" aria-hidden="true" style="width:15px;height:15px;opacity:.72"></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Inter,sans-serif;color:#0A5F5C">{{ mesLabel }} <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/chevron-down.svg" alt="" aria-hidden="true" style="width:15px;height:15px;opacity:.72"></div>
         <div title="Ajuda" style="width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/help-circle.svg" alt="" aria-hidden="true" style="width:19px;height:19px"></div>
         <div title="Notificações" style="position:relative;width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/bell-01.svg" alt="" aria-hidden="true" style="width:19px;height:19px"><span style="position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #E7F4F2;display:block"></span></div>
         <div style="display:flex;align-items:center;gap:11px">
-          <div style="width:42px;height:42px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:800 13px/1 Manrope,sans-serif;color:#CD4664;flex:none">LA</div>
+          <div style="width:42px;height:42px;border-radius:50%;background:#FDF1F3;display:flex;align-items:center;justify-content:center;font:800 13px/1 Inter,sans-serif;color:#CD4664;flex:none">LA</div>
           <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}">
-          <div><div style="font:700 13.5px/1.2 Manrope,sans-serif">Layane Andrade</div><div style="font:500 11px/1.4 Manrope,sans-serif;color:#8D9997">Supervisora</div></div>
+          <div><div style="font:700 13.5px/1.2 Inter,sans-serif">Layane Andrade</div><div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997">Supervisora</div></div>
           </sc-if>
         </div>
       </div>
@@ -80,36 +82,36 @@
             <div style="width:52px;height:52px;border-radius:16px;background:#0A5F5C;display:flex;align-items:center;justify-content:center"><span style="width:18px;height:18px;border-radius:5px;border:2.4px solid #fff;display:block"></span></div>
             <div>
               <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-                <span style="font:800 38px/1 Manrope,sans-serif;letter-spacing:-.03em;color:#0A5F5C">{{ totPctTxt }}</span>
-                <span style="padding:5px 9px;border-radius:100px;background:#fff;font:700 11px/1 Manrope,sans-serif;color:{{ ritmoCor }}">{{ ritmoDelta }}</span>
+                <span style="font:800 38px/1 Inter,sans-serif;letter-spacing:-.03em;color:#0A5F5C">{{ totPctTxt }}</span>
+                <span style="padding:5px 9px;border-radius:100px;background:#fff;font:700 11px/1 Inter,sans-serif;color:{{ ritmoCor }}">{{ ritmoDelta }}</span>
               </div>
-              <div style="font:500 12.5px/1.5 Manrope,sans-serif;color:#4E6663;margin-top:9px">da Meta 1 da rede<br>ritmo esperado hoje {{ paceTxt }}</div>
+              <div style="font:500 12.5px/1.5 Inter,sans-serif;color:#4E6663;margin-top:9px">da Meta 1 da rede<br>ritmo esperado hoje {{ paceTxt }}</div>
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
             <div style="flex:1;background:#F6FAF9;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;min-width:0;flex-wrap:{{ kpiWrap }}">
               <div style="width:44px;height:44px;border-radius:14px;background:#E7F4F2;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:15px;height:15px;border-radius:50%;border:2.3px solid #05918C;display:block"></span></div>
               <div style="min-width:120px;flex:1">
-                <div style="font:500 11.5px/1 Manrope,sans-serif;color:#8D9997">Vendido até hoje</div>
-                <div style="font:800 21px/1.2 Manrope,sans-serif;margin-top:6px;letter-spacing:-.02em;white-space:nowrap">{{ totRealTxt }}</div>
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#8D9997">Vendido até hoje</div>
+                <div style="font:800 21px/1.2 Inter,sans-serif;margin-top:6px;letter-spacing:-.02em;white-space:nowrap">{{ totRealTxt }}</div>
               </div>
-              <span style="padding:5px 9px;border-radius:100px;background:#E7F4F2;font:700 10.5px/1 Manrope,sans-serif;color:#0A5F5C;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasTrab }}/{{ diasMes }} dias</span>
+              <span style="padding:5px 9px;border-radius:100px;background:#E7F4F2;font:700 10.5px/1 Inter,sans-serif;color:#0A5F5C;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasTrab }}/{{ diasMes }} dias</span>
             </div>
             <div style="flex:1;background:#F6FAF9;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;min-width:0;flex-wrap:{{ kpiWrap }}">
               <div style="width:44px;height:44px;border-radius:14px;background:#FDF1F3;flex:none;display:flex;align-items:center;justify-content:center"><span style="width:15px;height:15px;border-radius:50% 50% 50% 3px;border:2.3px solid #CD4664;display:block"></span></div>
               <div style="min-width:120px;flex:1">
-                <div style="font:500 11.5px/1 Manrope,sans-serif;color:#8D9997">Falta para a Meta 1</div>
-                <div style="font:800 21px/1.2 Manrope,sans-serif;margin-top:6px;letter-spacing:-.02em;color:#CD4664;white-space:nowrap">{{ totFaltaTxt }}</div>
+                <div style="font:500 11.5px/1 Inter,sans-serif;color:#8D9997">Falta para a Meta 1</div>
+                <div style="font:800 21px/1.2 Inter,sans-serif;margin-top:6px;letter-spacing:-.02em;color:#CD4664;white-space:nowrap">{{ totFaltaTxt }}</div>
               </div>
-              <span style="padding:5px 9px;border-radius:100px;background:#FDF1F3;font:700 10.5px/1 Manrope,sans-serif;color:#CD4664;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasFaltam }} dias</span>
+              <span style="padding:5px 9px;border-radius:100px;background:#FDF1F3;font:700 10.5px/1 Inter,sans-serif;color:#CD4664;flex:none;margin-left:{{ kpiBadgeMargem }}">{{ diasFaltam }} dias</span>
             </div>
           </div>
         </div>
 
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:20px 22px;min-width:0;display:flex;flex-direction:column">
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px">
-            <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Vendas por dia</h2>
-            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Manrope,sans-serif;color:#8D9997">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Vendas por dia</h2>
+            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Inter,sans-serif;color:#8D9997">
               <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;border-radius:2px;background:#05918C;display:block"></span>realizado</span>
               <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:0;border-top:2px dashed #CD4664;display:block"></span>meta {{ metaDiaTxt }}</span>
             </div>
@@ -130,24 +132,24 @@
         <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
           <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
-              <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Escada de metas da rede</h2>
-              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;font:600 11px/1 Manrope,sans-serif;color:#5A6664">Comissão por faixa</span>
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Escada de metas da rede</h2>
+              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;font:600 11px/1 Inter,sans-serif;color:#5A6664">Comissão por faixa</span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
               <sc-for list="{{ anelMetas }}" as="m" hint-placeholder-count="3">
                 <div style="background:{{ m.bg }};border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0">
-                  <div style="font:700 11.5px/1 Manrope,sans-serif;color:{{ m.cor }};align-self:flex-start">{{ m.rot }}</div>
+                  <div style="font:700 11.5px/1 Inter,sans-serif;color:{{ m.cor }};align-self:flex-start">{{ m.rot }}</div>
                   <div style="position:relative">
                     <svg width="92" height="92" viewBox="0 0 92 92">
                       <circle cx="46" cy="46" r="38" fill="none" stroke="#fff" stroke-width="10"></circle>
                       <circle cx="46" cy="46" r="38" fill="none" stroke="{{ m.cor }}" stroke-width="10" stroke-linecap="round" stroke-dasharray="{{ m.dash }}" transform="rotate(-90 46 46)"></circle>
                     </svg>
                     <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-                      <div style="font:800 15px/1 Manrope,sans-serif;color:{{ m.cor }}">{{ m.pctTxt }}</div>
-                      <div style="font:500 9.5px/1.4 Manrope,sans-serif;color:#8D9997">{{ m.comissao }}</div>
+                      <div style="font:800 15px/1 Inter,sans-serif;color:{{ m.cor }}">{{ m.pctTxt }}</div>
+                      <div style="font:500 9.5px/1.4 Inter,sans-serif;color:#8D9997">{{ m.comissao }}</div>
                     </div>
                   </div>
-                  <div style="font:600 11.5px/1.4 Manrope,sans-serif;color:#5A6664;text-align:center">{{ m.valorTxt }}</div>
+                  <div style="font:600 11.5px/1.4 Inter,sans-serif;color:#5A6664;text-align:center">{{ m.valorTxt }}</div>
                 </div>
               </sc-for>
             </div>
@@ -155,15 +157,15 @@
 
           <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
-              <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Lojas</h2>
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Lojas</h2>
               <div style="display:flex;gap:7px;flex-wrap:wrap">
-                <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif">Todas</span>
-                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Manrope,sans-serif">No ritmo</span>
-                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Manrope,sans-serif">Atenção</span>
-                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Manrope,sans-serif">Crítico</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif">Todas</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">No ritmo</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Atenção</span>
+                <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Crítico</span>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:{{ colsLoja }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+            <div style="display:grid;grid-template-columns:{{ colsLoja }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
               <div>Loja</div><div>% da Meta 1</div>
               <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vendido</div></sc-if>
               <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vender/dia</div></sc-if>
@@ -175,7 +177,7 @@
                   <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
                     <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
                   </sc-if>
-                  <span style="font:700 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+                  <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;min-width:0">
                   <div style="flex:1;height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ l.corT }};width:{{ l.pctW }}"></div></div>
@@ -183,7 +185,7 @@
                 </div>
                 <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ l.realTxt }}</div></sc-if>
                 <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:700 12px/1 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div></sc-if>
-                <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap;background:{{ l.badgeT }};color:{{ l.corT }}">{{ l.situacao }}</span></div>
+                <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeT }};color:{{ l.corT }}">{{ l.situacao }}</span></div>
               </div>
             </sc-for>
           </div>
@@ -192,17 +194,17 @@
         <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
           <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px">
-              <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Calendário</h2>
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Calendário</h2>
               <div style="display:flex;align-items:center;gap:8px">
-                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Manrope,sans-serif;color:#5A6664">‹</span>
-                <span style="font:700 12.5px/1 Manrope,sans-serif;color:#5A6664">{{ mesLabel }}</span>
-                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Manrope,sans-serif;color:#5A6664">›</span>
+                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:#5A6664">‹</span>
+                <span style="font:700 12.5px/1 Inter,sans-serif;color:#5A6664">{{ mesLabel }}</span>
+                <span style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:#5A6664">›</span>
               </div>
             </div>
-            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-bottom:16px">{{ hojeLabel }} · meta por dia útil {{ metaDiaTxt }}</div>
+            <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:16px">{{ hojeLabel }} · meta por dia útil {{ metaDiaTxt }}</div>
             <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:8px">
               <sc-for list="{{ semanaCabec }}" as="c" hint-placeholder-count="7">
-                <div style="text-align:center;font:700 10px/1 Manrope,sans-serif;color:#A8B7B5">{{ c.s }}</div>
+                <div style="text-align:center;font:700 10px/1 Inter,sans-serif;color:#A8B7B5">{{ c.s }}</div>
               </sc-for>
             </div>
             <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">
@@ -210,21 +212,21 @@
                 <div style="height:38px"></div>
               </sc-for>
               <sc-for list="{{ calDias }}" as="d" hint-placeholder-count="31">
-                <div style="height:38px;border-radius:11px;background:{{ d.bgT }};border:1.5px solid {{ d.bordaT }};display:flex;align-items:center;justify-content:center;font:700 12px/1 Manrope,sans-serif;color:{{ d.txtT }};min-width:0">{{ d.num }}</div>
+                <div style="height:38px;border-radius:11px;background:{{ d.bgT }};border:1.5px solid {{ d.bordaT }};display:flex;align-items:center;justify-content:center;font:700 12px/1 Inter,sans-serif;color:{{ d.txtT }};min-width:0">{{ d.num }}</div>
               </sc-for>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid #F1F5F4">
-              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#0A5F5C;display:block"></span>bateu o dia</div>
-              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#9FD8D3;display:block"></span>perto</div>
-              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F5C3CE;display:block"></span>abaixo</div>
-              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Manrope,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F1F5F4;display:block"></span>fechado</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#0A5F5C;display:block"></span>bateu o dia</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#9FD8D3;display:block"></span>perto</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F5C3CE;display:block"></span>abaixo</div>
+              <div style="display:flex;align-items:center;gap:6px;font:500 10.5px/1 Inter,sans-serif;color:#8D9997"><span style="width:10px;height:10px;border-radius:3px;background:#F1F5F4;display:block"></span>fechado</div>
             </div>
           </div>
 
           <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-              <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Situação das lojas</h2>
-              <span onClick="{{ irLojas }}" style="font:600 11px/1 Manrope,sans-serif;color:#05918C;cursor:pointer">Ver todas</span>
+              <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Situação das lojas</h2>
+              <span onClick="{{ irLojas }}" style="font:600 11px/1 Inter,sans-serif;color:#05918C;cursor:pointer">Ver todas</span>
             </div>
             <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
               <div style="position:relative;flex:none">
@@ -235,15 +237,15 @@
                   </sc-for>
                 </svg>
                 <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-                  <div style="font:800 21px/1 Manrope,sans-serif">{{ totalLojas }}</div>
-                  <div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#8D9997">lojas</div>
+                  <div style="font:800 21px/1 Inter,sans-serif">{{ totalLojas }}</div>
+                  <div style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997">lojas</div>
                 </div>
               </div>
               <div style="display:flex;flex-direction:column;gap:13px;flex:1;min-width:130px">
                 <sc-for list="{{ donut }}" as="s" hint-placeholder-count="3">
                   <div style="display:flex;align-items:center;gap:9px">
                     <span style="width:9px;height:9px;border-radius:3px;background:{{ s.cor }};display:block;flex:none"></span>
-                    <span style="font:500 12.5px/1 Manrope,sans-serif;flex:1">{{ s.rot }}</span>
+                    <span style="font:500 12.5px/1 Inter,sans-serif;flex:1">{{ s.rot }}</span>
                     <span style="font:700 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ s.n }}</span>
                   </div>
                 </sc-for>
@@ -252,14 +254,14 @@
           </div>
 
           <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
-            <h2 style="margin:0 0 16px;font:700 15.5px/1 Manrope,sans-serif">Para olhar hoje</h2>
+            <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Para olhar hoje</h2>
             <div style="display:flex;flex-direction:column;gap:12px">
               <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="3">
                 <div style="display:flex;gap:12px;padding:14px 15px;border-radius:15px;background:{{ a.bgT }}">
                   <span style="width:9px;height:9px;border-radius:50%;background:{{ a.corT }};display:block;flex:none;margin-top:4px"></span>
                   <div style="min-width:0">
-                    <div style="font:700 12.5px/1.3 Manrope,sans-serif;color:#16211F">{{ a.titulo }}</div>
-                    <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#5A6664;margin-top:5px">{{ a.texto }}</div>
+                    <div style="font:700 12.5px/1.3 Inter,sans-serif;color:#16211F">{{ a.titulo }}</div>
+                    <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#5A6664;margin-top:5px">{{ a.texto }}</div>
                   </div>
                 </div>
               </sc-for>
@@ -275,14 +277,14 @@
       <div style="grid-column:{{ colunasDuplas }};min-width:0;display:flex;flex-direction:column;gap:20px">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
           <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Vendas de quinta, 21 de maio</h2>
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Vendas de quinta, 21 de maio</h2>
             <div style="display:flex;gap:8px">
-              <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Manrope,sans-serif;color:#5A6664">Importar Microvix</span>
-              <span onClick="{{ salvarLancamentos }}" style="padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer" style-hover="background:#05716D">Salvar lançamentos</span>
+              <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664">Importar Microvix</span>
+              <span onClick="{{ salvarLancamentos }}" style="padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#05716D">Salvar lançamentos</span>
             </div>
           </div>
-          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-bottom:18px">{{ nLancadas }} de {{ totalLojas }} lojas já lançaram · meta do dia por loja calculada sobre a Meta 1</div>
-          <div style="display:grid;grid-template-columns:{{ colsLanc }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+          <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">{{ nLancadas }} de {{ totalLojas }} lojas já lançaram · meta do dia por loja calculada sobre a Meta 1</div>
+          <div style="display:grid;grid-template-columns:{{ colsLanc }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
             <div>Loja</div>
             <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta do dia</div></sc-if>
             <div style="text-align:right">Venda de hoje</div>
@@ -295,12 +297,12 @@
                 <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
                   <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
                 </sc-if>
-                <span style="font:700 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
+                <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
               </div>
               <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ l.metaDiaTxt }}</div></sc-if>
               <div style="text-align:right;min-width:0"><input type="text" inputMode="numeric" placeholder="0" value="{{ l.valorTexto }}" onChange="{{ l.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid {{ l.campoBorda }};background:{{ l.campoBg }};font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ l.campoCor }};text-align:right;outline:none"></div>
               <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ l.atend }}</div></sc-if>
-              <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;white-space:nowrap;background:{{ l.badgeBg }};color:{{ l.badgeCor }}">{{ l.status }}</span></div>
+              <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeBg }};color:{{ l.badgeCor }}">{{ l.status }}</span></div>
             </div>
           </sc-for>
         </div>
@@ -308,33 +310,33 @@
 
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#D8EFEA;border-radius:20px;padding:24px 26px">
-          <div style="font:500 11px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Total lançado hoje</div>
-          <div style="font:800 32px/1.1 Manrope,sans-serif;letter-spacing:-.03em;color:#0A5F5C;margin:12px 0 8px">{{ totalHojeTxt }}</div>
-          <div style="font:500 12px/1.6 Manrope,sans-serif;color:#4E6663">Meta do dia da rede {{ metaDiaTxt }} · {{ pctDiaTxt }} atingido</div>
+          <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Total lançado hoje</div>
+          <div style="font:800 32px/1.1 Inter,sans-serif;letter-spacing:-.03em;color:#0A5F5C;margin:12px 0 8px">{{ totalHojeTxt }}</div>
+          <div style="font:500 12px/1.6 Inter,sans-serif;color:#4E6663">Meta do dia da rede {{ metaDiaTxt }} · {{ pctDiaTxt }} atingido</div>
           <div style="height:10px;border-radius:6px;background:#fff;overflow:hidden;margin-top:14px"><div style="height:100%;border-radius:6px;background:#0A5F5C;width:{{ pctDiaW }}"></div></div>
         </div>
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 8px;font:700 15.5px/1 Manrope,sans-serif">Faltam lançar</h2>
-          <div style="font:500 11.5px/1.6 Manrope,sans-serif;color:#8D9997;margin-bottom:16px">Cobrar as gerentes antes das 22h.</div>
+          <h2 style="margin:0 0 8px;font:700 15.5px/1 Inter,sans-serif">Faltam lançar</h2>
+          <div style="font:500 11.5px/1.6 Inter,sans-serif;color:#8D9997;margin-bottom:16px">Cobrar as gerentes antes das 22h.</div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <sc-for list="{{ pendentes }}" as="p" hint-placeholder-count="3">
               <div style="display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:14px;background:#FDF1F3">
                 <span style="width:30px;height:30px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#CD4664;flex:none">{{ p.cod }}</span>
-                <span style="font:700 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0">{{ p.nome }}</span>
-                <span style="font:700 11px/1 Manrope,sans-serif;color:#CD4664">Cobrar</span>
+                <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0">{{ p.nome }}</span>
+                <span style="font:700 11px/1 Inter,sans-serif;color:#CD4664">Cobrar</span>
               </div>
             </sc-for>
           </div>
         </div>
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 16px;font:700 15.5px/1 Manrope,sans-serif">Últimos lançamentos</h2>
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Últimos lançamentos</h2>
           <div style="display:flex;flex-direction:column;gap:14px">
             <sc-for list="{{ historicoLanc }}" as="h" hint-placeholder-count="4">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:8px;height:8px;border-radius:50%;background:#05918C;display:block;flex:none;margin-top:5px"></span>
                 <div style="min-width:0;flex:1">
-                  <div style="font:700 12px/1.3 Manrope,sans-serif">{{ h.nome }} · {{ h.valorTxt }}</div>
-                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#8D9997">{{ h.quando }} por {{ h.quem }}</div>
+                  <div style="font:700 12px/1.3 Inter,sans-serif">{{ h.nome }} · {{ h.valorTxt }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997">{{ h.quando }} por {{ h.quem }}</div>
                 </div>
               </div>
             </sc-for>
@@ -348,14 +350,14 @@
     <div data-screen-label="Definir metas" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
       <div style="grid-column:{{ colunasDuplas }};background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
         <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
-          <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Metas de junho 2026</h2>
+          <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Metas de junho 2026</h2>
           <div style="display:flex;gap:8px">
-            <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Manrope,sans-serif;color:#5A6664">Copiar de maio</span>
-            <span style="padding:9px 15px;border-radius:100px;background:#E7F4F2;font:700 11.5px/1 Manrope,sans-serif;color:#0A5F5C">Preencher com sugestão</span>
+            <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664">Copiar de maio</span>
+            <span style="padding:9px 15px;border-radius:100px;background:#E7F4F2;font:700 11.5px/1 Inter,sans-serif;color:#0A5F5C">Preencher com sugestão</span>
           </div>
         </div>
-        <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-bottom:18px">Digite só a Meta 1. Meta 2 e Meta 3 saem dos fatores {{ fator2Txt }} e {{ fator3Txt }}.</div>
-        <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+        <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">Digite só a Meta 1. Meta 2 e Meta 3 saem dos fatores {{ fator2Txt }} e {{ fator3Txt }}.</div>
+        <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
           <div>Loja</div><div style="text-align:right">Meta 1</div>
           <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta 2</div></sc-if>
           <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta 3</div></sc-if>
@@ -367,7 +369,7 @@
               <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}">
                 <span style="width:32px;height:32px;border-radius:10px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 9px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ n.cod }}</span>
               </sc-if>
-              <span style="font:700 12.5px/1.2 Manrope,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.nome }}</span>
+              <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.nome }}</span>
             </div>
             <div style="text-align:right;min-width:0"><input type="text" inputMode="decimal" value="{{ n.m1 }}" onFocus="{{ n.iniciarEdicao }}" onChange="{{ n.digitar }}" onBlur="{{ n.finalizarEdicao }}" aria-label="Meta 1 em reais" autocomplete="off" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;text-align:right;outline:none"></div>
             <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ n.m2 }}</div></sc-if>
@@ -376,7 +378,7 @@
           </div>
         </sc-for>
         <div style="display:grid;grid-template-columns:{{ colsMetas }};gap:12px;padding:16px 0 0">
-          <div style="font:800 12.5px/1 Manrope,sans-serif">TOTAL</div>
+          <div style="font:800 12.5px/1 Inter,sans-serif">TOTAL</div>
           <div style="text-align:right;font:800 12.5px/1 'JetBrains Mono',monospace">{{ novoTot1 }}</div>
           <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#8D9997">{{ novoTot2 }}</div></sc-if>
           <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12.5px/1 'JetBrains Mono',monospace;color:#8D9997">{{ novoTot3 }}</div></sc-if>
@@ -386,33 +388,33 @@
 
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px"><h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Fatores e dias</h2><span data-governance-status style="padding:6px 9px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 9.5px/1 Manrope,sans-serif;white-space:nowrap">Edição liberada</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px"><h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Fatores e dias</h2><span data-governance-status style="padding:6px 9px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 9.5px/1 Inter,sans-serif;white-space:nowrap">Edição liberada</span></div>
           <div style="display:flex;flex-direction:column;gap:16px">
             <div>
-              <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 2 = Meta 1 ×</div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 2 = Meta 1 ×</div>
               <input data-goal-factor="fator_meta2" type="text" inputMode="decimal" value="{{ fator2Txt }}" onChange="{{ alterarFator2 }}" aria-label="Fator da Meta 2" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
             <div>
-              <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 3 = Meta 1 ×</div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Meta 3 = Meta 1 ×</div>
               <input data-goal-factor="fator_meta3" type="text" inputMode="decimal" value="{{ fator3Txt }}" onChange="{{ alterarFator3 }}" aria-label="Fator da Meta 3" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
             <div>
-              <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Dias úteis de junho</div>
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Dias úteis de junho</div>
               <input data-goal-days type="text" inputMode="numeric" value="{{ diasUteisConfig }}" onChange="{{ alterarDiasUteis }}" aria-label="Dias úteis da competência" style="display:block;box-sizing:border-box;width:100%;margin-top:8px;padding:11px 14px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 15px/1 'JetBrains Mono',monospace;outline:none">
             </div>
             <div data-governance-actions style="display:flex;flex-wrap:wrap;gap:8px;padding-top:2px">
-              <button data-governance-save type="button" style="flex:1;min-width:160px;padding:11px 13px;border:0;border-radius:11px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif;cursor:pointer">Salvar fatores e dias</button>
-              <button data-governance-lock type="button" style="display:none;flex:1;min-width:150px;padding:11px 13px;border:1.5px solid #F0CCD5;border-radius:11px;background:#FFF5F7;color:#B33755;font:700 11px/1 Manrope,sans-serif;cursor:pointer">Bloquear edição</button>
+              <button data-governance-save type="button" style="flex:1;min-width:160px;padding:11px 13px;border:0;border-radius:11px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif;cursor:pointer">Salvar fatores e dias</button>
+              <button data-governance-lock type="button" style="display:none;flex:1;min-width:150px;padding:11px 13px;border:1.5px solid #F0CCD5;border-radius:11px;background:#FFF5F7;color:#B33755;font:700 11px/1 Inter,sans-serif;cursor:pointer">Bloquear edição</button>
             </div>
-            <div data-governance-hint style="font:500 10.5px/1.5 Manrope,sans-serif;color:#6F7A89">As alterações valem somente para esta competência.</div>
+            <div data-governance-hint style="font:500 10.5px/1.5 Inter,sans-serif;color:#6F7A89">As alterações valem somente para esta competência.</div>
           </div>
         </div>
         <div style="background:#E7F4F2;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 10px;font:700 15px/1.3 Manrope,sans-serif;color:#0A5F5C">Como a sugestão é calculada</h2>
-          <div style="font:500 11.5px/1.7 Manrope,sans-serif;color:#4E6663">Média das vendas dos 3 últimos meses da loja + 6% de crescimento, arredondada para o milhar. Você ajusta o que quiser antes de publicar.</div>
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Inter,sans-serif;color:#0A5F5C">Como a sugestão é calculada</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#4E6663">Média das vendas dos 3 últimos meses da loja + 6% de crescimento, arredondada para o milhar. Você ajusta o que quiser antes de publicar.</div>
         </div>
-        <div style="padding:14px;border-radius:14px;background:#05918C;color:#fff;font:700 13px/1 Manrope,sans-serif;text-align:center">Publicar metas de junho</div>
-        <div style="font:500 11px/1.5 Manrope,sans-serif;color:#A8B7B5;text-align:center">As lojas veem a meta nova no dia 1º.</div>
+        <div style="padding:14px;border-radius:14px;background:#05918C;color:#fff;font:700 13px/1 Inter,sans-serif;text-align:center">Publicar metas de junho</div>
+        <div style="font:500 11px/1.5 Inter,sans-serif;color:#A8B7B5;text-align:center">As lojas veem a meta nova no dia 1º.</div>
       </div>
     </div>
     </sc-if>
@@ -420,36 +422,36 @@
     <sc-if value="{{ ehLojas }}" hint-placeholder-val="{{ false }}">
     <div data-screen-label="Lojas" style="display:flex;flex-direction:column;gap:20px">
       <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-        <div style="font:500 12px/1.5 Manrope,sans-serif;color:#8D9997">{{ totalLojas }} lojas com meta lançada em {{ mesLabel }}</div>
-        <span onClick="{{ abrirFormLoja }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar loja</span>
+        <div style="font:500 12px/1.5 Inter,sans-serif;color:#8D9997">{{ totalLojas }} lojas com meta lançada em {{ mesLabel }}</div>
+        <span onClick="{{ abrirFormLoja }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Inter,sans-serif">+</span>Adicionar loja</span>
       </div>
 
       <sc-if value="{{ formLoja }}" hint-placeholder-val="{{ false }}">
       <div style="border:1.5px solid #D8E6E4;background:#F9FCFB;border-radius:20px;padding:22px 24px">
         <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
           <div>
-            <h3 style="margin:0;font:700 14.5px/1 Manrope,sans-serif">Nova loja</h3>
-            <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:6px">Meta 2 e Meta 3 são calculadas pelos fatores da rede ({{ fator2Txt }} e {{ fator3Txt }}).</div>
+            <h3 style="margin:0;font:700 14.5px/1 Inter,sans-serif">Nova loja</h3>
+            <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">Meta 2 e Meta 3 são calculadas pelos fatores da rede ({{ fator2Txt }} e {{ fator3Txt }}).</div>
           </div>
-          <span onClick="{{ fecharFormLoja }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">×</span>
+          <span onClick="{{ fecharFormLoja }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
           <sc-for list="{{ camposLoja }}" as="c" hint-placeholder-count="5">
             <div style="min-width:0">
-              <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
-              <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Manrope,sans-serif;color:#16211F;outline:none">
+              <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+              <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
             </div>
           </sc-for>
         </div>
         <div style="margin-top:18px;padding-top:18px;border-top:1px solid #E9F1EF">
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Gerente responsável</div>
-            <span onClick="{{ abrirFormGerente }}" style="display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 11px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 13px/1 Manrope,sans-serif">+</span>Novo gerente</span>
+            <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Gerente responsável</div>
+            <span onClick="{{ abrirFormGerente }}" style="display:flex;align-items:center;gap:6px;padding:8px 13px;border-radius:100px;background:#E7F4F2;color:#0A5F5C;font:700 11px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap"><span style="font:700 13px/1 Inter,sans-serif">+</span>Novo gerente</span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:10px">
             <sc-for list="{{ gerentes }}" as="g" hint-placeholder-count="4">
-              <div onClick="{{ g.escolher }}" style="display:flex;align-items:center;gap:9px;padding:9px 14px 9px 9px;border-radius:100px;border:1.5px solid {{ g.borda }};background:{{ g.bg }};color:{{ g.cor }};font:600 12px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap">
-                <span style="width:26px;height:26px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10px/1 Manrope,sans-serif;color:#5A6664;flex:none">{{ g.ini }}</span>{{ g.nome }}
+              <div onClick="{{ g.escolher }}" style="display:flex;align-items:center;gap:9px;padding:9px 14px 9px 9px;border-radius:100px;border:1.5px solid {{ g.borda }};background:{{ g.bg }};color:{{ g.cor }};font:600 12px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap">
+                <span style="width:26px;height:26px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ g.ini }}</span>{{ g.nome }}
               </div>
             </sc-for>
           </div>
@@ -458,30 +460,30 @@
           <div style="margin-top:16px;border:1.5px solid #D8E6E4;background:#fff;border-radius:16px;padding:20px 22px">
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
               <div>
-                <h4 style="margin:0;font:700 13.5px/1 Manrope,sans-serif">Novo gerente</h4>
-                <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:5px">Ela recebe um convite por e-mail e passa a lançar as vendas desta loja.</div>
+                <h4 style="margin:0;font:700 13.5px/1 Inter,sans-serif">Novo gerente</h4>
+                <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:5px">Ela recebe um convite por e-mail e passa a lançar as vendas desta loja.</div>
               </div>
-              <span onClick="{{ fecharFormGerente }}" style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 13px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">×</span>
+              <span onClick="{{ fecharFormGerente }}" style="width:28px;height:28px;border-radius:9px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
               <sc-for list="{{ camposGerente }}" as="c" hint-placeholder-count="4">
                 <div style="min-width:0">
-                  <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
-                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:600 12.5px/1.2 Manrope,sans-serif;color:#16211F;outline:none">
+                  <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
                 </div>
               </sc-for>
             </div>
             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
-              <span onClick="{{ fecharFormGerente }}" style="padding:10px 16px;border-radius:11px;background:#F4F8F7;font:600 11.5px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
-              <span onClick="{{ salvarGerente }}" style="padding:10px 16px;border-radius:11px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer">Convidar gerente</span>
+              <span onClick="{{ fecharFormGerente }}" style="padding:10px 16px;border-radius:11px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+              <span onClick="{{ salvarGerente }}" style="padding:10px 16px;border-radius:11px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer">Convidar gerente</span>
             </div>
           </div>
           </sc-if>
         </div>
 
         <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
-          <span onClick="{{ fecharFormLoja }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
-          <span onClick="{{ salvarLoja }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Manrope,sans-serif;cursor:pointer">Salvar loja</span>
+          <span onClick="{{ fecharFormLoja }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+          <span onClick="{{ salvarLoja }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;cursor:pointer">Salvar loja</span>
         </div>
       </div>
       </sc-if>
@@ -489,9 +491,9 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:16px">
         <sc-for list="{{ resumoLojas }}" as="r" hint-placeholder-count="4">
           <div style="background:{{ r.bg }};border-radius:20px;padding:20px 22px">
-            <div style="font:500 11.5px/1 Manrope,sans-serif;color:#5A6664">{{ r.rot }}</div>
-            <div style="font:800 26px/1.2 Manrope,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ r.cor }}">{{ r.valor }}</div>
-            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:6px">{{ r.sub }}</div>
+            <div style="font:500 11.5px/1 Inter,sans-serif;color:#5A6664">{{ r.rot }}</div>
+            <div style="font:800 26px/1.2 Inter,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ r.cor }}">{{ r.valor }}</div>
+            <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">{{ r.sub }}</div>
           </div>
         </sc-for>
       </div>
@@ -501,18 +503,18 @@
             <div style="display:flex;align-items:center;gap:12px">
               <span style="width:42px;height:42px;border-radius:13px;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10px/1 'JetBrains Mono',monospace;color:#5A6664;flex:none">{{ l.cod }}</span>
               <div style="min-width:0;flex:1">
-                <div style="font:700 13.5px/1.2 Manrope,sans-serif">{{ l.nome }}</div>
-                <div style="font:500 11px/1.4 Manrope,sans-serif;color:#8D9997;margin-top:4px">Meta 1 · {{ l.metaBRL }}</div>
+                <div style="font:700 13.5px/1.2 Inter,sans-serif">{{ l.nome }}</div>
+                <div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997;margin-top:4px">Meta 1 · {{ l.metaBRL }}</div>
               </div>
-              <span style="padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;background:{{ l.badgeT }};color:{{ l.corT }};flex:none">{{ l.situacao }}</span>
+              <span style="padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;background:{{ l.badgeT }};color:{{ l.corT }};flex:none">{{ l.situacao }}</span>
             </div>
             <div>
               <div style="display:flex;justify-content:space-between;font:700 11.5px/1 'JetBrains Mono',monospace;margin-bottom:7px"><span style="color:#5A6664">{{ l.realTxt }}</span><span style="color:{{ l.corT }}">{{ l.pctTxt }}</span></div>
               <div style="height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ l.corT }};width:{{ l.pctW }}"></div></div>
             </div>
             <div style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #F1F5F4">
-              <div><div style="font:500 10.5px/1 Manrope,sans-serif;color:#A8B7B5">Vender/dia</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div></div>
-              <div style="text-align:right"><div style="font:500 10.5px/1 Manrope,sans-serif;color:#A8B7B5">Ticket médio</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.ticket }}</div></div>
+              <div><div style="font:500 10.5px/1 Inter,sans-serif;color:#A8B7B5">Vender/dia</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.porDiaTxt }}</div></div>
+              <div style="text-align:right"><div style="font:500 10.5px/1 Inter,sans-serif;color:#A8B7B5">Ticket médio</div><div style="font:700 12.5px/1.4 'JetBrains Mono',monospace">{{ l.ticket }}</div></div>
             </div>
           </div>
         </sc-for>
@@ -527,17 +529,17 @@
           <sc-for list="{{ podio }}" as="p" hint-placeholder-count="3">
             <div style="background:{{ p.bg }};border-radius:20px;padding:22px 24px;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;align-items:center;justify-content:space-between">
-                <span style="font:800 12px/1 Manrope,sans-serif;color:{{ p.cor }}">{{ p.pos }}</span>
-                <span style="padding:5px 10px;border-radius:100px;background:#fff;font:700 10.5px/1 Manrope,sans-serif;color:{{ p.cor }}">{{ p.nivel }}</span>
+                <span style="font:800 12px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.pos }}</span>
+                <span style="padding:5px 10px;border-radius:100px;background:#fff;font:700 10.5px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.nivel }}</span>
               </div>
-              <div style="width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font:800 15px/1 Manrope,sans-serif;color:{{ p.cor }}">{{ p.ini }}</div>
+              <div style="width:52px;height:52px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font:800 15px/1 Inter,sans-serif;color:{{ p.cor }}">{{ p.ini }}</div>
               <div>
-                <div style="font:800 15px/1.2 Manrope,sans-serif">{{ p.nome }}</div>
-                <div style="font:500 11px/1.5 Manrope,sans-serif;color:#5A6664;margin-top:5px">{{ p.loja }}</div>
+                <div style="font:800 15px/1.2 Inter,sans-serif">{{ p.nome }}</div>
+                <div style="font:500 11px/1.5 Inter,sans-serif;color:#5A6664;margin-top:5px">{{ p.loja }}</div>
               </div>
               <div style="display:flex;align-items:baseline;gap:8px">
                 <span style="font:800 22px/1 'JetBrains Mono',monospace;color:{{ p.cor }}">{{ p.pctTxt }}</span>
-                <span style="font:500 11px/1 Manrope,sans-serif;color:#5A6664">{{ p.vendaTxt }}</span>
+                <span style="font:500 11px/1 Inter,sans-serif;color:#5A6664">{{ p.vendaTxt }}</span>
               </div>
             </div>
           </sc-for>
@@ -545,11 +547,11 @@
 
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px">
-            <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Ranking de vendedoras · {{ mesLabel }}</h2>
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Ranking de vendedoras · {{ mesLabel }}</h2>
             <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
-              <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Manrope,sans-serif">Rede</span>
-              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Manrope,sans-serif">Por loja</span>
-              <span onClick="{{ abrirFormVend }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Manrope,sans-serif">+</span>Adicionar vendedora</span>
+              <span style="padding:7px 13px;border-radius:100px;background:#05918C;color:#fff;font:700 11px/1 Inter,sans-serif">Rede</span>
+              <span style="padding:7px 13px;border-radius:100px;background:#F4F8F7;color:#5A6664;font:600 11px/1 Inter,sans-serif">Por loja</span>
+              <span onClick="{{ abrirFormVend }}" style="display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer;white-space:nowrap" style-hover="background:#05716D"><span style="font:700 14px/1 Inter,sans-serif">+</span>Adicionar vendedora</span>
             </div>
           </div>
 
@@ -557,26 +559,26 @@
           <div style="border:1.5px solid #D8E6E4;background:#F9FCFB;border-radius:18px;padding:22px 24px;margin-bottom:18px">
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px">
               <div>
-                <h3 style="margin:0;font:700 14.5px/1 Manrope,sans-serif">Nova vendedora</h3>
-                <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:6px">Ela entra no ranking já no próximo lançamento de vendas.</div>
+                <h3 style="margin:0;font:700 14.5px/1 Inter,sans-serif">Nova vendedora</h3>
+                <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">Ela entra no ranking já no próximo lançamento de vendas.</div>
               </div>
-              <span onClick="{{ fecharFormVend }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">×</span>
+              <span onClick="{{ fecharFormVend }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
               <sc-for list="{{ camposVend }}" as="c" hint-placeholder-count="6">
                 <div style="min-width:0">
-                  <div style="font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
-                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Manrope,sans-serif;color:#16211F;outline:none">
+                  <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
+                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
                 </div>
               </sc-for>
             </div>
             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
-              <span onClick="{{ fecharFormVend }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Manrope,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
-              <span onClick="{{ salvarVendedora }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Manrope,sans-serif;cursor:pointer">Salvar vendedora</span>
+              <span onClick="{{ fecharFormVend }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
+              <span onClick="{{ salvarVendedora }}" style="padding:11px 18px;border-radius:12px;background:#05918C;color:#fff;font:700 12px/1 Inter,sans-serif;cursor:pointer">Salvar vendedora</span>
             </div>
           </div>
           </sc-if>
-          <div style="display:grid;grid-template-columns:{{ colsRank }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+          <div style="display:grid;grid-template-columns:{{ colsRank }};gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
             <div>#</div><div>Vendedora</div><div>% da meta</div>
             <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Vendido</div></sc-if>
             <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Ticket</div></sc-if>
@@ -586,8 +588,8 @@
             <div style="display:grid;grid-template-columns:{{ colsRank }};gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #F6F9F8">
               <div style="font:700 12px/1 'JetBrains Mono',monospace;color:#A8B7B5">{{ v.pos }}</div>
               <div style="display:flex;align-items:center;gap:11px;min-width:0">
-                <span style="width:32px;height:32px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10.5px/1 Manrope,sans-serif;color:#5A6664;flex:none">{{ v.ini }}</span>
-                <div style="min-width:0"><div style="font:700 12.5px/1.2 Manrope,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.nome }}</div><div style="font:500 10.5px/1.4 Manrope,sans-serif;color:#8D9997;margin-top:3px">{{ v.loja }}</div></div>
+                <span style="width:32px;height:32px;border-radius:50%;background:#F4F8F7;display:flex;align-items:center;justify-content:center;font:700 10.5px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ v.ini }}</span>
+                <div style="min-width:0"><div style="font:700 12.5px/1.2 Inter,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.nome }}</div><div style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ v.loja }}</div></div>
               </div>
               <div style="display:flex;align-items:center;gap:10px;min-width:0">
                 <div style="flex:1;height:8px;border-radius:5px;background:#F1F5F4;overflow:hidden"><div style="height:100%;border-radius:5px;background:{{ v.cor }};width:{{ v.pctW }}"></div></div>
@@ -595,7 +597,7 @@
               </div>
               <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ v.vendaTxt }}</div></sc-if>
               <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ v.ticket }}</div></sc-if>
-              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Manrope,sans-serif;background:{{ v.badge }};color:{{ v.cor }}">{{ v.nivel }}</span></div></sc-if>
+              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;background:{{ v.badge }};color:{{ v.cor }}">{{ v.nivel }}</span></div></sc-if>
             </div>
           </sc-for>
         </div>
@@ -603,21 +605,21 @@
 
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 16px;font:700 15.5px/1 Manrope,sans-serif">Faixas de comissão</h2>
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Faixas de comissão</h2>
           <div style="display:flex;flex-direction:column;gap:12px">
             <sc-for list="{{ faixas }}" as="f" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:14px;background:{{ f.bg }}">
-                <span style="font:700 12px/1 Manrope,sans-serif;color:{{ f.cor }};flex:1">{{ f.rot }}</span>
+                <span style="font:700 12px/1 Inter,sans-serif;color:{{ f.cor }};flex:1">{{ f.rot }}</span>
                 <span style="font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ f.cor }}">{{ f.pct }}</span>
-                <span style="font:500 11px/1 Manrope,sans-serif;color:#8D9997">{{ f.qtd }} vend.</span>
+                <span style="font:500 11px/1 Inter,sans-serif;color:#8D9997">{{ f.qtd }} vend.</span>
               </div>
             </sc-for>
           </div>
         </div>
         <div style="background:#D8EFEA;border-radius:20px;padding:24px 26px">
-          <div style="font:500 11px/1 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Destaque do mês</div>
-          <div style="font:800 22px/1.2 Manrope,sans-serif;color:#0A5F5C;margin:12px 0 8px">Aline Ferreira</div>
-          <div style="font:500 12px/1.6 Manrope,sans-serif;color:#4E6663">Rodrigo Silva · 106% da meta individual com 8 dias pela frente. Ticket médio 22% acima da média da rede.</div>
+          <div style="font:500 11px/1 Inter,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:#4E6663">Destaque do mês</div>
+          <div style="font:800 22px/1.2 Inter,sans-serif;color:#0A5F5C;margin:12px 0 8px">Aline Ferreira</div>
+          <div style="font:500 12px/1.6 Inter,sans-serif;color:#4E6663">Rodrigo Silva · 106% da meta individual com 8 dias pela frente. Ticket médio 22% acima da média da rede.</div>
         </div>
       </div>
     </div>
@@ -628,9 +630,9 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minKpi }},1fr));gap:16px">
         <sc-for list="{{ kpisAno }}" as="k" hint-placeholder-count="4">
           <div style="background:{{ k.bg }};border-radius:20px;padding:20px 22px">
-            <div style="font:500 11.5px/1 Manrope,sans-serif;color:#5A6664">{{ k.rot }}</div>
-            <div style="font:800 26px/1.2 Manrope,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ k.cor }}">{{ k.valor }}</div>
-            <div style="font:500 11px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:6px">{{ k.sub }}</div>
+            <div style="font:500 11.5px/1 Inter,sans-serif;color:#5A6664">{{ k.rot }}</div>
+            <div style="font:800 26px/1.2 Inter,sans-serif;margin-top:8px;letter-spacing:-.02em;color:{{ k.cor }}">{{ k.valor }}</div>
+            <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:6px">{{ k.sub }}</div>
           </div>
         </sc-for>
       </div>
@@ -638,8 +640,8 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minColuna }},1fr));gap:20px;align-items:start">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:20px">
-            <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Meta × realizado por mês</h2>
-            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Manrope,sans-serif;color:#8D9997">
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Meta × realizado por mês</h2>
+            <div style="display:flex;align-items:center;gap:14px;font:500 11px/1 Inter,sans-serif;color:#8D9997">
               <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#E1EBE9;display:block"></span>meta</span>
               <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#05918C;display:block"></span>realizado</span>
             </div>
@@ -651,20 +653,20 @@
                   <div style="width:11px;border-radius:4px 4px 0 0;background:#E1EBE9;height:{{ m.hMeta }}"></div>
                   <div style="width:11px;border-radius:4px 4px 0 0;background:{{ m.cor }};height:{{ m.hReal }}"></div>
                 </div>
-                <div style="font:600 10px/1 Manrope,sans-serif;color:#8D9997">{{ m.nome }}</div>
+                <div style="font:600 10px/1 Inter,sans-serif;color:#8D9997">{{ m.nome }}</div>
               </div>
             </sc-for>
           </div>
         </div>
 
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
-          <h2 style="margin:0 0 16px;font:700 15.5px/1 Manrope,sans-serif">Fechamento mês a mês</h2>
-          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Manrope,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
+          <h2 style="margin:0 0 16px;font:700 15.5px/1 Inter,sans-serif">Fechamento mês a mês</h2>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;padding-bottom:12px;border-bottom:1px solid #F1F5F4;font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">
             <div>Mês</div><div style="text-align:right">Meta 1</div><div style="text-align:right">Realizado</div><div style="text-align:right">%</div>
           </div>
           <sc-for list="{{ tabelaAno }}" as="t" hint-placeholder-count="5">
             <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #F6F9F8">
-              <div style="font:700 12.5px/1 Manrope,sans-serif">{{ t.mes }}</div>
+              <div style="font:700 12.5px/1 Inter,sans-serif">{{ t.mes }}</div>
               <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ t.metaTxt }}</div>
               <div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace">{{ t.realTxt }}</div>
               <div style="text-align:right;white-space:nowrap;font:700 12px/1 'JetBrains Mono',monospace;color:{{ t.cor }}">{{ t.pctTxt }}</div>
@@ -679,14 +681,14 @@
     <div data-screen-label="Configurações" style="display:grid;grid-template-columns:repeat(auto-fit,minmax({{ minPagina }},1fr));gap:20px;align-items:start">
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 6px;font:700 15.5px/1 Manrope,sans-serif">Regras de meta</h2>
-          <div style="font:500 11.5px/1.5 Manrope,sans-serif;color:#8D9997;margin-bottom:18px">Valem para toda a rede, salvo exceção por loja.</div>
+          <h2 style="margin:0 0 6px;font:700 15.5px/1 Inter,sans-serif">Regras de meta</h2>
+          <div style="font:500 11.5px/1.5 Inter,sans-serif;color:#8D9997;margin-bottom:18px">Valem para toda a rede, salvo exceção por loja.</div>
           <div style="display:flex;flex-direction:column;gap:16px">
             <sc-for list="{{ configCampos }}" as="c" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:14px">
                 <div style="flex:1;min-width:0">
-                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ c.rot }}</div>
-                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:3px">{{ c.desc }}</div>
+                  <div style="font:700 12.5px/1.3 Inter,sans-serif">{{ c.rot }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ c.desc }}</div>
                 </div>
                 <span style="padding:10px 14px;border-radius:11px;border:1.5px solid #D8E6E4;background:#F9FCFB;font:700 12.5px/1 'JetBrains Mono',monospace;flex:none">{{ c.valor }}</span>
               </div>
@@ -695,13 +697,13 @@
         </div>
 
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 18px;font:700 15.5px/1 Manrope,sans-serif">Notificações</h2>
+          <h2 style="margin:0 0 18px;font:700 15.5px/1 Inter,sans-serif">Notificações</h2>
           <div style="display:flex;flex-direction:column;gap:16px">
             <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:14px">
                 <div style="flex:1;min-width:0">
-                  <div style="font:700 12.5px/1.3 Manrope,sans-serif">{{ t.rot }}</div>
-                  <div style="font:500 11px/1.5 Manrope,sans-serif;color:#8D9997;margin-top:3px">{{ t.desc }}</div>
+                  <div style="font:700 12.5px/1.3 Inter,sans-serif">{{ t.rot }}</div>
+                  <div style="font:500 11px/1.5 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ t.desc }}</div>
                 </div>
                 <div onClick="{{ t.alternar }}" style="width:46px;height:26px;border-radius:100px;background:{{ t.trilho }};padding:3px;box-sizing:border-box;display:flex;justify-content:{{ t.pos }};cursor:pointer;flex:none">
                   <span style="width:20px;height:20px;border-radius:50%;background:#fff;display:block"></span>
@@ -715,42 +717,42 @@
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-            <h2 style="margin:0;font:700 15.5px/1 Manrope,sans-serif">Quem tem acesso</h2>
-            <span style="padding:8px 14px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Manrope,sans-serif;color:#0A5F5C">Convidar</span>
+            <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Quem tem acesso</h2>
+            <span style="padding:8px 14px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Inter,sans-serif;color:#0A5F5C">Convidar</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <sc-for list="{{ usuarios }}" as="u" hint-placeholder-count="4">
               <div style="display:flex;align-items:center;gap:12px">
-                <span style="width:36px;height:36px;border-radius:50%;background:{{ u.bg }};display:flex;align-items:center;justify-content:center;font:700 11.5px/1 Manrope,sans-serif;color:{{ u.cor }};flex:none">{{ u.ini }}</span>
+                <span style="width:36px;height:36px;border-radius:50%;background:{{ u.bg }};display:flex;align-items:center;justify-content:center;font:700 11.5px/1 Inter,sans-serif;color:{{ u.cor }};flex:none">{{ u.ini }}</span>
                 <div style="flex:1;min-width:0">
-                  <div style="font:700 12.5px/1.2 Manrope,sans-serif">{{ u.nome }}</div>
-                  <div style="font:500 11px/1.4 Manrope,sans-serif;color:#8D9997;margin-top:3px">{{ u.escopo }}</div>
+                  <div style="font:700 12.5px/1.2 Inter,sans-serif">{{ u.nome }}</div>
+                  <div style="font:500 11px/1.4 Inter,sans-serif;color:#8D9997;margin-top:3px">{{ u.escopo }}</div>
                 </div>
-                <span style="padding:6px 11px;border-radius:100px;background:#F4F8F7;font:600 10.5px/1 Manrope,sans-serif;color:#5A6664;flex:none">{{ u.papel }}</span>
+                <span style="padding:6px 11px;border-radius:100px;background:#F4F8F7;font:600 10.5px/1 Inter,sans-serif;color:#5A6664;flex:none">{{ u.papel }}</span>
               </div>
             </sc-for>
           </div>
         </div>
 
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 10px;font:700 15.5px/1 Manrope,sans-serif">Dados salvos</h2>
-          <div style="font:500 11.5px/1.7 Manrope,sans-serif;color:#5A6664;margin-bottom:16px">Lançamentos, metas e cadastros ficam gravados neste aparelho/navegador — continuam aqui quando você fechar e voltar. Para várias pessoas verem os mesmos números ao mesmo tempo é preciso um banco de dados.</div>
+          <h2 style="margin:0 0 10px;font:700 15.5px/1 Inter,sans-serif">Dados salvos</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#5A6664;margin-bottom:16px">Lançamentos, metas e cadastros ficam gravados neste aparelho/navegador — continuam aqui quando você fechar e voltar. Para várias pessoas verem os mesmos números ao mesmo tempo é preciso um banco de dados.</div>
           <sc-if value="{{ temSalvo }}" hint-placeholder-val="{{ false }}">
-            <div style="display:inline-block;padding:7px 12px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Manrope,sans-serif;color:#0A5F5C;margin-bottom:14px">Última gravação às {{ salvoEm }}</div>
+            <div style="display:inline-block;padding:7px 12px;border-radius:100px;background:#E7F4F2;font:700 11px/1 Inter,sans-serif;color:#0A5F5C;margin-bottom:14px">Última gravação às {{ salvoEm }}</div>
           </sc-if>
-          <div onClick="{{ limparDados }}" style="padding:11px;border-radius:12px;background:#F4F8F7;font:700 12px/1 Manrope,sans-serif;color:#5A6664;text-align:center;cursor:pointer">Restaurar dados de exemplo</div>
+          <div onClick="{{ limparDados }}" style="padding:11px;border-radius:12px;background:#F4F8F7;font:700 12px/1 Inter,sans-serif;color:#5A6664;text-align:center;cursor:pointer">Restaurar dados de exemplo</div>
         </div>
 
         <div style="background:#FDF1F3;border-radius:20px;padding:22px 24px">
-          <h2 style="margin:0 0 10px;font:700 15px/1.3 Manrope,sans-serif;color:#CD4664">Encerrar o mês</h2>
-          <div style="font:500 11.5px/1.7 Manrope,sans-serif;color:#5A6664;margin-bottom:16px">Congela os números de {{ mesLabel }} e libera junho para lançamento. Não dá para desfazer.</div>
-          <div style="padding:12px;border-radius:12px;background:#CD4664;color:#fff;font:700 12px/1 Manrope,sans-serif;text-align:center">Fechar {{ mesLabel }}</div>
+          <h2 style="margin:0 0 10px;font:700 15px/1.3 Inter,sans-serif;color:#CD4664">Encerrar o mês</h2>
+          <div style="font:500 11.5px/1.7 Inter,sans-serif;color:#5A6664;margin-bottom:16px">Congela os números de {{ mesLabel }} e libera junho para lançamento. Não dá para desfazer.</div>
+          <div style="padding:12px;border-radius:12px;background:#CD4664;color:#fff;font:700 12px/1 Inter,sans-serif;text-align:center">Fechar {{ mesLabel }}</div>
         </div>
       </div>
     </div>
     </sc-if>
 
-    <footer style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid #F1F5F4;font:500 11.5px/1 Manrope,sans-serif;color:#A8B7B5">
+    <footer style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid #F1F5F4;font:500 11.5px/1 Inter,sans-serif;color:#A8B7B5">
       <span>D&amp;D Cosméticos · dados de {{ mesLabel }}</span>
       <span>Projeção do mês <b style="color:#5A6664">{{ projTxt }}</b> · fecha em <b style="color:#05918C">{{ projPctTxt }}</b></span>
     </footer>
@@ -882,7 +884,7 @@ class Component extends DCLogic {
         bg: ativo ? TEAL : 'transparent',
         bgHover: ativo ? TEAL : '#F4F8F7',
         cor: ativo ? '#fff' : '#5A6664',
-        fonte: ativo ? '700 13.5px/1 Manrope,sans-serif' : '500 13.5px/1 Manrope,sans-serif',
+        fonte: ativo ? '700 13.5px/1 Inter,sans-serif' : '500 13.5px/1 Inter,sans-serif',
         pontoBg: ativo ? '#fff' : 'transparent',
         pontoBorda: ativo ? '#fff' : '#B7C4C2'
       };

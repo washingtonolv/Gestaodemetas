@@ -58,14 +58,14 @@ function floating(doc,id,anchor,width=300){
  closeFloating(doc);
  const box=doc.createElement('section');box.id=id;box.className='dd-fluid-floating';box.setAttribute('role','dialog');
  const rect=anchor.getBoundingClientRect(),left=Math.min(Math.max(12,rect.left),Math.max(12,doc.defaultView.innerWidth-width-12)),top=Math.min(rect.bottom+9,doc.defaultView.innerHeight-390);
- box.style.cssText='position:fixed;z-index:999998;left:'+left+'px;top:'+Math.max(12,top)+'px;width:min('+width+'px,calc(100vw - 24px));max-height:360px;overflow:auto;box-sizing:border-box;padding:10px;background:#fff;border:1px solid #DFEAE8;border-radius:16px;box-shadow:0 20px 55px rgba(20,60,55,.2);font-family:Manrope,system-ui,sans-serif;color:#16211F';
+ box.style.cssText='position:fixed;z-index:999998;left:'+left+'px;top:'+Math.max(12,top)+'px;width:min('+width+'px,calc(100vw - 24px));max-height:360px;overflow:auto;box-sizing:border-box;padding:10px;background:#fff;border:1px solid #DFEAE8;border-radius:16px;box-shadow:0 20px 55px rgba(20,60,55,.2);font-family:Inter,system-ui,sans-serif;color:#16211F';
  doc.body.appendChild(box);setTimeout(()=>doc.addEventListener('click',()=>closeFloating(doc),{once:true}),0);return box;
 }
 function resultRow(doc,title,sub,onClick){
  const b=doc.createElement('button');b.type='button';b.style.cssText='width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;background:#fff;border-radius:11px;padding:11px 12px;text-align:left;cursor:pointer';
  const a=doc.createElement('span');a.style.cssText='display:flex;flex-direction:column;gap:3px';
- const t=doc.createElement('strong');t.textContent=title;t.style.cssText='font:700 12px/1.2 Manrope,sans-serif';
- const s=doc.createElement('small');s.textContent=sub;s.style.cssText='font:500 10px/1.3 Manrope,sans-serif;color:#8D9997';
+ const t=doc.createElement('strong');t.textContent=title;t.style.cssText='font:700 12px/1.2 Inter,sans-serif';
+ const s=doc.createElement('small');s.textContent=sub;s.style.cssText='font:500 10px/1.3 Inter,sans-serif;color:#8D9997';
  const arrow=doc.createElement('span');arrow.textContent='›';arrow.style.cssText='color:#05918C;font-weight:800';
  a.append(t,s);b.append(a,arrow);b.onclick=e=>{e.preventDefault();e.stopPropagation();onClick()};return b;
 }
@@ -83,7 +83,7 @@ function searchResults(doc,input){
    ...stores.filter(x=>(x.nome+' '+(x.codigo||'')).toLocaleLowerCase('pt-BR').includes(q)).slice(0,6).map(x=>({title:x.nome,sub:'Loja · código '+(x.codigo||'—'),page:'Lojas'})),
    ...sellers.filter(x=>(x.nome+' '+x.loja).toLocaleLowerCase('pt-BR').includes(q)).slice(0,6).map(x=>({title:x.nome,sub:'Vendedora · '+x.loja,page:'Ranking'}))
  ].slice(0,10);
- if(!matches.length){const empty=doc.createElement('div');empty.textContent='Nenhum resultado encontrado.';empty.style.cssText='padding:14px;font:600 11px/1.4 Manrope,sans-serif;color:#8D9997';box.appendChild(empty);return}
+ if(!matches.length){const empty=doc.createElement('div');empty.textContent='Nenhum resultado encontrado.';empty.style.cssText='padding:14px;font:600 11px/1.4 Inter,sans-serif;color:#8D9997';box.appendChild(empty);return}
  matches.forEach(x=>box.appendChild(resultRow(doc,x.title,x.sub,()=>{closeFloating(doc);input.value='';navTo(doc,x.page,x.title)})));
 }
 function patchSearch(doc){
@@ -91,7 +91,7 @@ function patchSearch(doc){
  if(!label||label.dataset.searchReady)return;
  const holder=label.parentElement;if(!holder)return;
  const input=doc.createElement('input');input.type='search';input.placeholder='Buscar loja, vendedora…';input.setAttribute('aria-label','Buscar loja ou vendedora');input.autocomplete='off';
- input.style.cssText='border:0;outline:0;background:transparent;min-width:0;width:100%;font:500 12.5px/1 Manrope,sans-serif;color:#16211F';
+ input.style.cssText='border:0;outline:0;background:transparent;min-width:0;width:100%;font:500 12.5px/1 Inter,sans-serif;color:#16211F';
  label.replaceWith(input);input.dataset.searchReady='1';input.addEventListener('input',()=>searchResults(doc,input));input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value='';closeFloating(doc)}});
 }
 function guideFor(screen){
@@ -108,7 +108,7 @@ function guideFor(screen){
 function showHelp(doc,anchor){
  const current=doc.querySelector('[data-screen-label]')?.getAttribute('data-screen-label')||'';
  const g=guideFor(current),box=floating(doc,'dd-help-panel',anchor,340);
- box.innerHTML='<div style="padding:8px 10px 4px"><div style="font:800 15px/1.2 Manrope,sans-serif;color:#0A5F5C">'+g[0]+'</div><div style="margin-top:9px;font:500 11.5px/1.65 Manrope,sans-serif;color:#5A6664">'+g[1]+'</div><div style="margin-top:12px;padding:10px 11px;border-radius:11px;background:#E7F4F2;font:600 10.5px/1.45 Manrope,sans-serif;color:#0A5F5C">Dica: a busca no topo encontra lojas e vendedoras em qualquer tela.</div></div>';
+ box.innerHTML='<div style="padding:8px 10px 4px"><div style="font:800 15px/1.2 Inter,sans-serif;color:#0A5F5C">'+g[0]+'</div><div style="margin-top:9px;font:500 11.5px/1.65 Inter,sans-serif;color:#5A6664">'+g[1]+'</div><div style="margin-top:12px;padding:10px 11px;border-radius:11px;background:#E7F4F2;font:600 10.5px/1.45 Inter,sans-serif;color:#0A5F5C">Dica: a busca no topo encontra lojas e vendedoras em qualquer tela.</div></div>';
 }
 function notifications(){
  const today=new Date().toLocaleDateString('en-CA'),isCurrent=today.slice(0,7)===selected(),todayStores=new Set(results.filter(x=>x.data===today&&Number(x.valor_realizado)>0).map(x=>x.loja_id));
@@ -121,8 +121,8 @@ function notifications(){
 }
 function showNotifications(doc,anchor){
  const box=floating(doc,'dd-notification-panel',anchor,350),items=notifications();
- const title=doc.createElement('div');title.textContent='Notificações do período';title.style.cssText='padding:9px 11px;font:800 14px/1.2 Manrope,sans-serif;color:#0A5F5C';box.appendChild(title);
- items.forEach(x=>{const item=doc.createElement('div');item.style.cssText='margin:4px;padding:11px;border-radius:12px;background:#F4F8F7';item.innerHTML='<div style="font:700 11.5px/1.3 Manrope,sans-serif">'+x.title+'</div><div style="margin-top:4px;font:500 10px/1.45 Manrope,sans-serif;color:#8D9997">'+x.sub+'</div>';box.appendChild(item)});
+ const title=doc.createElement('div');title.textContent='Notificações do período';title.style.cssText='padding:9px 11px;font:800 14px/1.2 Inter,sans-serif;color:#0A5F5C';box.appendChild(title);
+ items.forEach(x=>{const item=doc.createElement('div');item.style.cssText='margin:4px;padding:11px;border-radius:12px;background:#F4F8F7';item.innerHTML='<div style="font:700 11.5px/1.3 Inter,sans-serif">'+x.title+'</div><div style="margin-top:4px;font:500 10px/1.45 Inter,sans-serif;color:#8D9997">'+x.sub+'</div>';box.appendChild(item)});
 }
 function storeRows(doc){
  const rows=[],seen=new Set();
@@ -190,7 +190,7 @@ function renderCalendar(doc,key,snapshot){
  const grids=[...card.children].filter(el=>(el.style.display||'')==='grid'),grid=grids.find(el=>[...el.children].some(child=>(child.style.height||'')==='38px'))||grids.at(-1);if(!grid)return;
  const slots=[...grid.children];slots.forEach((slot,index)=>{
   const day=index-offset+1;
-  slot.style.height='38px';slot.style.borderRadius='11px';slot.style.display='flex';slot.style.alignItems='center';slot.style.justifyContent='center';slot.style.font='700 12px/1 Manrope,sans-serif';slot.style.minWidth='0';
+  slot.style.height='38px';slot.style.borderRadius='11px';slot.style.display='flex';slot.style.alignItems='center';slot.style.justifyContent='center';slot.style.font='700 12px/1 Inter,sans-serif';slot.style.minWidth='0';
   if(day<1||day>days){if(slot.textContent)slot.textContent='';slot.style.opacity='0';slot.style.pointerEvents='none';slot.onclick=null;slot.onkeydown=null;slot.removeAttribute('role');slot.removeAttribute('tabindex');slot.removeAttribute('aria-label');slot.removeAttribute('data-calendar-date');return}
   const text=String(day);if((slot.textContent||'').trim()!==text)slot.textContent=text;
   const date=`${key}-${pad(day)}`,value=snapshot.daily.get(date)||0,sunday=new Date(y,m-1,day).getDay()===0,future=date>today,ratio=dailyGoal?value/dailyGoal:0,selectedDay=date===selectedCalendarDate;
@@ -242,16 +242,16 @@ function patchRankingEmpty(doc){
  const rankingTitle=[...screen.querySelectorAll('h2')].find(e=>(e.textContent||'').trim().startsWith('Ranking de vendedoras'));const rankingCard=rankingTitle?.parentElement?.parentElement;if(!rankingCard||rankingCard.querySelector('[data-dd-empty-ranking]'))return;
  const header=[...rankingCard.children].find(e=>(e.textContent||'').includes('Vendedora')&&(e.textContent||'').includes('% da meta'));if(!header)return;
  const empty=doc.createElement('div');empty.dataset.ddEmptyRanking='1';empty.style.cssText='margin-top:14px;padding:34px 22px;border:1px dashed #CFE0DD;border-radius:16px;background:#F8FBFA;text-align:center';
- const emptyTitle=doc.createElement('strong');emptyTitle.textContent='O ranking começa com a primeira vendedora';emptyTitle.style.cssText='display:block;font:800 15px/1.3 Manrope,sans-serif;color:#0A5F5C';
- const emptyText=doc.createElement('span');emptyText.textContent='Cadastre uma vendedora e associe a loja para acompanhar vendas, ticket e comissão.';emptyText.style.cssText='display:block;max-width:460px;margin:8px auto 16px;font:500 11.5px/1.55 Manrope,sans-serif;color:#667270';
- const action=doc.createElement('button');action.type='button';action.textContent='Adicionar primeira vendedora';action.style.cssText='border:0;border-radius:11px;padding:10px 16px;background:#05918C;color:#fff;font:700 11.5px/1 Manrope,sans-serif;cursor:pointer';action.onclick=e=>{e.preventDefault();e.stopPropagation();const add=[...screen.querySelectorAll('div,span')].find(x=>(x.textContent||'').trim().includes('Adicionar vendedora'));add?.click()};
+ const emptyTitle=doc.createElement('strong');emptyTitle.textContent='O ranking começa com a primeira vendedora';emptyTitle.style.cssText='display:block;font:800 15px/1.3 Inter,sans-serif;color:#0A5F5C';
+ const emptyText=doc.createElement('span');emptyText.textContent='Cadastre uma vendedora e associe a loja para acompanhar vendas, ticket e comissão.';emptyText.style.cssText='display:block;max-width:460px;margin:8px auto 16px;font:500 11.5px/1.55 Inter,sans-serif;color:#667270';
+ const action=doc.createElement('button');action.type='button';action.textContent='Adicionar primeira vendedora';action.style.cssText='border:0;border-radius:11px;padding:10px 16px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer';action.onclick=e=>{e.preventDefault();e.stopPropagation();const add=[...screen.querySelectorAll('div,span')].find(x=>(x.textContent||'').trim().includes('Adicionar vendedora'));add?.click()};
  empty.append(emptyTitle,emptyText,action);header.insertAdjacentElement('afterend',empty);
 }
 function patchAccess(doc){
  const title=exact(doc,'Quem tem acesso'),card=title?.parentElement?.parentElement,list=card?.children?.[1];if(!list||list.dataset.realAccess)return;
  list.dataset.realAccess='1';list.innerHTML='';
  const initials=name=>String(name||'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'--';
- users.forEach((u,i)=>{const row=doc.createElement('div');row.style.cssText='display:flex;align-items:center;gap:12px';const admin=u.role==='administrador';row.innerHTML='<span style="width:36px;height:36px;border-radius:50%;background:'+(admin?'#E7F4F2':'#FDF1F3')+';display:flex;align-items:center;justify-content:center;font:800 10px/1 Manrope,sans-serif;color:'+(admin?'#05918C':'#CD4664')+';flex:none">'+initials(u.nome)+'</span><span style="min-width:0;flex:1"><b style="display:block;font:700 12px/1.25 Manrope,sans-serif">'+(u.nome||u.email||'Usuário')+'</b><small style="display:block;margin-top:3px;font:500 10px/1.3 Manrope,sans-serif;color:#8D9997">'+(admin?'Toda a rede':'Lojas autorizadas')+'</small></span><span style="padding:6px 10px;border-radius:100px;background:#F4F8F7;font:600 10px/1 Manrope,sans-serif;color:#5A6664">'+roleLabel(u.role)+'</span>';list.appendChild(row)});
+ users.forEach((u,i)=>{const row=doc.createElement('div');row.style.cssText='display:flex;align-items:center;gap:12px';const admin=u.role==='administrador';row.innerHTML='<span style="width:36px;height:36px;border-radius:50%;background:'+(admin?'#E7F4F2':'#FDF1F3')+';display:flex;align-items:center;justify-content:center;font:800 10px/1 Inter,sans-serif;color:'+(admin?'#05918C':'#CD4664')+';flex:none">'+initials(u.nome)+'</span><span style="min-width:0;flex:1"><b style="display:block;font:700 12px/1.25 Inter,sans-serif">'+(u.nome||u.email||'Usuário')+'</b><small style="display:block;margin-top:3px;font:500 10px/1.3 Inter,sans-serif;color:#8D9997">'+(admin?'Toda a rede':'Lojas autorizadas')+'</small></span><span style="padding:6px 10px;border-radius:100px;background:#F4F8F7;font:600 10px/1 Inter,sans-serif;color:#5A6664">'+roleLabel(u.role)+'</span>';list.appendChild(row)});
 }
 function patchCloseDescription(doc){
  const title=exact(doc,'Encerrar o mês'),card=title?.parentElement;if(!card)return;const desc=[...card.querySelectorAll('div')].find(e=>(e.textContent||'').trim().startsWith('Congela os números de'));if(!desc)return;
