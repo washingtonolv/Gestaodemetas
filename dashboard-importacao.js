@@ -1,3 +1,6 @@
+Exit code: 0
+Wall time: 1.6 seconds
+Output:
 import {supabase,getSessionProfile} from './supabase-client.js';
 
 const frame=document.querySelector('#panel'),status=document.querySelector('#status');
@@ -11,10 +14,10 @@ function ensureModal(){
  if(modal)return modal;
  modal=document.createElement('div');modal.id='importOverlay';modal.className='import-overlay';modal.setAttribute('aria-hidden','true');
  modal.innerHTML=`<section class="import-modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
-  <header class="import-head"><div><h2 id="importTitle">Importar dados do Microvix</h2><p>Cole a planilha ou selecione um arquivo. Colunas esperadas: código da loja, data, valor e atendimentos.</p></div><button class="import-close" type="button" aria-label="Fechar">×</button></header>
+  <header class="import-head"><div><h2 id="importTitle">Importar vendas</h2><p>Cole os dados ou selecione um arquivo TXT/CSV. Colunas esperadas: código da loja, data, valor e atendimentos.</p></div><button class="import-close" type="button" aria-label="Fechar">×</button></header>
   <label class="import-label" for="importRaw">Dados da planilha</label>
   <textarea id="importRaw" class="import-textarea" spellcheck="false" placeholder="117&#9;2026-08-08&#9;8212,00&#9;63"></textarea>
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;flex-wrap:wrap"><span style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997">Aceita TSV, CSV com ponto e vírgula ou CSV com vírgula.</span><button id="importFileButton" class="import-secondary" type="button" style="border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer">Selecionar arquivo</button><input id="importFile" type="file" accept=".csv,.txt,.tsv,text/csv,text/plain" hidden></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;flex-wrap:wrap"><span style="font:500 10.5px/1.4 Inter,sans-serif;color:#8D9997">Aceita TXT e CSV com tabulação, ponto e vírgula ou vírgula.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="importModelButton" class="import-secondary" type="button" style="border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer">Baixar modelo padrão</button><button id="importFileButton" class="import-secondary" type="button" style="border:0;border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer">Selecionar arquivo</button></div><input id="importFile" type="file" accept=".csv,.txt,text/csv,text/plain" hidden></div>
   <div id="importPreview" class="import-preview" aria-live="polite"></div>
   <footer class="import-actions"><button id="importCancel" class="import-secondary" type="button">Cancelar</button><button id="importAnalyze" class="import-secondary" type="button">Analisar dados</button><button id="importConfirm" class="import-primary" type="button" disabled>Confirmar importação</button></footer>
  </section>`;
@@ -22,7 +25,8 @@ function ensureModal(){
  const raw=modal.querySelector('#importRaw'),file=modal.querySelector('#importFile');
  modal.querySelector('.import-close').onclick=closeModal;modal.querySelector('#importCancel').onclick=closeModal;
  modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
- modal.querySelector('#importFileButton').onclick=()=>file.click();
+  modal.querySelector('#importFileButton').onclick=()=>file.click();
+  modal.querySelector('#importModelButton').onclick=()=>downloadModel().catch(error=>{console.error(error);toast(error.message||String(error),'error')});
  file.onchange=async()=>{const chosen=file.files?.[0];if(!chosen)return;raw.value=await chosen.text();invalidatePreview();raw.focus()};
  raw.addEventListener('input',invalidatePreview);
  raw.addEventListener('dragover',e=>{e.preventDefault();raw.style.borderColor='#05918C'});
@@ -32,6 +36,10 @@ function ensureModal(){
  modal.querySelector('#importConfirm').onclick=commitImport;
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal()});
  return modal;
+}
+async function downloadModel(){
+ const month=selected(),{data,error}=await supabase.from('lojas').select('codigo').eq('ativa',true).order('nome').limit(1);if(error)throw error;const code=String(data?.[0]?.codigo||'CODIGO_DA_LOJA'),content=`codigo_loja;data;valor;atendimentos\r\n${code};${month}-01;8212,00;63\r\n`,blob=new Blob(['\uFEFF'+content],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=`modelo-importacao-vendas-${month}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),0);toast('Modelo padrão baixado.');
 }
 function openModal(profile,trigger){
  const root=ensureModal();state={profile,payload:[],busy:false,returnFocus:trigger||null};
@@ -78,6 +86,6 @@ async function commitImport(){
 }
 async function wire(){
  const{profile}=await getSessionProfile();if(!profile||profile.role==='gerente_comercial')return;const doc=frame.contentDocument;if(!doc?.body)return;
- doc.addEventListener('click',e=>{const el=e.target.closest('div,span'),t=(el?.textContent||'').trim();if(t!=='Importar Microvix'&&t!=='Importar planilha')return;e.preventDefault();e.stopImmediatePropagation();openModal(profile,el)},true);
+ doc.addEventListener('click',e=>{const el=e.target.closest('[data-import-open],div,span'),t=(el?.textContent||'').trim();if(!el?.matches('[data-import-open]')&&t!=='Importar'&&t!=='Importar planilha')return;e.preventDefault();e.stopImmediatePropagation();openModal(profile,el)},true);
 }
 frame.addEventListener('load',()=>setTimeout(()=>wire().catch(console.error),200));
