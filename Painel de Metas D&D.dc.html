@@ -292,7 +292,6 @@
             <div>Loja</div>
             <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Meta do dia</div></sc-if>
             <div style="text-align:right">Venda de hoje</div>
-            <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right">Atend.</div></sc-if>
             <div style="text-align:right">Status</div>
           </div>
           <sc-for list="{{ lancamentos }}" as="l" hint-placeholder-count="9">
@@ -305,7 +304,6 @@
               </div>
               <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ l.metaDiaTxt }}</div></sc-if>
               <div style="text-align:right;min-width:0"><input data-sale-value type="text" inputMode="numeric" placeholder="0" value="{{ l.valorTexto }}" onChange="{{ l.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid {{ l.campoBorda }};background:{{ l.campoBg }};font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ l.campoCor }};text-align:right;outline:none"></div>
-              <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ l.atend }}</div></sc-if>
               <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeBg }};color:{{ l.badgeCor }}">{{ l.status }}</span></div>
             </div>
           </sc-for>
@@ -1184,7 +1182,7 @@ class Component extends DCLogic {
     const titulos = { painel: 'Painel do mês', lancar: 'Lançar vendas', metas: 'Definir metas', lojas: 'Lojas', ranking: 'Ranking', ano: 'Ano 2026', config: 'Configurações' };
 
     const colsLoja = ehMobile ? 'minmax(0,1.5fr) minmax(0,1.2fr) minmax(0,.85fr)' : compacto ? 'minmax(0,2.1fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.85fr)' : 'minmax(0,1.5fr) minmax(0,1.6fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,.85fr)';
-    const colsLanc = ehMobile ? 'minmax(0,1.4fr) minmax(110px,1fr) minmax(0,.9fr)' : compacto ? 'minmax(0,1.4fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.9fr)' : 'minmax(0,1.5fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.8fr) minmax(0,.9fr)';
+    const colsLanc = ehMobile ? 'minmax(0,1.4fr) minmax(110px,1fr) minmax(0,.9fr)' : compacto ? 'minmax(0,1.4fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.9fr)' : 'minmax(0,1.5fr) minmax(90px,1fr) minmax(116px,1fr) minmax(0,.9fr)';
     const colsMetas = ehMobile ? 'minmax(0,1fr) minmax(144px,1.2fr) minmax(0,.55fr)' : compacto ? 'minmax(0,1.2fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,.7fr)' : 'minmax(0,1.3fr) minmax(145px,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.75fr)';
     const colsRank = ehMobile ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.1fr)' : compacto ? 'minmax(0,.4fr) minmax(0,1.8fr) minmax(0,1.4fr) minmax(0,1fr)' : 'minmax(0,.4fr) minmax(0,1.7fr) minmax(0,1.4fr) minmax(0,1fr) minmax(0,.9fr) minmax(0,.9fr)';
 
