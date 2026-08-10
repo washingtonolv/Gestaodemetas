@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 1.5 seconds
-Output:
 import {supabase,getSessionProfile,roleLabel} from './supabase-client.js';
 const frame=document.querySelector('#panel'),loading=document.querySelector('#loading'),status=document.querySelector('#status');
 const MONTHS=['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];

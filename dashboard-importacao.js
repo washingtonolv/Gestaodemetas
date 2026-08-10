@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 1.6 seconds
-Output:
 import {supabase,getSessionProfile} from './supabase-client.js';
 
 const frame=document.querySelector('#panel'),status=document.querySelector('#status');

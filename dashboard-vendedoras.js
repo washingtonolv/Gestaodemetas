@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 1.6 seconds
-Output:
 import {supabase,getSessionProfile} from './supabase-client.js';
 const frame=document.querySelector('#panel'),status=document.querySelector('#status');
 const toast=(t,k='ok')=>{if(!status)return;status.textContent=t;status.dataset.kind=k;status.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>status.classList.remove('on'),3000)};
