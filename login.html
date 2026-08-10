@@ -39,7 +39,7 @@ function setMode(next){
  const byEmail=mode==='email';
  identifierLabel.textContent=byEmail?'E-mail':'Login personalizado';
  identifier.type=byEmail?'email':'text';
- identifier.placeholder=byEmail?'seu@email.com':'ex.: layane.andrade';
+ identifier.placeholder=byEmail?'seu@email.com':'insira seu login';
  identifierHint.textContent=byEmail?'Use o e-mail cadastrado.':'Use o login definido no cadastro do usuário.';
  identifier.value='';
  msg.textContent='';
