@@ -278,8 +278,12 @@
         <div style="background:#fff;border:1px solid #EFF4F3;border-radius:20px;padding:22px 24px;min-width:0">
           <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
             <h2 style="margin:0;font:700 15.5px/1 Inter,sans-serif">Vendas de quinta, 21 de maio</h2>
-            <div style="display:flex;gap:8px">
-              <span style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664">Importar Microvix</span>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+              <label style="display:flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #D8E6E4;border-radius:11px;background:#fff;font:600 10.5px/1 Inter,sans-serif;color:#5A6664">
+                <span>Data</span>
+                <input data-sales-date type="date" aria-label="Data dos lançamentos" style="border:0;background:transparent;color:#16211F;font:700 11px/1 Inter,sans-serif;outline:none;cursor:pointer">
+              </label>
+              <span data-import-open style="padding:9px 15px;border-radius:100px;background:#F4F8F7;font:600 11.5px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Importar</span>
               <span onClick="{{ salvarLancamentos }}" style="padding:9px 15px;border-radius:100px;background:#05918C;color:#fff;font:700 11.5px/1 Inter,sans-serif;cursor:pointer" style-hover="background:#05716D">Salvar lançamentos</span>
             </div>
           </div>
@@ -300,7 +304,7 @@
                 <span style="font:700 12.5px/1.2 Inter,sans-serif;flex:1;min-width:0;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.nome }}</span>
               </div>
               <sc-if value="{{ naoMobile }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;white-space:nowrap;font:500 12px/1 'JetBrains Mono',monospace;color:#8D9997">{{ l.metaDiaTxt }}</div></sc-if>
-              <div style="text-align:right;min-width:0"><input type="text" inputMode="numeric" placeholder="0" value="{{ l.valorTexto }}" onChange="{{ l.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid {{ l.campoBorda }};background:{{ l.campoBg }};font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ l.campoCor }};text-align:right;outline:none"></div>
+              <div style="text-align:right;min-width:0"><input data-sale-value type="text" inputMode="numeric" placeholder="0" value="{{ l.valorTexto }}" onChange="{{ l.digitar }}" style="display:block;box-sizing:border-box;width:100%;padding:9px 12px;border-radius:11px;border:1.5px solid {{ l.campoBorda }};background:{{ l.campoBg }};font:700 12.5px/1 'JetBrains Mono',monospace;color:{{ l.campoCor }};text-align:right;outline:none"></div>
               <sc-if value="{{ naoCompacto }}" hint-placeholder-val="{{ true }}"><div style="text-align:right;font:500 12px/1 'JetBrains Mono',monospace;color:#5A6664">{{ l.atend }}</div></sc-if>
               <div style="text-align:right"><span style="display:inline-block;padding:6px 11px;border-radius:100px;font:700 10.5px/1 Inter,sans-serif;white-space:nowrap;background:{{ l.badgeBg }};color:{{ l.badgeCor }}">{{ l.status }}</span></div>
             </div>
@@ -565,12 +569,16 @@
               <span onClick="{{ fecharFormVend }}" style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid #E3ECEA;display:flex;align-items:center;justify-content:center;font:700 13px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">×</span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
-              <sc-for list="{{ camposVend }}" as="c" hint-placeholder-count="6">
-                <div style="min-width:0">
-                  <div style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">{{ c.rot }}</div>
-                  <input type="text" placeholder="{{ c.dica }}" value="{{ c.valor }}" onChange="{{ c.digitar }}" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
-                </div>
-              </sc-for>
+              <div style="min-width:0">
+                <label for="sellerName" style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Nome completo</label>
+                <input id="sellerName" data-seller-name type="text" autocomplete="name" placeholder="Ex.: Juliana Martins" style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none">
+              </div>
+              <div style="min-width:0">
+                <label for="sellerStore" style="font:600 10.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#A8B7B5">Loja</label>
+                <select id="sellerStore" data-seller-store style="margin-top:8px;box-sizing:border-box;width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #D8E6E4;background:#fff;font:600 12.5px/1.2 Inter,sans-serif;color:#16211F;outline:none;cursor:pointer">
+                  <option value="">Selecione uma loja</option>
+                </select>
+              </div>
             </div>
             <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
               <span onClick="{{ fecharFormVend }}" style="padding:11px 18px;border-radius:12px;background:#fff;border:1px solid #E3ECEA;font:600 12px/1 Inter,sans-serif;color:#5A6664;cursor:pointer">Cancelar</span>
@@ -1215,32 +1223,7 @@ class Component extends DCLogic {
       naoFormVend: !this.state.formVend,
       abrirFormVend: () => this.setState({ formVend: true }),
       fecharFormVend: () => this.setState({ formVend: false }),
-      camposVend: [
-        { chave: 'nome', rot: 'Nome completo', dica: 'Ex.: Juliana Martins' },
-        { chave: 'loja', rot: 'Loja', dica: 'Ex.: Rodo 3' },
-        { chave: 'meta', rot: 'Meta individual do mês', dica: 'Ex.: 38000' },
-        { chave: 'venda', rot: 'Vendido no mês até agora', dica: 'Ex.: 12500' },
-        { chave: 'ticket', rot: 'Ticket médio', dica: 'Ex.: 130' },
-        { chave: 'cpf', rot: 'CPF (opcional)', dica: 'Somente números' },
-        { chave: 'admissao', rot: 'Data de admissão', dica: '01/06/2026' }
-      ].map(c => ({
-        ...c,
-        valor: (this.state.rascunhoVend || {})[c.chave] || '',
-        digitar: e => { const v = e.target.value; this.setState(s => ({ rascunhoVend: { ...(s.rascunhoVend || {}), [c.chave]: v } })); }
-      })),
-      salvarVendedora: () => {
-        const r = this.state.rascunhoVend || {};
-        if (!r.nome) return this.setState({ formVend: false });
-        const meta = this.soNumero(r.meta) || 30000;
-        const venda = this.soNumero(r.venda);
-        this.gravar(d2 => {
-          d2.vendedoras = [...d2.vendedoras, {
-            nome: r.nome, loja: r.loja || 'Sem loja',
-            pct: meta ? venda / meta : 0, venda, ticket: this.soNumero(r.ticket) || 130
-          }];
-        });
-        this.setState({ formVend: false, rascunhoVend: {} });
-      },
+      salvarVendedora: () => {},
       formLoja: this.state.formLoja,
       abrirFormLoja: () => this.setState({ formLoja: true }),
       fecharFormLoja: () => this.setState({ formLoja: false }),
