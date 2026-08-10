@@ -54,6 +54,7 @@ Deno.serve(async (req: Request) => {
     const login = String(body.login || "").trim().toLowerCase();
     const role = String(body.role || "");
     const ativo = body.ativo === true;
+    const password = String(body.password || "");
     const allowed = new Set(["administrador", "gerente_comercial", "supervisor", "pendente"]);
 
     if (
@@ -63,6 +64,9 @@ Deno.serve(async (req: Request) => {
       !/^[a-z0-9][a-z0-9._-]{2,29}$/.test(login)
     ) {
       return json(req, { error: "Dados de governança inválidos." }, 400);
+    }
+    if (password && (password.length < 8 || password.length > 128)) {
+      return json(req, { error: "A nova senha precisa ter entre 8 e 128 caracteres." }, 400);
     }
 
     const { data: current, error: currentError } = await admin
@@ -117,9 +121,11 @@ Deno.serve(async (req: Request) => {
       return json(req, { error: message || "Não foi possível atualizar o usuário." }, 409);
     }
 
-    const { error: authError } = await admin.auth.admin.updateUserById(userId, {
+    const authChanges = {
       user_metadata: { nome, login },
-    });
+      ...(password ? { password } : {}),
+    };
+    const { error: authError } = await admin.auth.admin.updateUserById(userId, authChanges);
 
     if (authError) {
       await admin.from("profiles").update({
@@ -138,7 +144,7 @@ Deno.serve(async (req: Request) => {
       entidade_id: userId,
       detalhes: {
         antes: { nome: current.nome, login: current.login, role: current.role, ativo: current.ativo },
-        depois: changes,
+        depois: { ...changes, senha_alterada: Boolean(password) },
       },
     });
 

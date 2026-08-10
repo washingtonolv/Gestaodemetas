@@ -24,7 +24,8 @@
       <div class="field"><label for="userEmail">E-mail</label><input id="userEmail" type="email" required autocomplete="email"></div>
       <div class="field"><label for="userLogin">Login personalizado</label><input id="userLogin" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,29}" autocapitalize="none" spellcheck="false"></div>
       <div class="field"><label for="userRole">Perfil de acesso</label><select id="userRole"><option value="supervisor">Supervisor</option><option value="gerente_comercial">Gerente Comercial</option><option value="administrador">Administrador</option><option value="pendente">Pendente</option></select></div>
-      <div id="passwordField" class="field"><label for="userPassword">Senha inicial</label><input id="userPassword" type="password" minlength="8" autocomplete="new-password"></div>
+      <div id="passwordField" class="field"><label id="userPasswordLabel" for="userPassword">Senha inicial</label><input id="userPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password"></div>
+      <div id="passwordConfirmField" class="field"><label for="userPasswordConfirm">Confirmar senha</label><input id="userPasswordConfirm" type="password" minlength="8" maxlength="128" autocomplete="new-password"></div>
       <label id="activeField" class="toggle full"><input id="userActive" type="checkbox" checked> Usuário ativo e autorizado a entrar</label>
     </div>
     <div id="userMessage" class="message"></div>
@@ -83,6 +84,6 @@
   </form>
 </dialog>
 
-<script type="module" src="./admin-backend.js?v=20260809-admin4"></script>
+<script type="module" src="./admin-backend.js?v=20260810-admin-password"></script>
 </body>
 </html>
