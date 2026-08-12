@@ -10,6 +10,26 @@
 <helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}
 @font-face{font-family:'Inter';font-style:italic;font-weight:100 900;font-display:swap;src:url('./fonts/InterItalicVariableFont_opszwght.ttf') format('truetype')}body{margin:0;background:#DCE9E7;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#05918C}a:hover{color:#05716D}</style></helmet>
+<style id="dd-dark-theme">
+html[data-theme="dark"]{color-scheme:dark;background:#0D1716}
+html[data-theme] body,html[data-theme] [style*="background:"],html[data-theme] [style*="color:"]{transition:background-color .40s ease,color .40s ease,border-color .40s ease}
+html[data-theme="dark"] body,html[data-theme="dark"] [style*="background:#DCE9E7"]{background:#0D1716!important}
+html[data-theme="dark"] [style*="background:#fff"],html[data-theme="dark"] [style*="background: #fff"]{background:#14211F!important}
+html[data-theme="dark"] [style*="background:#F4F8F7"],html[data-theme="dark"] [style*="background:#F1F5F4"],html[data-theme="dark"] [style*="background:#F6F9F8"],html[data-theme="dark"] [style*="background:#F9FCFB"],html[data-theme="dark"] [style*="background:#FBFDFC"]{background:#192825!important}
+html[data-theme="dark"] [style*="background:#E7F4F2"],html[data-theme="dark"] [style*="background:#D8EFEA"]{background:#193733!important}
+html[data-theme="dark"] [style*="background:#FDF1F3"],html[data-theme="dark"] [style*="background:#FDE9ED"],html[data-theme="dark"] [style*="background:#FCF6F7"]{background:#382129!important}
+html[data-theme="dark"] [style*="color:#16211F"]{color:#EDF5F3!important}
+html[data-theme="dark"] [style*="color:#0A5F5C"],html[data-theme="dark"] [style*="color:#05918C"]{color:#64D8D0!important}
+html[data-theme="dark"] [style*="color:#4E6663"],html[data-theme="dark"] [style*="color:#5A6664"]{color:#B7C9C5!important}
+html[data-theme="dark"] [style*="color:#8D9997"],html[data-theme="dark"] [style*="color:#93A09E"],html[data-theme="dark"] [style*="color:#A8B7B5"],html[data-theme="dark"] [style*="color:#C3CECC"]{color:#91A6A1!important}
+html[data-theme="dark"] [style*="border:1px solid #EFF4F3"],html[data-theme="dark"] [style*="border:1px solid #E3ECEA"],html[data-theme="dark"] [style*="border:1.5px solid #D8E6E4"],html[data-theme="dark"] [style*="border-bottom:1px solid #F1F5F4"],html[data-theme="dark"] [style*="border-bottom:1px solid #F6F9F8"]{border-color:#29413D!important}
+html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:#101C1A!important;color:#EDF5F3!important;border-color:#35534E!important;color-scheme:dark}
+html[data-theme="dark"] img[src*="untitleduico"]{filter:invert(88%) sepia(8%) saturate(311%) hue-rotate(116deg) brightness(96%) contrast(88%)!important}
+html[data-theme="dark"] [data-theme-toggle]{background:#21413D!important;color:#7EE0D9!important;border-color:#31534E!important}
+html:not([data-theme="dark"]) [data-theme-sun],html[data-theme="dark"] [data-theme-moon]{display:none!important}
+html[data-theme="dark"] [data-theme-sun],html:not([data-theme="dark"]) [data-theme-moon]{display:block!important}
+html[data-theme="dark"] ::selection{background:#087E79;color:#fff}
+</style>
 
 <template id="__bundler_thumbnail" data-bg-color="#05918C">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +83,10 @@
         </div>
         </sc-if>
         <div style="display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:100px;background:#E7F4F2;font:700 12.5px/1 Inter,sans-serif;color:#0A5F5C">{{ mesLabel }} <img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/chevron-down.svg" alt="" aria-hidden="true" style="width:15px;height:15px;opacity:.72"></div>
+        <button data-theme-toggle type="button" title="Alternar modo escuro ou claro" aria-label="Alternar modo escuro ou claro" aria-pressed="false" style="width:40px;height:40px;padding:0;border:1px solid transparent;border-radius:13px;background:#E7F4F2;color:#0A5F5C;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .40s ease,color .40s ease,border-color .40s ease">
+          <svg data-theme-moon width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg data-theme-sun width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        </button>
         <div title="Ajuda" style="width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/help-circle.svg" alt="" aria-hidden="true" style="width:19px;height:19px"></div>
         <div title="Notificações" style="position:relative;width:40px;height:40px;border-radius:13px;background:#E7F4F2;display:flex;align-items:center;justify-content:center"><img src="https://cdn.jsdelivr.net/gh/untitleduico/icons@c42fbd02f365c4388ba32e9f43df0ef4851ba126/icons/bell-01.svg" alt="" aria-hidden="true" style="width:19px;height:19px"><span style="position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#CD4664;border:1.5px solid #E7F4F2;display:block"></span></div>
         <div style="display:flex;align-items:center;gap:11px">
