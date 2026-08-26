@@ -5,12 +5,12 @@
 <title>Gestão de Metas D&D — Login</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}
 :root{--p:#05918C;--p-dark:#0A5F5C;--a:#CD4664;--text:#16211F;--muted:#667270;--line:#dfe9e8;--bg:#DCE9E7}
 *{box-sizing:border-box}
-body{margin:0;font-family:Manrope,Inter,system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#DCE9E7,#F4F8F7);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#DCE9E7,#F4F8F7);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}
 .card{width:min(440px,100%);background:#fff;border:1px solid rgba(255,255,255,.8);border-radius:24px;padding:32px;box-shadow:0 24px 60px rgba(10,95,92,.12)}
 .brand{display:flex;gap:12px;align-items:center;margin-bottom:28px}
 .mark{position:relative;width:46px;height:46px;border-radius:14px;background:var(--p);display:grid;place-items:center;color:white;font-weight:800;font-size:14px}
@@ -23,9 +23,14 @@ body{margin:0;font-family:Manrope,Inter,system-ui,-apple-system,sans-serif;backg
 .mode-button.active{background:#fff;color:var(--p-dark);box-shadow:0 4px 14px rgba(23,62,59,.1)}
 .mode-button:focus-visible,.submit:focus-visible{outline:3px solid rgba(5,145,140,.25);outline-offset:2px}
 label{display:block;font-size:12.5px;font-weight:700;margin:17px 0 7px;color:#354442}
-input{width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid #ccdada;font:inherit;outline:none;transition:border-color .30s ease,box-shadow .30s ease}
-input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(5,145,140,.12)}
+input[type="text"],input[type="email"],input[type="password"]{width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid #ccdada;font:inherit;outline:none;transition:border-color .30s ease,box-shadow .30s ease}
+input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(5,145,140,.12)}
 .hint{min-height:17px;margin:6px 2px 0;color:var(--muted);font-size:11px}
+.row-options{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;font-size:12px;color:var(--muted)}
+.remember-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-weight:600}
+.remember-toggle input{accent-color:var(--p);cursor:pointer}
+.forgot-link{color:var(--p-dark);text-decoration:none;font-weight:700;transition:color .2s ease}
+.forgot-link:hover{color:var(--p);text-decoration:underline}
 .submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;transition:background .30s ease,opacity .30s ease,transform .2s ease}
 .submit:hover:not(:disabled){background:var(--p-dark);transform:translateY(-1px)}
 .submit:disabled{opacity:.6;cursor:wait}
@@ -49,6 +54,10 @@ input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(5,145,140,.12)}
   <p id="identifierHint" class="hint">Use o e-mail cadastrado.</p>
   <label for="password">Senha</label>
   <input id="password" type="password" autocomplete="current-password" required>
+  <div class="row-options">
+    <label class="remember-toggle" style="margin:0"><input id="rememberMe" type="checkbox" checked> Lembrar meu acesso</label>
+    <a href="./reset-password.html" class="forgot-link">Esqueci a senha</a>
+  </div>
   <button id="btn" class="submit" type="submit">Entrar</button>
   <div id="msg" class="msg" aria-live="polite"></div>
 </form>
@@ -56,8 +65,11 @@ input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(5,145,140,.12)}
 </main>
 <script type="module">
 import {supabase,getSessionProfile} from './supabase-client.js';
-const form=document.querySelector('#loginForm'),msg=document.querySelector('#msg'),btn=document.querySelector('#btn'),identifier=document.querySelector('#identifier'),identifierLabel=document.querySelector('#identifierLabel'),identifierHint=document.querySelector('#identifierHint'),modeButtons=[...document.querySelectorAll('.mode-button')];
+const form=document.querySelector('#loginForm'),msg=document.querySelector('#msg'),btn=document.querySelector('#btn'),identifier=document.querySelector('#identifier'),identifierLabel=document.querySelector('#identifierLabel'),identifierHint=document.querySelector('#identifierHint'),rememberMe=document.querySelector('#rememberMe'),modeButtons=[...document.querySelectorAll('.mode-button')];
 let mode='email';
+
+const savedIdentifier=localStorage.getItem('metasdd.saved_identifier')||'';
+const savedMode=localStorage.getItem('metasdd.saved_mode')||'email';
 
 function setMode(next){
  mode=next;
@@ -67,10 +79,14 @@ function setMode(next){
  identifier.type=byEmail?'email':'text';
  identifier.placeholder=byEmail?'seu@email.com':'insira seu login';
  identifierHint.textContent=byEmail?'Use o e-mail cadastrado.':'Use o login definido no cadastro do usuário.';
- identifier.value='';
+ identifier.value=mode===savedMode?savedIdentifier:'';
  msg.textContent='';
  identifier.focus();
 }
+
+if(savedMode&&['email','login'].includes(savedMode))setMode(savedMode);
+if(savedIdentifier)identifier.value=savedIdentifier;
+
 modeButtons.forEach(button=>button.addEventListener('click',()=>setMode(button.dataset.mode)));
 
 const destination=profile=>profile?.role==='administrador'?'./admin.html':'./dashboard.html';
@@ -80,6 +96,14 @@ form.addEventListener('submit',async e=>{
  e.preventDefault();msg.textContent='';btn.disabled=true;btn.textContent='Entrando...';
  const value=identifier.value.trim().toLowerCase(),password=document.querySelector('#password').value;
  try{
+   if(rememberMe.checked){
+     localStorage.setItem('metasdd.saved_identifier',value);
+     localStorage.setItem('metasdd.saved_mode',mode);
+   }else{
+     localStorage.removeItem('metasdd.saved_identifier');
+     localStorage.removeItem('metasdd.saved_mode');
+   }
+
    if(mode==='email'){
      const {error}=await supabase.auth.signInWithPassword({email:value,password});
      if(error)throw error;
