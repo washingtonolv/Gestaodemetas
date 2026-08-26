@@ -3,15 +3,41 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gestão de Metas D&D — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('./fonts/InterVariableFont_opszwght.ttf') format('truetype')}
-@font-face{font-family:'Inter';font-style:italic;font-weight:100 900;font-display:swap;src:url('./fonts/InterItalicVariableFont_opszwght.ttf') format('truetype')}
-:root{--p:#05918C;--p-dark:#06716d;--a:#CD4664;--text:#183333;--muted:#6b7b7b;--line:#dfe9e8}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#edf7f6,#fff);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}.card{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 24px 60px #0b4d4930}.brand{display:flex;gap:12px;align-items:center;margin-bottom:28px}.mark{width:46px;height:46px;border-radius:14px;background:var(--p);display:grid;place-items:center;color:white;font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.access-label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}.login-modes{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;border-radius:14px;background:#f1f6f5}.mode-button{min-height:42px;border:0;border-radius:10px;background:transparent;color:var(--muted);font:700 13px/1 Inter,system-ui,sans-serif;cursor:pointer;transition:background .40s ease,color .40s ease,box-shadow .40s ease}.mode-button.active{background:#fff;color:var(--p-dark);box-shadow:0 4px 14px #173e3b14}.mode-button:focus-visible,.submit:focus-visible{outline:3px solid #05918c2c;outline-offset:2px}label{display:block;font-size:13px;font-weight:700;margin:17px 0 7px}input{width:100%;padding:14px 15px;border-radius:12px;border:1px solid #ccdada;font:inherit;outline:none;transition:border-color .40s ease,box-shadow .40s ease}input:focus{border-color:var(--p);box-shadow:0 0 0 3px #05918c18}.hint{min-height:17px;margin:6px 2px 0;color:var(--muted);font-size:11px}.submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:800;cursor:pointer;transition:background .40s ease,opacity .40s ease,transform .40s ease}.submit:hover:not(:disabled){background:var(--p-dark);transform:translateY(-1px)}.submit:disabled{opacity:.6}.msg{min-height:22px;margin-top:14px;font-size:13px}.error{color:#b42318}.foot{margin-top:22px;font-size:12px;color:var(--muted);text-align:center}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:root{--p:#05918C;--p-dark:#0A5F5C;--a:#CD4664;--text:#16211F;--muted:#667270;--line:#dfe9e8;--bg:#DCE9E7}
+*{box-sizing:border-box}
+body{margin:0;font-family:Manrope,Inter,system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#DCE9E7,#F4F8F7);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px}
+.card{width:min(440px,100%);background:#fff;border:1px solid rgba(255,255,255,.8);border-radius:24px;padding:32px;box-shadow:0 24px 60px rgba(10,95,92,.12)}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:28px}
+.mark{position:relative;width:46px;height:46px;border-radius:14px;background:var(--p);display:grid;place-items:center;color:white;font-weight:800;font-size:14px}
+.flower{position:absolute;right:-5px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--a);border:2.5px solid #fff}
+.brand h1{font-size:20px;margin:0;letter-spacing:-.02em}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+.access-label{display:block;font-size:12px;font-weight:700;margin-bottom:8px;color:#5A6664}
+.login-modes{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;border-radius:14px;background:#F1F6F5}
+.mode-button{min-height:42px;border:0;border-radius:10px;background:transparent;color:var(--muted);font:700 12.5px/1 inherit;cursor:pointer;transition:background .30s ease,color .30s ease,box-shadow .30s ease}
+.mode-button.active{background:#fff;color:var(--p-dark);box-shadow:0 4px 14px rgba(23,62,59,.1)}
+.mode-button:focus-visible,.submit:focus-visible{outline:3px solid rgba(5,145,140,.25);outline-offset:2px}
+label{display:block;font-size:12.5px;font-weight:700;margin:17px 0 7px;color:#354442}
+input{width:100%;padding:13px 15px;border-radius:12px;border:1.5px solid #ccdada;font:inherit;outline:none;transition:border-color .30s ease,box-shadow .30s ease}
+input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(5,145,140,.12)}
+.hint{min-height:17px;margin:6px 2px 0;color:var(--muted);font-size:11px}
+.submit{width:100%;margin-top:20px;padding:14px;border:0;border-radius:12px;background:var(--p);color:#fff;font-weight:800;font-size:13.5px;cursor:pointer;transition:background .30s ease,opacity .30s ease,transform .2s ease}
+.submit:hover:not(:disabled){background:var(--p-dark);transform:translateY(-1px)}
+.submit:disabled{opacity:.6;cursor:wait}
+.msg{min-height:22px;margin-top:14px;font-size:12.5px}
+.error{color:#b42318;font-weight:600}
+.foot{margin-top:24px;font-size:11.5px;color:var(--muted);text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <main class="card">
-<div class="brand"><div class="mark">D&D</div><div><h1>Gestão de Metas</h1><p>Acesso multiusuário</p></div></div>
+<div class="brand"><div class="mark">D&D<span class="flower"></span></div><div><h1>Gestão de Metas</h1><p>Acesso multiusuário</p></div></div>
 <div class="access-label">Acessar com</div>
 <div class="login-modes" role="group" aria-label="Forma de acesso">
   <button class="mode-button active" type="button" data-mode="email" aria-pressed="true">E-mail</button>

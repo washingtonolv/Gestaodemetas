@@ -90,8 +90,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: profile, error: profileError } = await admin
       .from("profiles")
-      .update({ nome, email, login, role, ativo: true })
-      .eq("id", created.user.id)
+      .upsert({ id: created.user.id, nome, email, login, role, ativo: true }, { onConflict: "id" })
       .select("id,nome,email,login,role,ativo,created_at,updated_at")
       .single();
 
