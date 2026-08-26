@@ -23,7 +23,7 @@ function setBusy(button,on,label){if(!button)return;button.disabled=on;if(on){bu
 function setDialogTimer(dialog,callback){clearTimeout(dialogTimers.get(dialog));const timer=setTimeout(()=>{dialogTimers.delete(dialog);callback()},DIALOG_MS);dialogTimers.set(dialog,timer)}
 function showDialog(id,focusSelector){const d=$(`#${id}`);if(!d||d.open||d.dataset.transitioning==='true')return;d.dataset.transitioning='true';d.classList.remove('is-closing');d.showModal();requestAnimationFrame(()=>d.classList.add('is-open'));setDialogTimer(d,()=>{delete d.dataset.transitioning;if(focusSelector)$(focusSelector)?.focus()})}
 function closeDialog(id){const d=$(`#${id}`);if(!d?.open||d.classList.contains('is-closing'))return;d.dataset.transitioning='true';d.classList.remove('is-open');d.classList.add('is-closing');setDialogTimer(d,()=>{d.close();d.classList.remove('is-closing');delete d.dataset.transitioning;const msg=d.querySelector('.message');if(msg)msg.textContent=''})}
-document.addEventListener('click',e=>{const id=e.target.closest('[data-close]')?.dataset.close;if(id)closeDialog(id)});
+document.addEventListener('click',e=>{const id=e.target.closest('[data-close]')?.dataset.close;if(id)closeDialog(id);else if(e.target.tagName==='DIALOG')closeDialog(e.target.id)});
 document.addEventListener('cancel',e=>{if(e.target.matches('dialog')){e.preventDefault();closeDialog(e.target.id)}},true);
 
 async function resolveMonth(){
@@ -125,35 +125,36 @@ function openSeller(store=null){$('#sellerForm').reset();$('#sellerStore').inner
 function textChain(target){const chain=[];let node=target;for(let i=0;i<5&&node;i++,node=node.parentElement){const t=(node.textContent||'').replace(/\s+/g,' ').trim();if(t&&!chain.includes(t))chain.push(t)}return chain}
 
 async function handleFrameClick(event){
- const target=event.target,chain=textChain(target),exact=x=>chain.includes(x),starts=x=>chain.find(t=>t.startsWith(x));let handled=true;
+ const target=event.target,chain=textChain(target),has=x=>chain.some(t=>t.includes(x)),exact=x=>chain.includes(x),starts=x=>chain.some(t=>t.startsWith(x));let handled=true;
  const navTarget=target.closest?.('[data-admin-nav]');
  if(navTarget){const now=performance.now();if(now<navLockedUntil){event.preventDefault();event.stopImmediatePropagation();return}navLockedUntil=now+DIALOG_MS}
  const pageMap={'Visão geral':'inicio','Lojas':'lojas','Desempenho':'desempenho','Usuários':'usuarios','Estrutura':'estrutura','Competências':'competencias','Auditoria':'auditoria','Preferências':'config'};
- for(const[label,id]of Object.entries(pageMap))if(chain.some(t=>t===label||t.startsWith(label+' '))){sessionStorage.setItem('metasdd.admin.pagina',id);break}
+ for(const[label,id]of Object.entries(pageMap))if(starts(label)){sessionStorage.setItem('metasdd.admin.pagina',id);break}
  try{
-  if(exact('Abrir painel'))location.href='./dashboard.html';
-  else if(exact('Cadastrar usuário')||exact('+ Cadastrar usuário'))openUser();
-  else if(exact('Cadastrar loja')||exact('+ Cadastrar loja')||exact('Cadastrar e vincular'))openStore();
-  else if(exact('+ Cadastrar')||exact('Cadastrar')){const found=ancestorWithData(target,'store');openSeller(found?.item||null)}
-  else if(exact('Editar loja')){const found=ancestorWithData(target,'store');found?openStore(found.item):toast('Abra a loja desejada antes de editar.',true)}
+  if(has('Abrir painel'))location.href='./dashboard.html';
+  else if(has('Cadastrar usuário'))openUser();
+  else if(has('Cadastrar loja')||has('Cadastrar e vincular'))openStore();
+  else if(has('Vincular supervisor')||exact('Vincular')||exact('Vincular →')){const found=ancestorWithData(target,'store');openStore(found?.item||null)}
+  else if(has('Cadastrar meta')){const found=ancestorWithData(target,'store');openStore(found?.item||null)}
+  else if(has('+ Cadastrar')||(has('Cadastrar')&&!has('usuário')&&!has('loja')&&!has('meta'))){const found=ancestorWithData(target,'store');openSeller(found?.item||null)}
+  else if(has('Editar loja')){const found=ancestorWithData(target,'store');found?openStore(found.item):toast('Abra a loja desejada antes de editar.',true)}
   else if(exact('Editar')){const found=ancestorWithData(target,'user');found?openUser(found.item):handled=false}
   else if(exact('Ativar')||exact('Reativar')||exact('Desativar')){const found=ancestorWithData(target,'user');if(!found)throw new Error('Usuário não identificado.');await toggleUser(found.item)}
   else if(exact('Reenviar')){const found=ancestorWithData(target,'user');if(!found)throw new Error('Usuário não identificado.');await resendUser(found.item)}
-  else if(exact('Sair do painel')){await supabase.auth.signOut({scope:'local'});location.replace('./login.html')}
-  else if(exact('Editar meus dados'))openUser(dataCache.rawUsers.find(u=>u.id===profile.id));
-  else if(exact('Fechar competência')||exact('Fechar mês'))await closeCompetence();
+  else if(has('Sair do painel')){await supabase.auth.signOut({scope:'local'});location.replace('./login.html')}
+  else if(has('Editar meus dados'))openUser(dataCache.rawUsers.find(u=>u.id===profile.id));
+  else if(has('Fechar competência')||has('Fechar mês'))await closeCompetence();
   else if(exact('Ajustar'))await reload('competencias');
-  else if(exact('Reabrir mês…'))await reopenCompetence();
-  else if(exact('Exportar registro'))downloadAudit();
+  else if(has('Reabrir mês')||has('Reabrir competência'))await reopenCompetence();
+  else if(has('Exportar registro'))downloadAudit();
   else if(exact('Exportar'))downloadStores();
   else if(exact('Excel'))downloadAll();
   else if(exact('PDF'))frame.contentWindow?.print();
-  else if(exact('Lançar venda')){sessionStorage.setItem('metasdd.page','Lançar vendas');location.href='./dashboard.html'}
-  else if(exact('Vincular')||exact('Vincular →')){const found=ancestorWithData(target,'store');openStore(found?.item||null)}
-  else if(exact('Desvincular'))await unlinkManager(target);
+  else if(has('Lançar venda')){sessionStorage.setItem('metasdd.page','Lançar vendas');location.href='./dashboard.html'}
+  else if(has('Desvincular'))await unlinkManager(target);
   else if(exact('×')){const chip=target.parentElement,store=chip&&chip.children.length<=2?storeByElement(chip):null;if(store)openStore(store);else handled=false}
-  else if(target.closest?.('[data-admin-action="month"]')||starts(monthLabel(selected)))openMonth();
-  else if(target.closest?.('[data-admin-action="rules"]')||chain.some(t=>t.includes('Regras gerais'))&&chain.some(t=>t.includes('Fator padrão da Meta 2')))openRules();
+  else if(target.closest?.('[data-admin-action="month"]')||has('Trocar competência')||starts(monthLabel(selected))||starts(selected.slice(0,4)))openMonth();
+  else if(target.closest?.('[data-admin-action="rules"]')||has('Editar regras')||(has('Regras gerais')&&has('Fator padrão')))openRules();
   else handled=false;
  }catch(error){console.error(error);toast(error.message||String(error),true)}
  if(handled){event.preventDefault();event.stopImmediatePropagation()}
@@ -191,7 +192,7 @@ $('#rulesForm').onsubmit=async event=>{
 };
 
 frame.addEventListener('load',()=>{
- loading.classList.add('hide');frame.classList.add('ready');const doc=frame.contentDocument;if(!doc)return;doc.addEventListener('click',handleFrameClick,true);doc.addEventListener('keydown',event=>{if(!['Enter',' '].includes(event.key))return;const control=event.target.closest?.('[data-admin-action],[data-admin-nav]');if(!control)return;event.preventDefault();control.click()},true);doc.addEventListener('click',event=>{const nav=['Visão geral','Lojas','Desempenho','Usuários','Estrutura','Competências','Auditoria','Preferências'];const text=(event.target.closest('div')?.textContent||'').trim();const map={'Visão geral':'inicio','Lojas':'lojas','Desempenho':'desempenho','Usuários':'usuarios','Estrutura':'estrutura','Competências':'competencias','Auditoria':'auditoria','Preferências':'config'};if(nav.includes(text))sessionStorage.setItem('metasdd.admin.pagina',map[text])},true)
+ loading.classList.add('hide');frame.classList.add('ready');const doc=frame.contentDocument;if(!doc)return;doc.addEventListener('click',handleFrameClick,true);doc.addEventListener('keydown',event=>{if(!['Enter',' '].includes(event.key))return;const control=event.target.closest?.('[data-admin-action],[data-admin-nav]');if(!control)return;event.preventDefault();control.click()},true)
 });
 
 function realtime(){const schedule=()=>{clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>reload(sessionStorage.getItem('metasdd.admin.pagina')||'inicio').catch(error=>toast(error.message||String(error),true)),800)};return supabase.channel(`admin-dd-${profile.id}`).on('postgres_changes',{event:'*',schema:'public',table:'lojas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'metas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'resultados'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'competencias'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'supervisor_lojas'},schedule).on('postgres_changes',{event:'*',schema:'public',table:'configuracoes_meta'},schedule).subscribe()}
